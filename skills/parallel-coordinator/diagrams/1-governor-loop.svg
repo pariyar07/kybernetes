@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 460" font-family="ui-sans-serif,Segoe UI,Helvetica,Arial,sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#8b949e"/>
+    </marker>
+    <marker id="arrowblue" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#4d9fff"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="880" height="460" fill="#0d1117"/>
+  <text x="40" y="44" fill="#e6edf3" font-size="22" font-weight="600">The Governor Loop</text>
+  <text x="40" y="70" fill="#8b949e" font-size="14">Act on the gap between where you are and the goal — then measure and correct.</text>
+
+  <!-- human reference -->
+  <rect x="320" y="100" width="240" height="46" rx="10" fill="#161b22" stroke="#8b949e"/>
+  <text x="440" y="128" fill="#e6edf3" font-size="13" text-anchor="middle">Human sets reference · intervenes if blocked</text>
+  <line x1="440" y1="146" x2="120" y2="206" stroke="#8b949e" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- pipeline nodes -->
+  <!-- DONE setpoint -->
+  <rect x="40" y="210" width="150" height="60" rx="10" fill="#0d2a4d" stroke="#326ce5"/>
+  <text x="115" y="236" fill="#e6edf3" font-size="14" text-anchor="middle" font-weight="600">DONE</text>
+  <text x="115" y="256" fill="#9fb6d6" font-size="12" text-anchor="middle">setpoint</text>
+
+  <!-- comparator -->
+  <circle cx="290" cy="240" r="34" fill="#161b22" stroke="#d29922" stroke-width="1.6"/>
+  <text x="290" y="236" fill="#e6edf3" font-size="18" text-anchor="middle">Σ</text>
+  <text x="290" y="254" fill="#d29922" font-size="11" text-anchor="middle">error</text>
+
+  <!-- ACT -->
+  <rect x="370" y="208" width="150" height="64" rx="10" fill="#0d2a4d" stroke="#4d9fff"/>
+  <text x="445" y="234" fill="#e6edf3" font-size="14" text-anchor="middle" font-weight="600">Act</text>
+  <text x="445" y="254" fill="#9fb6d6" font-size="11.5" text-anchor="middle">move that shrinks error</text>
+
+  <!-- SYSTEM -->
+  <rect x="560" y="208" width="150" height="64" rx="10" fill="#161b22" stroke="#3fb950"/>
+  <text x="635" y="232" fill="#e6edf3" font-size="14" text-anchor="middle" font-weight="600">System</text>
+  <text x="635" y="252" fill="#9fb6a0" font-size="11.5" text-anchor="middle">workers · repo · artifacts</text>
+
+  <!-- SENSOR -->
+  <rect x="730" y="208" width="120" height="64" rx="10" fill="#161b22" stroke="#3fb950"/>
+  <text x="790" y="232" fill="#e6edf3" font-size="14" text-anchor="middle" font-weight="600">Sensor</text>
+  <text x="790" y="252" fill="#9fb6a0" font-size="11.5" text-anchor="middle">VERIFY WITH</text>
+
+  <!-- forward arrows -->
+  <line x1="190" y1="240" x2="252" y2="240" stroke="#8b949e" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <line x1="324" y1="240" x2="366" y2="240" stroke="#8b949e" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <line x1="520" y1="240" x2="556" y2="240" stroke="#4d9fff" stroke-width="1.8" marker-end="url(#arrowblue)"/>
+  <line x1="710" y1="240" x2="726" y2="240" stroke="#8b949e" stroke-width="1.8" marker-end="url(#arrow)"/>
+
+  <!-- annotations -->
+  <text x="538" y="200" fill="#4d9fff" font-size="11" text-anchor="middle">amplify: spawn</text>
+
+  <!-- feedback arc -->
+  <path d="M790,272 L790,360 L290,360 L290,278" fill="none" stroke="#3fb950" stroke-width="1.8" stroke-dasharray="5 4" marker-end="url(#arrow)"/>
+  <text x="540" y="380" fill="#3fb950" font-size="11.5" text-anchor="middle">feedback — attenuate: summaries only, not raw output</text>
+
+  <text x="40" y="430" fill="#8b949e" font-size="12">A loop only converges on a trustworthy sensor — so the goal must be measurable and vague status is rejected.</text>
+</svg>
