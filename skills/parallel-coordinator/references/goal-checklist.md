@@ -1,104 +1,218 @@
-# Coordinator Operating Checklist
+# Coordination Control Checklist
 
-The contract of record for a coordinated run. Tool-specific names appear as
-`{PLACEHOLDERS}` — resolve them from the per-tool reference file
-(`codex.md`, `claude-code.md`) or `portable-core.md`. The human's durable
-objective (Codex `/goal`, or the lead prompt in other tools) should point at THIS
-file so it stays the single source of truth.
+This is the reference shape for a coordinated run. Tool-specific names appear as
+`{PLACEHOLDERS}` and are resolved by `codex.md`, `claude-code.md`, or
+`portable-core.md`.
 
-## 0. Inputs the run needs (fill at kickoff)
-- **OBJECTIVE** — one objective, in a sentence or two.
-- **DONE** — the single condition that must be verifiably true to stop.
-- **VERIFY WITH** — the test / check / artifact / command that proves DONE.
-- **CONSTRAINTS / DO NOT TOUCH** — what must not change or regress; out of scope.
+The durable objective should point to the control record, not paste the whole
+checklist into chat. The control record is the runtime setpoint and audit trail.
 
-## 1. Pre-flight — sense first, then right-size the gate
-This gate is adaptive, not fixed (see `operating-model.md` and `adaptive-elicitation.md`).
-- **Sense.** Estimate the task's variety: size, independent parts, ambiguity, and
-  irreversibility/risk.
-- **Size the interaction.** Trivial → don't gate, act. Medium → surface one or two
-  decisions. Large/ambiguous/risky → a fuller framing.
-- **Ask only what's uncertain or high-stakes** *for this task*, drawn from the dimension
-  menu below — never the whole list by reflex. Present each as 2–4 tap-able options with a
-  recommended default, so the human accepts the plan in one move or overrides one line.
-- **Don't spawn until confirmed** (unless an autonomous mode is set, in which case proceed
-  on your recommended defaults and log them). If DONE isn't measurable, fix that first.
+## 0. Control Record
 
-Dimension menu (pick what matters; details in the sections below):
-decomposition · model + reasoning per role (§2) · execution substrate per slice (§3) ·
-coordination timing (§4) · permissions (§5) · concurrency within `{CONCURRENCY}` ·
-budget (§6) · stop condition (§11).
+Create or reuse a control record when the run is long-running, parallel,
+high-risk, goal-driven, or likely to cross turns.
 
-## 2. Model & reasoning policy (suggest, then ask)
-Propose a model + reasoning effort per role. Defaults to suggest:
-- Coordinator / planning / integration: strongest available model, reasoning medium–high.
-- Heavy reasoning / review / correctness-critical: strongest model, reasoning high.
-- Read-heavy exploration / scan / triage / summarize: fast lightweight model, low–medium.
-Use models CURRENTLY available on this surface; never hardcode a version. If one is
-unavailable/deprecated, fall back to the nearest current model and report. If running
-via a scheduler/automation, watch for an older default model and override.
+Default non-vault path:
 
-## 3. Execution substrate — pick the lightest that still isolates risk
-- **Main thread (no spawn)** — trivial/one-off, or work so coupled that splitting loses
-  the reasoning trail.
-- **In-session worker (`{SPAWN}`)** — read-heavy fan-out (exploration, triage, test/log
-  analysis, drafting, summarization) and bounded steps of one plan. Returns a summary;
-  cheapest to coordinate; up to `{CONCURRENCY}`. Use read-only roles for analysis.
-- **Separate isolated workspace (`{ISOLATE}`)** — two or more slices that WRITE the same
-  artifacts at once, or divergent approaches to compare. Each gets its own workspace so
-  outputs don't collide; you integrate on completion.
-- **External / background** — large fan-out, headless/CI, or another machine. Most
-  control, most setup.
-Rule of thumb: read-heavy → in-session workers; concurrent writers → separate
-workspaces; trivial → main thread; big/headless → external. Never let two writers share
-one workspace. Don't run a cross-cutting cleanup in parallel with other edits — sequence it.
+```text
+.agent-runs/<slug>/control.md
+```
 
-## 4. Coordination timing — pick per slice, state your choice
-- **Fork-join (default)** — spawn, let them finish, collect summaries, integrate. Best
-  when slices are independent and need no mid-run steering.
-- **Async / non-blocking** — don't wait; each worker reports to the coordinator on a
-  meaningful event (checkpoint, blocker, scope change, finding affecting other slices)
-  while others run. Requires isolated workspaces; else fall back to fork-join.
-Substrate (§3, WHERE) and timing (WHEN you collect) are independent choices.
+Vault path only when the user explicitly targets a vault/scope:
 
-## 5. Permissions & safety
-- Least privilege per role: explorers/research read-only; only builders write, within
-  scope. Workers inherit the sandbox; an action needing fresh approval in an unattended
-  run will FAIL back to you, so scope access up front.
-- Irreversible actions (publish, deploy, push to shared branches, delete, external
-  comms) require explicit human approval. Do not read or move secrets.
+```text
+Agent/Workstreams/<slug>/Control.md
+```
 
-## 6. Budget & guardrails
-- Ceiling: max parallel workers, a wall-clock/token budget, and max attempts per
-  checkpoint. Stop and report rather than burn budget.
-- No infinite repair loops: if the same approach fails twice, change approach or escalate.
+Minimum sections:
 
-## 7. Ground every decision
-Workers consult primary sources before acting: official docs, upstream repos/specs, or
-the existing material/code in scope. Prefer reading the real source over recall. A worker
-that can't ground a decision surfaces the gap rather than guessing.
+- Objective
+- Done condition
+- Verification
+- Constraints and out of scope
+- Execution profile
+- Important files and references
+- Current checklist
+- Worker registry
+- Impediments
+- Escalations
+- Intervention requests
+- Decisions
+- Learnings
+- Next checkpoint
 
-## 8. Shared contracts — single source of truth
-If slices share an interface/schema/contract, ONE worker owns and writes it first;
-others consume it read-only. Never let parallel writers edit the same shared definition.
+Keep current state short. Split detailed history when useful:
 
-## 9. Each worker gets a TASK CONTRACT (never prefix with a goal command)
-State for each worker: one bounded objective + its own "done"; which sources to read
-first; its permission scope and isolation; to work in checkpoints and persist progress
-at each (commit / save artifact / append to the log) before continuing; and the summary
-to return — distilled findings, decisions, open questions, not raw output. Keep a
-registry of live workers (what each owns + status); close finished ones with `{INSPECT}`.
+- `decisions.md` for durable decisions.
+- `workers.md` for worker contracts and status.
+- `learnings.md` for reusable observations.
+- `events.jsonl` only for high-volume append-only telemetry.
 
-## 10. Integration, log & resumability
-Keep one short progress log. You are the integration layer — integrate worker summaries
-in the planned order, resolve conflicts, and RE-RUN VERIFY WITH on the INTEGRATED state
-before the next wave (per-slice green ≠ integrated green). Make checkpoints resumable so a
-paused/interrupted run continues without redoing finished work.
+Markdown is the default because agents and humans can read it quickly. JSONL is
+useful for machine logs, not for the main operating surface.
 
-## 11. Stop conditions
-- **Success** — DONE verifiably true via VERIFY WITH.
-- **Blocked** — if no defensible path remains under current limits, stop and report the
-  blocker plus the smallest decision/input that would unblock it. Do not loop.
-- **Then learn** — persist any non-obvious lesson (what worked, what the sizing got wrong,
-  a gotcha) to the project memory file so the next run starts smarter. See the escalation
-  ladder in `operating-model.md`.
+## 1. Inputs
+
+Fill these before significant work:
+
+- Objective: one objective, in a sentence or two.
+- Done condition: the verifiable condition that ends the run.
+- Verification: the test, check, artifact, command, citation set, screenshot,
+  validator, or human acceptance that proves done.
+- Constraints and out of scope: what must not change or regress.
+- Important references: files, docs, tickets, boards, vault scopes, repos, or
+  runtime notes that the lead must keep visible.
+
+If DONE is not measurable, fix that before spawning workers.
+
+## 2. Adaptive Pre-Flight
+
+Sense first, then right-size the gate:
+
+- Low variety: do not gate. Act and keep the loop lightweight.
+- Medium variety: ask one or two choices that change the result.
+- High variety: ask enough to define the setpoint, execution profile, safety
+  boundaries, and decomposition.
+
+Choose from this menu only when it matters:
+
+- Scope and done condition.
+- Task type and role stance.
+- Expected artifacts.
+- Verification style.
+- Decomposition.
+- Worker model and reasoning style.
+- Execution substrate.
+- Coordination timing.
+- Permissions.
+- Concurrency.
+- Budget and stopping rules.
+- Human-in-the-loop triggers.
+
+Present choices with a recommended default. The user should be able to reply
+`go` or override one line.
+
+## 3. Execution Profile
+
+Record the generated operating stance:
+
+- Task type.
+- Role stance.
+- Risk posture.
+- Expected artifacts.
+- Verification style.
+- Communication cadence.
+- Escalation triggers.
+
+The role stance is generated from the task. Examples include engineering lead,
+product strategist, research synthesizer, incident coordinator, documentation
+editor, or another posture. Do not hardcode a narrow personality.
+
+## 4. Runtime Binding
+
+Resolve the placeholders:
+
+- `{SET_GOAL}`: how the lead sets or simulates a durable objective.
+- `{SPAWN}`: how the lead creates workers.
+- `{ISOLATE}`: how concurrent writers avoid collisions.
+- `{CONCURRENCY}`: practical worker cap.
+- `{INSPECT}`: how the lead checks worker status.
+- `{CONTROL_RECORD}`: durable state file for this run.
+
+Use the relevant binding file for the current runtime. If the runtime cannot set
+a durable goal directly, write a copy-paste launcher for the user.
+
+## 5. Execution Substrate
+
+Pick the lightest surface that still controls risk:
+
+- Main thread: coupled, small, or low-risk work.
+- In-session workers: read-heavy fan-out, bounded reviews, research, test
+  analysis, summarization.
+- Isolated workspace: concurrent writers, divergent implementation branches, or
+  risky edits.
+- Parallel chats or background sessions: large independent work where the human
+  will supervise separate threads.
+- External automation: CI, scheduled sweeps, or batch jobs.
+
+Read-heavy work can share a workspace. Concurrent writers need isolation or a
+single-writer plan. Cross-cutting cleanup should be sequenced after feature work.
+
+## 6. Coordination Timing
+
+- Fork-join: spawn, wait, integrate. Default for independent slices.
+- Checkpointed: workers report at meaningful milestones.
+- Async/background: use only when the runtime supports inspection and the control
+  record can stay current.
+
+Substrate answers where work happens. Timing answers when results return.
+
+## 7. Permissions And Safety
+
+Give each worker least privilege:
+
+- Read-only for exploration and review.
+- Scoped write for bounded implementation.
+- Isolated write for concurrent writers.
+- Human approval for irreversible or external actions.
+
+Never move secrets or private data into summaries. Do not publish, deploy, push
+shared branches, delete, bill, message external parties, or change production
+state without explicit approval.
+
+## 8. Worker Contracts
+
+Each worker gets:
+
+- Role and bounded objective.
+- Sources or paths to read first.
+- Owned scope.
+- Files or areas it must not touch.
+- Permission level and isolation.
+- Done condition and verification.
+- Return format.
+- Impediment and escalation reporting.
+
+Workers return distilled findings and evidence, not raw logs. The lead owns
+integration and final verification.
+
+## 9. Integration
+
+At integration:
+
+- Compare worker outputs against the done condition and constraints.
+- Resolve conflicts before applying changes.
+- Re-run verification on the integrated state.
+- Update the control record.
+- Explain meaningful routing decisions in 1-2 lines.
+
+Per-slice green does not imply integrated green.
+
+## 10. Impediments, Escalations, And HITL
+
+Use these buckets:
+
+- Impediment: something blocking progress under current constraints.
+- Escalation: a loop-level change in plan, scope, substrate, budget, or risk.
+- Intervention request: a human decision needed now.
+- Learning: a reusable observation from the run.
+
+Escalate to the human when:
+
+- The setpoint is unclear.
+- The action is irreversible, external, production-facing, or privacy-sensitive.
+- Workers disagree in a way that changes the result.
+- Verification fails repeatedly.
+- New evidence invalidates the plan.
+- Permissions, budget, or time block progress.
+
+When asking, give options and a recommendation.
+
+## 11. Stop Conditions
+
+- Success: DONE is verified with the agreed method.
+- Blocked: no defensible path remains under current constraints. Report the
+  smallest decision or input that would unblock it.
+- Re-frame: the current objective or decomposition is wrong. Ask the human or
+  rewrite the plan.
+- Learn: record what should improve the next run.

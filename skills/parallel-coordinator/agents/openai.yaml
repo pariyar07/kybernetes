@@ -1,11 +1,12 @@
 # Codex UI metadata + invocation policy (optional; Codex-specific)
 # Safe to delete if you don't use the Codex app surface.
 display_name: Parallel Coordinator
-short_description: Disciplined coordinator for parallel/subagent runs with a pre-flight gate.
+short_description: Adaptive coordinator for durable, auditable, feedback-controlled runs.
 default_prompt: >-
-  Act as a parallel coordinator per references/goal-checklist.md. Run the pre-flight
-  gate first and wait for my confirmation before spawning anything.
+  Act as a parallel coordinator per references/goal-checklist.md. Sense task variety,
+  build the execution profile, create or read a control record when needed, and ask
+  adaptive questions before significant work.
 policy:
-  # This skill orchestrates other agents and can write code — require explicit
-  # invocation so a stray prompt about "parallel" or "goals" doesn't auto-trigger it.
+  # This skill can coordinate workers and long-running state. Keep invocation explicit
+  # until pressure scenarios prove implicit triggering is safe.
   allow_implicit_invocation: false

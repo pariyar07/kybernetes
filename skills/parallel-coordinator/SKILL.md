@@ -1,69 +1,164 @@
 ---
 name: parallel-coordinator
-description: >-
-  Act as an adaptive, self-regulating coordinator (a governor) for multi-part or
-  large tasks that benefit from parallel work. Use this whenever the user wants to
-  run work in parallel, spawn or orchestrate subagents, fan out research or
-  implementation, set up a long-running /goal-style run, or act as a lead over
-  multiple workers — even if they don't say "coordinator." It SENSES task size and
-  uncertainty, right-sizes its own machinery and questions to fit, steers the human
-  with tap-able choices plus a recommended default, and runs a feedback loop toward a
-  defined goal. Works across Codex, Claude Code, and any SKILL.md-compatible agent.
-  Trigger on "run this in parallel", "spawn subagents", "coordinate agents", "fan this
-  out", "set a goal and keep working", "parallel worktrees", or "split this across
-  workers".
+description: Use when a task is multi-part, long-running, ambiguous, risky, parallelizable, or needs a durable goal, checklist, control record, subagents, worktrees, or auditable coordination.
 ---
 
 # Parallel Coordinator
 
-A **governor**, not a script. You hold a goal as a setpoint, sense the gap to it,
-act to close the gap, measure, and correct — scaling your effort and your questions
-to the task's actual complexity, and improving across runs.
+Use this skill as the lead-agent control loop for work that may need planning,
+adaptive questions, durable state, parallel workers, or careful handoff across
+turns. The goal is not "more process"; the goal is a small cybernetic loop:
+sense the task, compare reality to the desired setpoint, act, measure, correct,
+and learn.
 
-The full control model is in `references/operating-model.md`. The operating contract
-(the run's reference of record) is `references/goal-checklist.md`. Read both at the
-start of a coordinated run.
+Read these before a coordinated run:
 
-## When to use vs. not
-Use it when the work is bigger than one prompt and has independent slices. For
-trivial or tightly-coupled work, say so and just do it — spinning up parallel
-machinery would be variety you don't need. Match your response to the task (Ashby's
-law: only variety absorbs variety).
+- `references/operating-model.md` for the control principles.
+- `references/goal-checklist.md` for the control record shape.
+- `references/adaptive-elicitation.md` for question sizing.
+- One runtime binding: `references/codex.md`, `references/claude-code.md`, or
+  `references/portable-core.md`.
 
-## The loop you run
-1. **Sense.** Read the task. Estimate its variety: size, number of independent parts,
-   ambiguity, and irreversibility/risk. This sizing drives everything below.
-2. **Right-size the gate.** Per `references/adaptive-elicitation.md`, choose how much to
-   ask. Trivial → don't ask, act. Medium → one or two decisions. Large/ambiguous/risky →
-   a fuller framing. Ask ONLY the dimensions that are genuinely uncertain or high-stakes
-   *for this task* — never a fixed questionnaire — and present each as tap-able choices
-   with your recommended default, so the human can accept-all in one move.
-3. **Bind to the tool.** Read `references/codex.md`, `references/claude-code.md`, or — for
-   any other agent — `references/portable-core.md` and fill its binding blanks.
-4. **Act.** Spawn per the confirmed plan: amplify reach with workers, attenuate noise by
-   taking only their summaries. You are the integration layer; workers never integrate
-   their own work.
-5. **Measure & correct.** At each checkpoint, measure the gap to DONE with VERIFY WITH.
-   Shrinking → continue. Stalled/oscillating → escalate a loop (re-plan, or surface to the
-   human) rather than retrying blindly. Damp thrashing with attempt caps.
-6. **Stop & learn.** End on verified success or a clean blocked-report. Persist any
-   non-obvious lesson to the project memory file so the next run starts smarter.
+## First Decision
 
-## Non-negotiables
-- **Authorize parallelism explicitly**, but let the coordinator size it.
-- **The durable objective belongs to the human/coordinator thread only** — never prefix a
-  worker brief with a goal command (e.g. Codex `/goal`); workers get a task contract.
-- **Never let two writers share one workspace** — isolate or sequence.
-- **Least privilege; irreversible actions gated** (publish, deploy, push to shared
-  branches, delete, external comms, secrets) need explicit human approval.
-- **A loop is only as good as its sensor** — insist on a concrete VERIFY WITH; if the goal
-  can't be measured, fix that before spawning anything.
+Before creating machinery, decide whether this task actually needs it.
 
-## Files
-- `references/operating-model.md` — the cybernetic control model (read first).
-- `references/goal-checklist.md` — the operating contract / reference of record.
-- `references/adaptive-elicitation.md` — how to size questions and steer with choices.
-- `references/codex.md` — Codex bindings, `/goal` file-reference, caveats.
-- `references/claude-code.md` — Claude Code bindings (Task tool, worktrees, no `/goal`).
-- `references/portable-core.md` — placeholder→tool key + launcher for any other agent.
-- `README.md` — install locations per tool and how to invoke.
+- Low variety: small, clear, low-risk, no real fan-out. Say in one line why the
+  coordinator is staying lightweight, then do the work.
+- Medium variety: ask only the one or two decisions that change the outcome,
+  then create a short checklist.
+- High variety: create or locate a durable control record, ask adaptive
+  pre-flight questions, bind to the runtime, then execute in checkpoints.
+
+Never run a fixed questionnaire. Ask the missing dimensions that matter for this
+task and present choices with a recommended default.
+
+## Build The Execution Profile
+
+For any non-trivial run, define the operating stance before significant work:
+
+- Task type: product, engineering, research, writing, operations, review, or a
+  custom mix.
+- Role stance: the temporary expert posture the agent should take for this work.
+  Generate it from the task and user answers; do not hardcode personas.
+- Risk posture: reversible, review-required, irreversible, or external-impact.
+- Expected artifacts: checklist, plan, ADR, HLD, LLD, code, docs, issue, PR,
+  vault note, report, or other.
+- Verification style: tests, diff review, citations, screenshots, human review,
+  validator output, acceptance criteria, or another measurable check.
+- Communication cadence: brief updates, checkpoint summaries, or quiet until
+  blocked.
+- Escalation triggers: which conditions require human-in-the-loop.
+
+Store this profile in the control record when one exists. If no file can be
+written, keep it in the lead response and make it easy to copy.
+
+## Durable Control Record
+
+Create or reuse a control record when work is long-running, cross-turn,
+parallel, high-risk, goal-driven, or needs auditability. Prefer a project-local
+location. If the project has no convention, use:
+
+```text
+.agent-runs/<slug>/control.md
+```
+
+If the user works in an Obsidian vault, use the relevant vault/workstream path
+only when the user has explicitly targeted that vault or scope in the current
+turn. For example:
+
+```text
+Agent/Workstreams/<slug>/Control.md
+```
+
+The control record should include:
+
+- Objective
+- Done condition
+- Verification
+- Constraints and out of scope
+- Execution profile
+- Important files and references
+- Current checklist
+- Worker registry
+- Impediments
+- Escalations
+- Intervention requests
+- Decisions
+- Learnings
+- Next checkpoint
+
+Update the record after each meaningful result, blocker, routing decision, or
+scope change. Keep it concise. Move detailed logs into separate files when they
+start to drown the current checklist.
+
+## Runtime Binding
+
+Bind the loop to the current environment instead of assuming one tool.
+
+- In Codex, use `references/codex.md`. If a goal tool is available, create the
+  goal with the minimal prompt shape there. If the agent cannot create a goal,
+  return a copy-paste `/goal` prompt to the user.
+- In Claude Code, use `references/claude-code.md`.
+- In any other skill-compatible agent, use `references/portable-core.md`.
+
+The durable objective belongs to the lead/coordinator thread only. Do not put a
+goal command inside worker prompts.
+
+## Worker Rules
+
+Spawn workers only when the split creates real leverage. Each worker gets a task
+contract, not the whole run.
+
+Worker contracts must include:
+
+- Role and bounded objective.
+- Owned files, paths, scope, or sources.
+- Permission level: read-only, scoped write, isolated write, or external action
+  prohibited.
+- What the worker must not touch.
+- Done condition and verification for that slice.
+- Expected return format: findings, changes, risks, questions, and verification.
+- How to report impediments or findings that affect other slices.
+
+The lead integrates. Workers do not merge the full system by themselves. Never
+let concurrent writers share one workspace unless the files are explicitly
+partitioned and collision risk is negligible.
+
+## Human-In-The-Loop
+
+Ask for human input when the loop needs a higher-order controller:
+
+- The setpoint, scope, or success criteria are unclear.
+- An action is irreversible or externally visible.
+- Secrets, private data, production data, customer data, publishing, deployment,
+  deletion, billing, or external communication are involved.
+- Worker outputs conflict or multiple plans are defensible.
+- The same verification failure repeats.
+- New evidence invalidates the plan.
+- Budget, permissions, or time limits block progress.
+
+When escalating, do not write an essay. Give the user the smallest useful
+decision surface: 2-4 options, one recommended default, and the consequence of
+choosing it.
+
+## Checkpoint Loop
+
+At each checkpoint:
+
+1. Sense: what changed?
+2. Compare: is the gap to DONE smaller?
+3. Act: continue, re-route, spawn, integrate, verify, or escalate.
+4. Record: update checklist, impediments, decisions, and learnings.
+5. Explain: give the user 1-2 lines for meaningful routing decisions.
+
+If the gap is not shrinking, climb the escalation ladder in
+`references/operating-model.md`: regulate, re-frame, then learn. Do not retry the
+same failing move indefinitely.
+
+## Learning Policy
+
+Write run-specific lessons to the control record. Promote reusable lessons into
+project memory, repo instructions, or a public skill only when they are general,
+validated, and appropriate for that audience. Do not hide private workflow facts
+inside open-source defaults.

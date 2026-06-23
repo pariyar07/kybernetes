@@ -1,50 +1,70 @@
-# Adaptive Elicitation — right-sized, choice-driven steering
+# Adaptive Elicitation
 
-How to frame a run *for this task* without over-constraining it, and how to get the
-human's input as taps rather than essays.
+Ask enough to control the run, not enough to perform ceremony.
 
-## Step 1 — size the task (sense before asking)
-Estimate four things from the request:
-- **Effort / size** — minutes, or a multi-hour build?
-- **Independent parts** — is there real fan-out, or one coupled thread?
-- **Ambiguity** — is DONE already clear, or under-specified?
-- **Irreversibility / blast radius** — could a wrong move cost a lot?
+## 1. Sense Before Asking
 
-## Step 2 — choose interaction depth from the size
-- **Trivial** (small, clear, low-risk, no real fan-out): don't open a gate. Optionally
-  one line — "I'll do X; say stop if not" — then act.
-- **Medium**: ask the **one or two** decisions that actually change the outcome.
-- **Large / ambiguous / risky**: a fuller framing — but still only the dimensions that
-  are genuinely uncertain or high-stakes. Never run the whole menu by reflex.
+Estimate:
 
-The dimension menu to draw from (pick, don't recite): decomposition, model + reasoning
-per role, execution substrate per slice, coordination timing, permissions, concurrency,
-budget, and the stop condition. These map to checklist §1–§6 and §9.
+- Effort and duration.
+- Number of independent parts.
+- Ambiguity in the done condition.
+- Risk, irreversibility, and external impact.
+- Whether durable state is needed.
+- Whether specialized roles would materially improve the result.
 
-## Step 3 — ask as choices + a recommendation
-For each decision worth surfacing, present 2–4 mutually exclusive options, mark your
-recommended default, and say in one line *why*. The human should be able to accept your
-whole plan in a single move, or override one item. Shape:
+## 2. Choose Question Depth
 
+- Low variety: ask nothing or give one line of intent, then act.
+- Medium variety: ask one or two choices that change the outcome.
+- High variety: ask enough to define objective, done condition, verification,
+  execution profile, decomposition, safety boundaries, and HITL triggers.
+
+The correct number of questions is adaptive. A tiny task may need zero. A
+multi-week migration may need several. Never recite the whole menu by reflex.
+
+## 3. Build The Execution Profile
+
+Use the user's answers and the task itself to generate:
+
+- Task type.
+- Role stance.
+- Risk posture.
+- Expected artifacts.
+- Verification style.
+- Communication cadence.
+- Escalation triggers.
+
+The role stance is a working posture, not a fixed persona. It should fit the
+work: product, engineering, research, writing, review, operations, or a custom
+blend.
+
+## 4. Ask As Choices
+
+Present each uncertain/high-stakes dimension as options with a recommended
+default:
+
+```text
+Plan. Reply "go" to accept, or override any line.
+1. Split: recommended 3 slices (docs / runtime / tests) | sequential
+2. State: recommended .agent-runs/kybernetes/control.md | no durable file
+3. Workers: recommended read-only review worker first | no workers yet
+4. Verify: recommended pressure-scenario checklist + repo validation | docs only
 ```
-Plan (recommended marked ★). Reply "go" to accept, or override any line.
-1. Split:        ★ 3 slices (api / migration / tests)   |   1 slice (sequential)
-2. Where:        ★ in-session subagents (read-heavy)     |   separate worktrees (writers)
-3. Models:       ★ strong+high for review, fast+low for scans
-4. Stop when:    ★ contract tests green + rollback intact |  (tighten this?)
-```
 
-In Claude.ai, render these as tap-able option buttons. In a CLI agent, present numbered
-options and accept a terse reply ("go", or "2 → worktrees").
+Good options include the tradeoff in one line. The human should not need to read
+an essay to steer the run.
 
-## Step 4 — only re-ask when the loop needs it
-Don't re-open settled decisions. Return to the human mid-run only when a choice is **both
-high-variety and high-stakes/irreversible**, or when error has stopped shrinking and the
-fix is a re-frame (a loop-2 decision — see `operating-model.md`). Otherwise keep
-regulating and log, don't ping.
+## 5. Re-Ask Only When The Loop Needs It
 
-## Customizable per session, not constrained
-The dimensions are a stable scaffold; *which* you raise, *how many*, and *how deep* are
-chosen fresh each session from the task's variety. A good run on a small task may ask
-nothing; a good run on a migration may ask four things — both are correct. Rigidity is a
-failure mode here, not a virtue.
+Do not re-open settled decisions. Ask again when:
+
+- The setpoint is unclear.
+- New evidence invalidates the plan.
+- The next action is irreversible or external.
+- Verification fails repeatedly.
+- Workers disagree in a way that affects the result.
+- Budget, permissions, or time change the feasible plan.
+
+When asking mid-run, label it as an intervention request and include your
+recommended default.

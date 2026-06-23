@@ -16,15 +16,15 @@ The first usable skill is:
 
 - [`skills/parallel-coordinator`](skills/parallel-coordinator/README.md)
 
-Future work will split the broader system into `adaptive-coordinator`, runtime bindings, portable core fallbacks, examples, and tested pressure scenarios. Planned skill folders intentionally do not contain `SKILL.md` files yet; Kybernetes will add those only after pressure scenarios prove the behavior they need to teach.
+Future work may split the broader system into `adaptive-coordinator`, runtime bindings, portable core fallbacks, examples, and tested pressure scenarios. Planned skills live in architecture docs until pressure scenarios prove they need a real installable `SKILL.md`.
 
 ## Control Model
 
-![Governor loop](skills/parallel-coordinator/diagrams/1-governor-loop.svg)
+![Governor loop](docs/assets/diagrams/1-governor-loop.svg)
 
-![Requisite variety](skills/parallel-coordinator/diagrams/2-requisite-variety.svg)
+![Requisite variety](docs/assets/diagrams/2-requisite-variety.svg)
 
-![Three loops](skills/parallel-coordinator/diagrams/3-three-loops.svg)
+![Three loops](docs/assets/diagrams/3-three-loops.svg)
 
 The deeper rationale is in [INSPIRATION.md](INSPIRATION.md).
 
@@ -32,11 +32,7 @@ The deeper rationale is in [INSPIRATION.md](INSPIRATION.md).
 
 ```text
 skills/
-  parallel-coordinator/      # v0 seed skill, imported intact
-  adaptive-coordinator/      # planned main coordinator skill
-  runtime-codex/             # planned Codex binding skill
-  runtime-claude-code/       # planned Claude Code binding skill
-  portable-core/             # planned fallback binding skill
+  parallel-coordinator/      # v0 seed skill
 
 docs/
   product/
@@ -50,25 +46,39 @@ tests/
   pressure-scenarios/
 ```
 
+Planned skills are documented in [docs/architecture/planned-skills.md](docs/architecture/planned-skills.md). They will move into `skills/` only after pressure scenarios justify publishing a real `SKILL.md`.
+
 ## Install The Seed Skill
 
-Copy `skills/parallel-coordinator/` into your agent runtime's skills directory.
+Use the skills CLI to install from GitHub.
 
-Codex:
-
-```bash
-mkdir -p ~/.codex/skills
-cp -R skills/parallel-coordinator ~/.codex/skills/
-```
-
-Claude Code:
+List available Kybernetes skills:
 
 ```bash
-mkdir -p ~/.claude/skills
-cp -R skills/parallel-coordinator ~/.claude/skills/
+npx skills add pariyar07/kybernetes --list
 ```
 
-Then invoke it as `$parallel-coordinator` or by asking your agent to use the parallel coordinator skill for a large, multi-part, or long-running task.
+Install the seed skill globally for all supported agents:
+
+```bash
+npx skills add pariyar07/kybernetes \
+  --global \
+  --agent '*' \
+  --skill parallel-coordinator \
+  --copy \
+  --yes
+```
+
+For project-local installation, omit `--global`.
+
+Then invoke it as `$parallel-coordinator` or ask your agent to use the parallel coordinator skill for a large, multi-part, or long-running task.
+
+## Public Guardrails
+
+- Public defaults must be generic. Satyam-specific dogfooding belongs in private notes or optional adapters.
+- New `SKILL.md` files require pressure scenarios first.
+- Runtime-specific assumptions belong in runtime bindings, not generic coordinator behavior.
+- Irreversible actions, secrets, publishing, deploys, and external communications require explicit human approval.
 
 ## License
 

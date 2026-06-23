@@ -30,9 +30,14 @@
 
 - [ ] Define goal.
 - [ ] Confirm verification.
+- [ ] Generate execution profile.
 - [ ] Choose execution mode.
 - [ ] Run work.
 - [ ] Verify integrated result.
+
+## Worker Registry
+
+- None yet.
 
 ## Impediments
 
@@ -42,6 +47,18 @@
 
 - None yet.
 
+## Intervention Requests
+
+- None yet.
+
+## Decisions
+
+- None yet.
+
 ## Learnings
 
 - None yet.
+
+## Next Checkpoint
+
+<The next moment where the lead should compare progress against DONE.>

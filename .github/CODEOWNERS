@@ -1,0 +1,15 @@
+# Default ownership.
+* @pariyar07
+
+# High-risk coordination behavior.
+/skills/**/SKILL.md @pariyar07
+/skills/**/references/** @pariyar07
+
+# Repository automation and public guardrails.
+/.github/** @pariyar07
+/SECURITY.md @pariyar07
+/PUBLIC_BOUNDARY.md @pariyar07
+
+# Architecture and policy.
+/docs/architecture/** @pariyar07
+/tests/pressure-scenarios/** @pariyar07

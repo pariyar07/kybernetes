@@ -1,0 +1,45 @@
+name: Validate Repository
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Reject OS metadata
+        run: |
+          if find . -name '.DS_Store' -print -quit | grep -q .; then
+            echo ".DS_Store files must not be committed."
+            exit 1
+          fi
+
+      - name: Reject private absolute paths
+        run: |
+          if grep -RIn --exclude-dir=.git --exclude='validate-repo.yml' '/Users/' .; then
+            echo "Private absolute paths must not be committed."
+            exit 1
+          fi
+
+      - name: Require real skill folders
+        run: |
+          failed=0
+          for dir in skills/*; do
+            [ -d "$dir" ] || continue
+            if [ ! -f "$dir/SKILL.md" ]; then
+              echo "Skill folder $dir is missing SKILL.md. Planned skills belong in docs/architecture/planned-skills.md."
+              failed=1
+            fi
+          done
+          exit "$failed"
+
+      - name: Ensure security files exist
+        run: |
+          test -f SECURITY.md
+          test -f PUBLIC_BOUNDARY.md
+          test -f .github/CODEOWNERS
+          test -f .github/pull_request_template.md

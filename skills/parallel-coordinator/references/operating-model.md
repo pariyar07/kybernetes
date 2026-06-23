@@ -1,87 +1,143 @@
-# Operating Model — the coordinator as a governor
+# Operating Model
 
-This is the control model the coordinator runs on. The checklist
-(`goal-checklist.md`) is its policy; this file explains *why* the policy is shaped the
-way it is, so you can adapt it intelligently instead of following it rigidly.
+Kybernetes treats coordinated work as a cybernetic control loop. The lead agent
+is the controller. The objective and done condition are the setpoint. The repo,
+vault, documents, workers, and artifacts are the system. Verification is the
+sensor. The next agent action should be chosen because it reduces the measured
+gap to done.
 
-## The control loop
-A coordinated run is a feedback loop, not a list of steps:
+## The Control Loop
 
+```text
+setpoint -> act -> system -> sensor -> compare -> correct -> act
+   ^                                                   |
+   +-------------------- control record --------------+
 ```
-reference (DONE) → [act] → system (workers/repo/artifacts) → sensor (VERIFY WITH)
-        ▲                                                            │
-        └──────────────── error (gap to DONE) ◄──────────────────────┘
-```
 
-Each checkpoint samples the system, computes the **error** (distance from DONE), and
-the next action is whichever one shrinks that error most. Two consequences:
-- **The sensor must be trustworthy.** A loop can't converge on a bad measurement, so a
-  concrete VERIFY WITH is mandatory and vague worker status is rejected. If the goal
-  isn't measurable, fix that *before* acting — an unmeasurable goal is an open loop.
-- **Feedforward + feedback.** Pre-flight planning is feedforward (anticipate conflicts,
-  dependencies, isolation needs); checkpoint reports are feedback (react to reality).
-  Use both; don't plan everything up front, don't fly blind either.
+The loop fails when the sensor is vague, the setpoint is not measurable, the
+controller forgets state, or the agent keeps acting without comparing.
 
-## Requisite variety → adaptive sizing (Ashby's law)
-"Only variety can absorb variety." The controller must carry at least as much variety
-as the task it controls. So before acting, **estimate the task's variety**:
-- size / effort, number of *independent* parts, ambiguity (how clear is DONE?),
-  irreversibility & blast radius (how bad is a wrong move?).
+## Requisite Variety
 
-Then match your machinery AND your questions to it:
-- **Low variety** → single thread, no gate, just act.
-- **Medium** → a couple of workers; ask only the one or two decisions that matter.
-- **High / ambiguous / risky** → more parallel branches, more roles and checks, and a
-  fuller framing conversation.
+Ashby's law: only variety absorbs variety.
 
-Under-matching means the controller can't absorb the task (failure). Over-matching
-means wasted variety — a heavy gate on a small task. Variety-matching is the one
-principle that prevents *both*.
+Before acting, estimate task variety:
 
-## Attenuate and amplify
-A controller manages complexity by amplifying its own action and attenuating incoming
-variety:
-- **Amplify** — spawn workers to extend the lead's reach.
-- **Attenuate** — workers return distilled summaries, not raw logs, so the lead's
-  context (a finite channel) isn't swamped.
-- **Attenuate for the human too** — compress a complex decision into a few options + a
-  recommendation, so the human steers with one tap instead of absorbing everything.
+- Size and duration.
+- Number of independent parts.
+- Ambiguity of the done condition.
+- Risk, irreversibility, and blast radius.
+- Need for specialized expertise.
+- Need for durable state.
 
-## The escalation ladder (single → double → triple loop)
-When the error isn't shrinking, climb, don't grind:
-1. **Regulate (loop 1)** — adjust the action and retry toward the same setpoint.
-2. **Re-frame (loop 2)** — if loop 1 stalls or oscillates, question the plan,
-   decomposition, or setpoint itself: re-scope, re-split, or renegotiate DONE with the
-   human. This is the main trigger for surfacing to the human mid-run.
-3. **Learn (loop 3)** — persist the lesson (to the project memory file: AGENTS.md /
-   CLAUDE.md / memory) so the controller itself improves next session.
+Then match controller variety:
 
-This replaces "don't loop forever" with a principled response to non-convergence.
+- Low task variety: single thread, no heavy gate.
+- Medium: small checklist, one or two adaptive questions, maybe one worker.
+- High: durable control record, execution profile, explicit verification,
+  worker contracts, checkpoints, and HITL triggers.
 
-## Stability / damping
-Oscillation is a control failure (thrashing between approaches, over-correcting). Damp
-it: cap attempts per checkpoint; change approach after two failures rather than
-repeating; apply hysteresis to stop conditions (don't re-open a satisfied checkpoint);
-and resist adding one-off instructions mid-run (they inject noise into a converging
-loop) — tighten the setpoint instead.
+Under-matching loses control. Over-matching creates drag. The coordinator's job
+is adaptive sizing.
 
-## The human as higher-order controller
-The human sets the reference signal and is the controller-of-last-resort. Route a
-decision to them when it is **both high-variety and high-stakes/irreversible**, or when
-error won't converge. Not constantly (that defeats autonomy), not never (that risks
-divergence). The choice-plus-recommendation interface is the low-bandwidth, high-leverage
-control channel for this.
+## Execution Profile
 
-## Structural check (Beer's Viable System Model)
-A viable coordinator has all five; a missing one predicts the failure:
-- **S1 Operations** — the workers doing the slices.
-- **S2 Coordination** — anti-collision: worktree isolation, shared-contract single source
-  of truth. *(Missing → writers collide.)*
-- **S3 Control** — resources: budget, permissions, integration, scheduling waves.
-  *(Missing → budget blowout, merge chaos.)*
-- **S4 Intelligence** — sensing the task and environment: research, grounding in primary
-  sources, the variety estimate. *(Missing → acts on stale assumptions.)*
-- **S5 Policy** — identity and purpose: OBJECTIVE, DONE, constraints, values.
-  *(Missing → drift; no stopping condition.)*
+The execution profile is the run's temporary operating identity. It answers:
 
-Use this as a pre-flight audit: name where each of S1–S5 lives in your plan.
+- What kind of work is this?
+- What stance should the lead adopt?
+- What artifacts should exist?
+- What verification proves progress?
+- What risks require escalation?
+- How often should the user hear from the agent?
+
+Generate this from the task and user answers. Do not hardcode one personality or
+one engineering ceremony. A product discovery run, security review, research
+synthesis, implementation, writing task, and incident response need different
+profiles.
+
+## Attenuation And Amplification
+
+A coordinator expands reach by spawning workers and reduces overload by requiring
+distilled returns.
+
+- Amplify: workers, worktrees, side chats, automation, external checks.
+- Attenuate: summaries, owned scopes, task contracts, important-file lists,
+  checklists, verification outputs, concise user options.
+
+The human should not absorb all raw detail. The lead should not absorb every log.
+Both need compressed signals.
+
+## Durable State
+
+The control record is the persistence vantage point. It keeps the loop visible
+when context windows compress, chats resume, workers return, or the runtime loses
+implicit skill state.
+
+Use it to store:
+
+- Objective, done condition, verification, constraints.
+- Execution profile.
+- Important files and references.
+- Current checklist.
+- Workers and ownership.
+- Impediments.
+- Escalations.
+- Intervention requests.
+- Decisions.
+- Learnings.
+- Next checkpoint.
+
+Do not default to changing global agent instruction files such as `AGENTS.md` or
+`CLAUDE.md`. Promote a lesson there only when it is durable, reusable, and
+appropriate for that repository or user.
+
+## Escalation Ladder
+
+When error is not shrinking, climb the ladder:
+
+1. Regulate: change the next action while keeping the same setpoint.
+2. Re-frame: change the plan, decomposition, scope, or setpoint.
+3. Learn: record what the controller should do differently next time.
+
+Repeated verification failure is a signal, not a reason to loop forever.
+
+## Human-In-The-Loop
+
+The human is the higher-order controller. Ask for input when autonomy would
+increase risk or when the setpoint needs judgment.
+
+Good HITL asks are small:
+
+- 2-4 options.
+- One recommended default.
+- One-line consequence for each option.
+- A clear statement of what happens if the user says `go`.
+
+Use HITL for irreversible actions, privacy/security concerns, production or
+customer impact, publishing, external communication, unclear scope, repeated
+failure, worker conflict, or major budget changes.
+
+## Viable System Check
+
+Use Beer's Viable System Model as a quick structural check:
+
+- S1 Operations: who or what does each slice?
+- S2 Coordination: how do slices avoid collisions?
+- S3 Control: who owns budget, permissions, scheduling, and integration?
+- S4 Intelligence: how does the run sense new information and stale
+  assumptions?
+- S5 Policy: what objective, constraints, and values define acceptable action?
+
+If one is missing, name it before scaling the run.
+
+## Stability
+
+Avoid oscillation:
+
+- Cap repeated attempts.
+- Change approach after repeated failures.
+- Keep settled decisions settled unless new evidence matters.
+- Do not add workers when integration is the bottleneck.
+- Do not ask the human again for decisions already made.
+- Re-run verification after integration, not only per slice.

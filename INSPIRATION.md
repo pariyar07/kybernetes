@@ -1,37 +1,47 @@
 # The Inspiration
 
-Kybernetes is named from Greek `kybernetes`: steersman, pilot, governor. The same root leads to cybernetics: control and communication through feedback.
+Kybernetes is named from Greek `kybernetes`: steersman, pilot, or governor. The same root leads to cybernetics: control and communication through feedback.
 
-The product idea is simple: agent work should not run as a loose sequence of prompts. It should run as a feedback-controlled system.
+This project is not a checklist with extra steps. It is a small cybernetic control system for agentic work: hold a goal, sense the gap, act to close it, measure again, and correct, while regulating how much process the task actually needs.
+
+## Where It Comes From
+
+The lineage is short and load-bearing. Each idea maps to a concrete mechanism in Kybernetes.
+
+- **Norbert Wiener — feedback.** A system steers toward a goal by feeding output back as input and acting on the error. In Kybernetes, DONE is the goal, VERIFY WITH is the measurement, and every checkpoint acts on the gap.
+- **W. Ross Ashby — requisite variety.** Only variety absorbs variety. Kybernetes sizes its machinery and questions to the task: small task, little machinery; ambiguous or risky task, more control surface.
+- **Stafford Beer — viable systems.** A viable coordinator needs operations, anti-collision coordination, resource control, environment sensing, and policy. Missing one predicts the failure.
+- **Heinz von Foerster — second-order cybernetics.** The observer is part of the system. Kybernetes tracks whether its own model of the task still matches reality.
+- **Argyris and Schon — learning loops.** Correct the action, then the plan, then the controller itself.
+
+## Governor Loop
+
+The human sets the reference; the coordinator closes the gap.
+
+![Governor loop](docs/assets/diagrams/1-governor-loop.svg)
+
+## Requisite Variety
+
+The same principle sizes the machinery and the questions. The controller's variety must meet the task's; no more, no less.
+
+![Requisite variety](docs/assets/diagrams/2-requisite-variety.svg)
+
+## Three Loops
+
+When the error stops shrinking, Kybernetes climbs a ladder instead of grinding:
+
+- **Loop 1: regulate** — adjust the action toward the same goal.
+- **Loop 2: reframe** — question the plan, decomposition, scope, execution profile, or goal.
+- **Loop 3: learn** — persist the lesson so the next run starts smarter.
+
+![Three loops](docs/assets/diagrams/3-three-loops.svg)
+
+## Product Translation
+
+The product thesis is:
 
 ```text
-goal -> sense -> compare -> act -> measure -> correct
+Agent work needs a steersman, not just a checklist.
 ```
 
-## The Three Load-Bearing Ideas
-
-### 1. Governor Loop
-
-Hold a setpoint, measure the gap, and correct course.
-
-![Governor loop](skills/parallel-coordinator/diagrams/1-governor-loop.svg)
-
-### 2. Requisite Variety
-
-Match the machinery to the task. Small work should not get a heavy gate. Risky, ambiguous, or parallel work needs more control surface.
-
-![Requisite variety](skills/parallel-coordinator/diagrams/2-requisite-variety.svg)
-
-### 3. Three Loops
-
-When progress stops, climb instead of grinding:
-
-- Loop 1: regulate the action.
-- Loop 2: reframe the plan, scope, decomposition, or goal.
-- Loop 3: learn so the next run starts smarter.
-
-![Three loops](skills/parallel-coordinator/diagrams/3-three-loops.svg)
-
-## Seed Skill
-
-The v0 form of this idea lives in [`skills/parallel-coordinator/INSPIRATION.md`](skills/parallel-coordinator/INSPIRATION.md). This root note is the project-level framing; the skill note is the operational version bundled with the first skill.
+Kybernetes should help an agent ask adaptive questions, hold durable state outside the chat, select the right execution mode, coordinate workers safely, surface human intervention points, verify completion, and retain useful learning.
