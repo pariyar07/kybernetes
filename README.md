@@ -8,6 +8,14 @@ Kybernetes helps coding agents and skill-compatible runtimes coordinate long-run
 
 Agents lose state, over-plan small tasks, under-plan risky tasks, confuse worker boundaries, and forget why they made decisions. Kybernetes gives the lead agent a small cybernetic control system: hold a setpoint, sense the gap, act, measure, correct, and learn.
 
+## Why The Name Kybernetes
+
+`Kybernetes` comes from the Greek idea of a steersman, pilot, or governor. It is also the root lineage behind cybernetics: systems that steer through control, communication, and feedback.
+
+That is the product metaphor. Kybernetes is not meant to be another checklist. It is the steersman for agentic work: it holds the goal, senses drift, chooses the right amount of machinery, coordinates workers, asks for human steering when needed, and corrects course until the work is verified.
+
+The name also keeps the project independent from any one runtime or knowledge system. Ariadne can wrap it later through an adapter, but Kybernetes should remain useful for Codex, Claude Code, and other skill-compatible agents.
+
 ## Current Status
 
 This repository is in early seed form.

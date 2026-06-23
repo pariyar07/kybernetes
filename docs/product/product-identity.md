@@ -6,6 +6,14 @@ Kybernetes is a runtime-adaptive control plane for agentic work.
 
 A cybernetic coordinator that helps agents hold goals, ask better questions, coordinate work, correct drift, and leave durable state behind.
 
+## Name Rationale
+
+`Kybernetes` means steersman, pilot, or governor. It points to the same lineage as cybernetics: steering a system through feedback.
+
+The product should feel like a calm lead at the helm of agentic work. It keeps a goal visible, senses drift, chooses the right operating model, coordinates workers, and brings the human back in when the next move needs judgment.
+
+The name is intentionally broader than Ariadne or Obsidian. Ariadne can become an adapter or wrapper, but Kybernetes stays a runtime-adaptive control plane.
+
 ## What It Is
 
 - a control model for long-running agent work
