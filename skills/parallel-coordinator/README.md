@@ -18,8 +18,8 @@ It does four jobs:
 From the repository root or from GitHub, prefer the skills CLI:
 
 ```bash
-npx skills add pariyar07/kybernetes --list
-npx skills add pariyar07/kybernetes --global --agent '*' --skill parallel-coordinator --copy --yes
+npx skills add <owner>/kybernetes --list
+npx skills add <owner>/kybernetes --global --agent '*' --skill parallel-coordinator --copy --yes
 ```
 
 For project-local installation, omit `--global`.

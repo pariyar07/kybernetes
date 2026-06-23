@@ -12,7 +12,7 @@ A cybernetic coordinator that helps agents hold goals, ask better questions, coo
 
 The product should feel like a calm lead at the helm of agentic work. It keeps a goal visible, senses drift, chooses the right operating model, coordinates workers, and brings the human back in when the next move needs judgment.
 
-The name is intentionally broader than Ariadne or Obsidian. Ariadne can become an adapter or wrapper, but Kybernetes stays a runtime-adaptive control plane.
+The name is intentionally broader than any one knowledge system or agent framework. Tool-specific integrations can become adapters, but Kybernetes stays a runtime-adaptive control plane.
 
 ## What It Is
 
@@ -24,8 +24,8 @@ The name is intentionally broader than Ariadne or Obsidian. Ariadne can become a
 
 ## What It Is Not
 
-- an Obsidian-only workflow
-- an Ariadne feature
+- a single-knowledge-system workflow
+- one tool's feature
 - a single checklist file
 - an autonomous daemon that acts without boundaries
 - a replacement for agent runtimes

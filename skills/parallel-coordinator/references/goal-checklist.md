@@ -12,16 +12,17 @@ checklist into chat. The control record is the runtime setpoint and audit trail.
 Create or reuse a control record when the run is long-running, parallel,
 high-risk, goal-driven, or likely to cross turns.
 
-Default non-vault path:
+Default project-local path:
 
 ```text
 .agent-runs/<slug>/control.md
 ```
 
-Vault path only when the user explicitly targets a vault/scope:
+External system path only when the user explicitly targets a knowledge base,
+workstream system, or project-management surface:
 
 ```text
-Agent/Workstreams/<slug>/Control.md
+<workstream-system>/<slug>/Control.md
 ```
 
 Minimum sections:
@@ -60,8 +61,8 @@ Fill these before significant work:
 - Verification: the test, check, artifact, command, citation set, screenshot,
   validator, or human acceptance that proves done.
 - Constraints and out of scope: what must not change or regress.
-- Important references: files, docs, tickets, boards, vault scopes, repos, or
-  runtime notes that the lead must keep visible.
+- Important references: files, docs, tickets, boards, knowledge-base scopes,
+  repos, or runtime notes that the lead must keep visible.
 
 If DONE is not measurable, fix that before spawning workers.
 

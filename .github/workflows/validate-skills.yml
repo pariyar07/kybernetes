@@ -1,0 +1,52 @@
+name: Validate Skills
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  validate-skills:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Require skill entrypoints
+        run: |
+          failed=0
+          for dir in skills/*; do
+            [ -d "$dir" ] || continue
+            if [ ! -f "$dir/SKILL.md" ]; then
+              echo "Skill folder $dir is missing SKILL.md. Planned skills belong in docs/architecture/planned-skills.md."
+              failed=1
+            fi
+          done
+          exit "$failed"
+
+      - name: Require pressure scenarios for skills
+        run: |
+          count="$(find tests/pressure-scenarios -type f -name '*.md' | wc -l | tr -d ' ')"
+          if [ "$count" -lt 1 ]; then
+            echo "At least one pressure scenario is required before publishing skill behavior."
+            exit 1
+          fi
+
+      - name: Reject private or adapter-specific public defaults
+        run: |
+          if grep -RIn \
+            --exclude-dir=.git \
+            --exclude='CODEOWNERS' \
+            --exclude='LICENSE' \
+            --exclude='validate-repo.yml' \
+            --exclude='validate-skills.yml' \
+            -E "Satyam|Satyam's|Ariadne|Obsidian|/Users/|pariyar07|dogfood|private vault" .; then
+            echo "Public docs and skills must not contain maintainer-private or adapter-specific defaults."
+            exit 1
+          fi
+
+      - name: Require control-loop vocabulary
+        run: |
+          grep -RIl "Execution Profile" skills tests docs examples README.md >/dev/null
+          grep -RIl "control record" skills tests docs examples README.md >/dev/null
+          grep -RIl "HITL\\|Human-In-The-Loop" skills tests docs examples README.md >/dev/null
+          grep -RIl "impediment" skills tests docs examples README.md >/dev/null

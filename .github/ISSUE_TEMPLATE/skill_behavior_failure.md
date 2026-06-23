@@ -40,4 +40,4 @@ labels: skill-behavior
 
 ## Safety Notes
 
-Do not include secrets, credentials, customer data, or private vault content.
+Do not include secrets, credentials, customer data, or private workspace content.

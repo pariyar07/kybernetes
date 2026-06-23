@@ -43,7 +43,7 @@ For any non-trivial run, define the operating stance before significant work:
   Generate it from the task and user answers; do not hardcode personas.
 - Risk posture: reversible, review-required, irreversible, or external-impact.
 - Expected artifacts: checklist, plan, ADR, HLD, LLD, code, docs, issue, PR,
-  vault note, report, or other.
+  knowledge-base note, report, or other.
 - Verification style: tests, diff review, citations, screenshots, human review,
   validator output, acceptance criteria, or another measurable check.
 - Communication cadence: brief updates, checkpoint summaries, or quiet until
@@ -63,12 +63,11 @@ location. If the project has no convention, use:
 .agent-runs/<slug>/control.md
 ```
 
-If the user works in an Obsidian vault, use the relevant vault/workstream path
-only when the user has explicitly targeted that vault or scope in the current
-turn. For example:
+If the user explicitly targets an external knowledge base or workstream system,
+use that system's path convention. For example:
 
 ```text
-Agent/Workstreams/<slug>/Control.md
+<workstream-system>/<slug>/Control.md
 ```
 
 The control record should include:

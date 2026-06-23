@@ -15,7 +15,7 @@ Use this file when the coordinator is running in Codex.
 - `{INSPECT}`: inspect or close worker threads with the runtime's agent/thread
   inspection surface.
 - `{CONTROL_RECORD}`: project-local `.agent-runs/<slug>/control.md`, or an
-  explicitly targeted vault/workstream path.
+  explicitly targeted external workstream or knowledge-base path.
 
 ## Goal Behavior
 

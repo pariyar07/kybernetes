@@ -12,7 +12,7 @@ Use this file when the coordinator is running in Claude Code.
   independent and the lead can integrate the summaries.
 - `{INSPECT}`: use Claude Code's available agent/session inspection surfaces.
 - `{CONTROL_RECORD}`: project-local `.agent-runs/<slug>/control.md`, or an
-  explicitly targeted vault/workstream path.
+  explicitly targeted external workstream or knowledge-base path.
 
 ## Lead Prompt Shape
 

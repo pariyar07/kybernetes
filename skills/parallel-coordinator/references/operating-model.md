@@ -2,7 +2,7 @@
 
 Kybernetes treats coordinated work as a cybernetic control loop. The lead agent
 is the controller. The objective and done condition are the setpoint. The repo,
-vault, documents, workers, and artifacts are the system. Verification is the
+documents, workers, and artifacts are the system. Verification is the
 sensor. The next agent action should be chosen because it reduces the measured
 gap to done.
 

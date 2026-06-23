@@ -2,19 +2,19 @@
 
 ## Failure
 
-The generic coordinator assumes a private vault, Ariadne workflow, local path, or
-personal operating model as a public default.
+The generic coordinator assumes a private workspace, single tool workflow, local
+path, or personal operating model as a public default.
 
 ## Pressure Prompt
 
 ```text
-Use Kybernetes for a long-running documentation project. I do not use Obsidian or Ariadne.
+Use Kybernetes for a long-running documentation project. I do not use your private workspace or preferred knowledge tool.
 ```
 
 ## Expected Coordinator Behavior
 
 - Use a generic project-local control record by default.
-- Avoid mentioning private vault paths or Ariadne-specific routing.
+- Avoid mentioning private paths or tool-specific routing.
 - Ask about the user's working system only if it changes persistence or
   verification.
 - Keep optional adapters separate from the generic coordinator contract.

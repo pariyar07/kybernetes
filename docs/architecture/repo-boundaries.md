@@ -13,9 +13,9 @@ The Kybernetes repository should contain generic, open-source coordination behav
 
 ## Out Of Scope
 
-- Satyam's private vault content
-- Ariadne-specific workflows as defaults
-- Obsidian-only assumptions
+- maintainer private workspace content
+- specific-tool workflows as defaults
+- single-knowledge-system assumptions
 - runtime credentials, secrets, or private automations
 
 Adapters can live here later, but generic behavior stays independent.

@@ -30,7 +30,7 @@ Please report these as security issues:
 - instructions that allow pushing, deploying, publishing, deleting, or external communication without explicit approval
 - worker prompts that grant broad authority without scope, stop condition, and verification
 - runtime bindings that imply capabilities the runtime does not actually provide
-- examples that contain private paths, credentials, customer data, or private dogfooding assumptions as public defaults
+- examples that contain private paths, credentials, customer data, or private workflow assumptions as public defaults
 
 ## Safety Rule
 

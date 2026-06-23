@@ -20,7 +20,7 @@ jobs:
 
       - name: Reject private absolute paths
         run: |
-          if grep -RIn --exclude-dir=.git --exclude='validate-repo.yml' '/Users/' .; then
+          if grep -RIn --exclude-dir=.git --exclude='validate-repo.yml' --exclude='validate-skills.yml' '/Users/' .; then
             echo "Private absolute paths must not be committed."
             exit 1
           fi

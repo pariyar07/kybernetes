@@ -16,4 +16,4 @@ Kybernetes can help an agent run a long or complex task as a feedback-controlled
 | Human steering | Surface intervention points with options and a recommendation. |
 | Measurement | Define DONE and VERIFY WITH before significant work. |
 | Escalation | Move from action correction to plan reframing to durable learning. |
-| Portability | Work without Obsidian, while supporting optional adapters. |
+| Portability | Work without a specific knowledge system, while supporting optional adapters. |

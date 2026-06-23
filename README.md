@@ -14,7 +14,7 @@ Agents lose state, over-plan small tasks, under-plan risky tasks, confuse worker
 
 That is the product metaphor. Kybernetes is not meant to be another checklist. It is the steersman for agentic work: it holds the goal, senses drift, chooses the right amount of machinery, coordinates workers, asks for human steering when needed, and corrects course until the work is verified.
 
-The name also keeps the project independent from any one runtime or knowledge system. Ariadne can wrap it later through an adapter, but Kybernetes should remain useful for Codex, Claude Code, and other skill-compatible agents.
+The name also keeps the project independent from any one runtime or knowledge system. Specific tools can wrap it later through adapters, but Kybernetes should remain useful across skill-compatible agents.
 
 ## Current Status
 
@@ -63,13 +63,13 @@ Use the skills CLI to install from GitHub.
 List available Kybernetes skills:
 
 ```bash
-npx skills add pariyar07/kybernetes --list
+npx skills add <owner>/kybernetes --list
 ```
 
 Install the seed skill globally for all supported agents:
 
 ```bash
-npx skills add pariyar07/kybernetes \
+npx skills add <owner>/kybernetes \
   --global \
   --agent '*' \
   --skill parallel-coordinator \
@@ -83,7 +83,7 @@ Then invoke it as `$parallel-coordinator` or ask your agent to use the parallel 
 
 ## Public Guardrails
 
-- Public defaults must be generic. Satyam-specific dogfooding belongs in private notes or optional adapters.
+- Public defaults must be generic. Maintainer-specific workflows belong in private notes or optional adapters.
 - New `SKILL.md` files require pressure scenarios first.
 - Runtime-specific assumptions belong in runtime bindings, not generic coordinator behavior.
 - Irreversible actions, secrets, publishing, deploys, and external communications require explicit human approval.

@@ -19,10 +19,10 @@
 
 ## Safety Checklist
 
-- [ ] No secrets, credentials, customer data, or private vault content.
+- [ ] No secrets, credentials, customer data, or private workspace content.
 - [ ] No irreversible actions without explicit human approval.
 - [ ] Worker or parallel-agent instructions have scope, stop condition, and verification.
-- [ ] Generic skills do not assume Ariadne, Obsidian, or Satyam-specific workflows.
+- [ ] Generic skills do not assume one tool, knowledge system, or maintainer-specific workflow.
 - [ ] README/docs updated if install or usage changed.
 
 ## Notes For Reviewers
