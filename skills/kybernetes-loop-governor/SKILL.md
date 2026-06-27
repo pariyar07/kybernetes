@@ -1,6 +1,6 @@
 ---
-name: "kybernetes:loop-governor"
-description: Use when a task needs adaptive loop control: loop altitude, loop-readiness, durable state, verification, HITL, subagents, worktrees, or auditable coordination.
+name: 'kybernetes:loop-governor'
+description: 'Use when a task needs adaptive loop control: loop altitude, loop-readiness, durable state, verification, HITL, subagents, worktrees, or auditable coordination.'
 ---
 
 # Kybernetes Loop Governor
