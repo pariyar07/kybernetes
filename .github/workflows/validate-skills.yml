@@ -38,19 +38,6 @@ jobs:
             exit 1
           fi
 
-      - name: Reject private or adapter-specific public defaults
-        run: |
-          if grep -RIn \
-            --exclude-dir=.git \
-            --exclude='CODEOWNERS' \
-            --exclude='LICENSE' \
-            --exclude='validate-repo.yml' \
-            --exclude='validate-skills.yml' \
-            -E "Satyam|Satyam's|Ariadne|Obsidian|/Users/|pariyar07|dogfood|private vault" .; then
-            echo "Public docs and skills must not contain maintainer-private or adapter-specific defaults."
-            exit 1
-          fi
-
       - name: Require control-loop vocabulary
         run: |
           grep -RIl "Execution Profile" skills tests docs examples README.md >/dev/null
