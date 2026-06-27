@@ -63,13 +63,13 @@ Use the skills CLI to install from GitHub.
 List available Kybernetes skills:
 
 ```bash
-npx skills add <owner>/kybernetes --list
+npx skills add pariyar07/kybernetes --list
 ```
 
 Install the seed skill globally for all supported agents:
 
 ```bash
-npx skills add <owner>/kybernetes \
+npx skills add pariyar07/kybernetes \
   --global \
   --agent '*' \
   --skill 'kybernetes:loop-governor' \
