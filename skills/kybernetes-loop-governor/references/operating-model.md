@@ -3,8 +3,8 @@
 Kybernetes treats coordinated work as a cybernetic control loop. The lead agent
 is the controller. The objective and done condition are the setpoint. The repo,
 documents, workers, and artifacts are the system. Verification is the
-sensor. The next agent action should be chosen because it reduces the measured
-gap to done.
+sensor layer, not a final flourish. The next agent action should be chosen
+because it reduces the measured gap to done.
 
 ## The Control Loop
 
@@ -16,6 +16,24 @@ setpoint -> act -> system -> sensor -> compare -> correct -> act
 
 The loop fails when the sensor is vague, the setpoint is not measurable, the
 controller forgets state, or the agent keeps acting without comparing.
+
+## Loop Altitude
+
+At every meaningful checkpoint, choose the loop altitude:
+
+- `stay`: keep the current loop because the gap to DONE is shrinking.
+- `down`: descend into evidence, reproduction, tests, artifacts, narrower
+  scope, or a concrete verifier when reliability is weak.
+- `up`: ascend into planning, architecture, decomposition, scope, product
+  judgment, or human decision when the current loop is too local.
+- `stack`: create bounded child loops only when each child has a setpoint,
+  sensor, owner, boundary, and return path.
+- `stop`: finish, block, ask HITL, or halt at an authorization or judgment
+  boundary.
+
+Repeated sensor failure forces `down`, `up`, or `stop`. Do not blindly retry the
+same move. `stack` is not worker sprawl; it is bounded delegation with a return
+path.
 
 ## Requisite Variety
 
@@ -36,8 +54,11 @@ Then match controller variety:
 - Medium: small checklist, one or two adaptive questions, maybe one worker.
 - High: durable control record, execution profile, explicit verification,
   worker contracts, checkpoints, and HITL triggers.
+- Extreme: durable state, architecture/decomposition before implementation,
+  explicit loop altitude, bounded child loops when useful, and integrated
+  verification.
 
-Under-matching loses control. Over-matching creates drag. The coordinator's job
+Under-matching loses control. Over-matching creates drag. The loop governor's job
 is adaptive sizing.
 
 ## Execution Profile
@@ -58,7 +79,7 @@ profiles.
 
 ## Attenuation And Amplification
 
-A coordinator expands reach by spawning workers and reduces overload by requiring
+A loop governor expands reach by spawning workers and reduces overload by requiring
 distilled returns.
 
 - Amplify: workers, worktrees, side chats, automation, external checks.
@@ -77,6 +98,8 @@ implicit skill state.
 Use it to store:
 
 - Objective, done condition, verification, constraints.
+- Loop semantics: active altitude, setpoint, sensor/evidence, actuators,
+  boundary, stop condition, and next activation.
 - Execution profile.
 - Important files and references.
 - Current checklist.

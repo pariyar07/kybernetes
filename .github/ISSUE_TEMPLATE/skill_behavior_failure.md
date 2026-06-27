@@ -31,7 +31,7 @@ labels: skill-behavior
 - [ ] Asked too much or too little.
 - [ ] Lost durable control state.
 - [ ] Chose the wrong execution mode.
-- [ ] Confused coordinator and worker boundaries.
+- [ ] Confused loop governor and worker boundaries.
 - [ ] Failed to escalate to the human.
 - [ ] Claimed completion without verification.
 

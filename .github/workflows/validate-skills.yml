@@ -23,6 +23,10 @@ jobs:
               echo "Skill folder $dir is missing SKILL.md. Planned skills belong in docs/architecture/planned-skills.md."
               failed=1
             fi
+            if ! grep -Eq '^name: "?kybernetes:' "$dir/SKILL.md"; then
+              echo "Skill folder $dir must use a kybernetes:* frontmatter name."
+              failed=1
+            fi
           done
           exit "$failed"
 
@@ -51,5 +55,26 @@ jobs:
         run: |
           grep -RIl "Execution Profile" skills tests docs examples README.md >/dev/null
           grep -RIl "control record" skills tests docs examples README.md >/dev/null
+          grep -RIl "loop readiness" skills tests docs examples README.md >/dev/null
+          grep -RIl "loop altitude\\|stay, down, up, stack" skills tests docs examples README.md >/dev/null
           grep -RIl "HITL\\|Human-In-The-Loop" skills tests docs examples README.md >/dev/null
           grep -RIl "impediment" skills tests docs examples README.md >/dev/null
+
+      - name: Reject stale run artifact defaults
+        run: |
+          if grep -RIn \
+            --exclude-dir=.git \
+            --exclude-dir=.agent-runs \
+            --exclude-dir=research \
+            --exclude='validate-skills.yml' \
+            -E "\\.agent-runs" skills docs examples tests README.md; then
+            echo "Use .kybernetes/<slug>/ for Kybernetes run artifacts. .agent-runs may appear only in legacy cleanup context."
+            exit 1
+          fi
+
+      - name: Reject committed Kybernetes run artifacts
+        run: |
+          if git ls-files '.kybernetes/*' | grep .; then
+            echo ".kybernetes/ contains local run artifacts and must not be committed."
+            exit 1
+          fi

@@ -7,15 +7,33 @@ This is the reference shape for a coordinated run. Tool-specific names appear as
 The durable objective should point to the control record, not paste the whole
 checklist into chat. The control record is the runtime setpoint and audit trail.
 
-## 0. Control Record
+## 0. Run Artifact Root
+
+Create Kybernetes run artifacts under one project-local run root:
+
+```text
+.kybernetes/<slug>/
+```
+
+This root is for every file the Kybernetes skill creates for the run, including:
+
+- `control.md`
+- `checklist.md` or `plan.md`
+- `workers.md` or `workers/<worker-id>-report.md`
+- `evidence.md` or `verification.md`
+- `decisions.md` or focused decision notes
+
+Do not create Kybernetes run artifacts under legacy run roots from early drafts.
+
+## 1. Control Record
 
 Create or reuse a control record when the run is long-running, parallel,
 high-risk, goal-driven, or likely to cross turns.
 
-Default project-local path:
+Default project-local control record path:
 
 ```text
-.agent-runs/<slug>/control.md
+.kybernetes/<slug>/control.md
 ```
 
 External system path only when the user explicitly targets a knowledge base,
@@ -31,6 +49,8 @@ Minimum sections:
 - Done condition
 - Verification
 - Constraints and out of scope
+- Loop semantics
+- Variety assessment
 - Execution profile
 - Important files and references
 - Current checklist
@@ -52,7 +72,7 @@ Keep current state short. Split detailed history when useful:
 Markdown is the default because agents and humans can read it quickly. JSONL is
 useful for machine logs, not for the main operating surface.
 
-## 1. Inputs
+## 2. Inputs
 
 Fill these before significant work:
 
@@ -66,7 +86,32 @@ Fill these before significant work:
 
 If DONE is not measurable, fix that before spawning workers.
 
-## 2. Adaptive Pre-Flight
+## 3. Loop Readiness
+
+Before creating loop machinery, check:
+
+- Setpoint: objective and measurable done condition.
+- Sensor/evidence: test, artifact, citation, screenshot, human acceptance,
+  independent review, or another verifier that can reject bad output.
+- Actuators: main thread, checklist, goal, workers, worktrees, tools, research,
+  tests, or HITL.
+- State: whether `.kybernetes/<slug>/` run memory is needed.
+- Stop condition: success, blocked, re-frame, or human decision.
+- Boundary: permissions, external effects, secrets, budget, and review.
+
+If setpoint or sensor is vague, go `down` before acting: ask one targeted
+question, define acceptance criteria, reproduce the issue, find evidence, or
+reduce scope.
+
+Record:
+
+- Active altitude: `stay`, `down`, `up`, `stack`, or `stop`.
+- Why this altitude is right now.
+- Sensor/evidence to inspect next.
+- Next activation: trigger, owner/runtime, first artifact to inspect, and next
+  decision.
+
+## 4. Adaptive Pre-Flight
 
 Sense first, then right-size the gate:
 
@@ -74,6 +119,9 @@ Sense first, then right-size the gate:
 - Medium variety: ask one or two choices that change the result.
 - High variety: ask enough to define the setpoint, execution profile, safety
   boundaries, and decomposition.
+- Extreme variety: create durable state, define the architecture/decomposition
+  surface, choose the execution substrate, and establish integrated verification
+  before implementation.
 
 Choose from this menu only when it matters:
 
@@ -93,7 +141,20 @@ Choose from this menu only when it matters:
 Present choices with a recommended default. The user should be able to reply
 `go` or override one line.
 
-## 3. Execution Profile
+For high and extreme work, the pre-flight must either ask for missing
+outcome-changing decisions or state the defaults being chosen. A user granting
+autonomy is a signal to choose safe defaults, not a reason to omit the
+decision surface.
+
+Record the variety assessment in the control record:
+
+- Complexity level: low, medium, high, or extreme.
+- Why this level: size, ambiguity, risk, independent parts, external impact,
+  durable state, and verification needs.
+- Control response: main thread, checklist, durable state, goal, workers,
+  isolated workspace, parallel chats, or HITL.
+
+## 5. Execution Profile
 
 Record the generated operating stance:
 
@@ -109,7 +170,7 @@ The role stance is generated from the task. Examples include engineering lead,
 product strategist, research synthesizer, incident coordinator, documentation
 editor, or another posture. Do not hardcode a narrow personality.
 
-## 4. Runtime Binding
+## 6. Runtime Binding
 
 Resolve the placeholders:
 
@@ -119,11 +180,12 @@ Resolve the placeholders:
 - `{CONCURRENCY}`: practical worker cap.
 - `{INSPECT}`: how the lead checks worker status.
 - `{CONTROL_RECORD}`: durable state file for this run.
+- `{RUN_ROOT}`: durable run root for all Kybernetes-created artifacts.
 
 Use the relevant binding file for the current runtime. If the runtime cannot set
 a durable goal directly, write a copy-paste launcher for the user.
 
-## 5. Execution Substrate
+## 7. Execution Substrate
 
 Pick the lightest surface that still controls risk:
 
@@ -139,7 +201,17 @@ Pick the lightest surface that still controls risk:
 Read-heavy work can share a workspace. Concurrent writers need isolation or a
 single-writer plan. Cross-cutting cleanup should be sequenced after feature work.
 
-## 6. Coordination Timing
+For high and extreme variety, record the worker/substrate decision even when the
+answer is no fan-out:
+
+- Why no workers yet: integration bottleneck, empty scaffold, unclear file
+  ownership, or low leverage.
+- Why workers now: independent slices, specialized review, risky contracts,
+  broad test matrix, or separate research surfaces.
+- Why isolated workspaces: concurrent writers, divergent implementation paths,
+  or high collision risk.
+
+## 8. Coordination Timing
 
 - Fork-join: spawn, wait, integrate. Default for independent slices.
 - Checkpointed: workers report at meaningful milestones.
@@ -148,7 +220,7 @@ single-writer plan. Cross-cutting cleanup should be sequenced after feature work
 
 Substrate answers where work happens. Timing answers when results return.
 
-## 7. Permissions And Safety
+## 9. Permissions And Safety
 
 Give each worker least privilege:
 
@@ -161,7 +233,7 @@ Never move secrets or private data into summaries. Do not publish, deploy, push
 shared branches, delete, bill, message external parties, or change production
 state without explicit approval.
 
-## 8. Worker Contracts
+## 10. Worker Contracts
 
 Each worker gets:
 
@@ -177,19 +249,21 @@ Each worker gets:
 Workers return distilled findings and evidence, not raw logs. The lead owns
 integration and final verification.
 
-## 9. Integration
+## 11. Integration
 
 At integration:
 
 - Compare worker outputs against the done condition and constraints.
 - Resolve conflicts before applying changes.
 - Re-run verification on the integrated state.
+- Confirm the active altitude still fits. If integration fails, go `down` for
+  evidence, `up` to re-frame, or `stop` for HITL rather than blind retry.
 - Update the control record.
 - Explain meaningful routing decisions in 1-2 lines.
 
 Per-slice green does not imply integrated green.
 
-## 10. Impediments, Escalations, And HITL
+## 12. Impediments, Escalations, And HITL
 
 Use these buckets:
 
@@ -209,11 +283,26 @@ Escalate to the human when:
 
 When asking, give options and a recommendation.
 
-## 11. Stop Conditions
+## 13. Stop Conditions
 
 - Success: DONE is verified with the agreed method.
 - Blocked: no defensible path remains under current constraints. Report the
   smallest decision or input that would unblock it.
 - Re-frame: the current objective or decomposition is wrong. Ask the human or
   rewrite the plan.
-- Learn: record what should improve the next run.
+- Learn: record run-local observations and promote reusable rules only through
+  the learning capture gate.
+
+Map stop conditions to altitude:
+
+- Verified success -> `stop`.
+- Missing evidence -> `down`.
+- Wrong objective or decomposition -> `up`.
+- Need bounded workers -> `stack`.
+- Human judgment or authorization needed -> `stop` with HITL.
+
+## 14. Learning Capture
+
+Promote a lesson only when it is supported by evidence, repeated pattern, or
+verified failure; is general enough for future runs; and belongs in the target
+audience. Keep hunches and one-off observations in the run record.

@@ -2,9 +2,13 @@
 
 Kybernetes is a runtime-adaptive control plane for agentic work.
 
+It operationalizes loop engineering: agents should choose the smallest
+sufficient control loop instead of blindly adding process or parallel workers.
+The core posture vocabulary is `stay`, `down`, `up`, `stack`, and `stop`.
+
 ## Working Tagline
 
-A cybernetic coordinator that helps agents hold goals, ask better questions, coordinate work, correct drift, and leave durable state behind.
+A cybernetic loop governor that helps agents hold goals, ask better questions, coordinate work, correct drift, and leave durable state behind.
 
 ## Name Rationale
 
@@ -17,7 +21,7 @@ The name is intentionally broader than any one knowledge system or agent framewo
 ## What It Is
 
 - a control model for long-running agent work
-- a portable skill package for coordinator behavior
+- a portable skill package for loop-governor behavior
 - a runtime binding layer for Codex, Claude Code, and future agent runtimes
 - a durable state pattern for goals, checklists, workers, impediments, decisions, and learnings
 - a human-in-the-loop steering pattern with options and recommendations
