@@ -8,6 +8,10 @@
 
 Unknown or portable fallback.
 
+## Run Root
+
+`.kybernetes/<slug>/`
+
 ## Available Primitives
 
 - durable goal:
@@ -20,6 +24,21 @@ Unknown or portable fallback.
 ## Decision
 
 Use main-thread execution until a runtime primitive is confirmed.
+
+## Loop Readiness
+
+- setpoint:
+- sensor/evidence:
+- actuators:
+- state:
+- stop condition:
+- HITL boundary:
+
+## Loop Semantics
+
+- active altitude: stay | down | up | stack | stop
+- durability tier: local skill run | durable run memory | orchestrated workflow | production loop
+- next activation:
 
 ## Execution Profile
 

@@ -2,7 +2,7 @@
 
 ## Failure
 
-The coordinator keeps acting after new evidence changes scope, risk, or the
+The loop governor keeps acting after new evidence changes scope, risk, or the
 validity of the plan.
 
 ## Pressure Prompt

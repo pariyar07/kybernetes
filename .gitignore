@@ -5,4 +5,9 @@
 node_modules/
 dist/
 coverage/
+
+# Local Kybernetes run artifacts.
+.kybernetes/
+
+# Legacy local run artifacts from early drafts.
 .agent-runs/

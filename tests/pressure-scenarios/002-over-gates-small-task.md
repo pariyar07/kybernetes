@@ -15,4 +15,8 @@ Use Kybernetes to fix this one typo in README.md.
 - Sense low task variety.
 - Avoid a heavy gate.
 - State the small action and do it.
-- Skip durable control records unless the user asks for one.
+- Do not create a runtime goal, control record, worker registry, or plan file
+  for a single typo unless the user asks for one.
+- Do not ask lifecycle/readiness questions unless the file or typo is ambiguous.
+- Verify with the smallest local check that matches the task, such as inspecting
+  the changed line or running an existing lightweight doc check.
