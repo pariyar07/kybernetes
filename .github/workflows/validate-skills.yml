@@ -16,19 +16,53 @@ jobs:
 
       - name: Require skill entrypoints
         run: |
-          failed=0
-          for dir in skills/*; do
-            [ -d "$dir" ] || continue
-            if [ ! -f "$dir/SKILL.md" ]; then
-              echo "Skill folder $dir is missing SKILL.md. Planned skills belong in docs/architecture/planned-skills.md."
-              failed=1
-            fi
-            if ! grep -Eq '^name: "?kybernetes:' "$dir/SKILL.md"; then
-              echo "Skill folder $dir must use a kybernetes:* frontmatter name."
-              failed=1
-            fi
-          done
-          exit "$failed"
+          ruby <<'RUBY'
+          require "yaml"
+
+          failed = false
+
+          Dir.glob("skills/*").sort.each do |dir|
+            next unless File.directory?(dir)
+
+            skill_file = File.join(dir, "SKILL.md")
+            unless File.file?(skill_file)
+              warn "Skill folder #{dir} is missing SKILL.md. Planned skills belong in docs/architecture/planned-skills.md."
+              failed = true
+              next
+            end
+
+            content = File.read(skill_file)
+            match = content.match(/\A---\n(.*?)\n---\n/m)
+            unless match
+              warn "#{skill_file} is missing YAML frontmatter."
+              failed = true
+              next
+            end
+
+            begin
+              frontmatter = YAML.safe_load(match[1], permitted_classes: [], aliases: false)
+            rescue Psych::Exception => e
+              warn "#{skill_file} has invalid YAML frontmatter: #{e.message}"
+              failed = true
+              next
+            end
+
+            name = frontmatter.fetch("name", nil)
+            description = frontmatter.fetch("description", nil)
+
+            unless name.is_a?(String) && name.start_with?("kybernetes:")
+              warn "#{skill_file} must use a kybernetes:* frontmatter name."
+              failed = true
+            end
+
+            unless description.is_a?(String) && !description.strip.empty?
+              warn "#{skill_file} must include a non-empty frontmatter description."
+              failed = true
+            end
+          end
+
+          exit(failed ? 1 : 0)
+          RUBY
 
       - name: Require pressure scenarios for skills
         run: |
