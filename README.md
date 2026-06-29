@@ -4,6 +4,8 @@ Runtime-adaptive control plane for agentic work.
 
 Kybernetes helps coding agents and skill-compatible runtimes coordinate work through feedback loops: define a goal, check loop readiness, choose loop altitude, create durable control records, coordinate workers when useful, surface impediments, and verify completion.
 
+Origin essay: [The Word That Stopped the Video](https://satyampariyar.com/blog/the-word-that-stopped-the-video)
+
 ## Why
 
 Agents lose state, over-plan small tasks, under-plan risky tasks, confuse worker boundaries, and forget why they made decisions. Kybernetes gives the lead agent a small cybernetic control system: hold a setpoint, sense the gap, choose whether to stay, go down, go up, stack, or stop, then act, measure, correct, and learn.
