@@ -10,8 +10,8 @@ It does five jobs:
 - Chooses loop altitude: `stay`, `down`, `up`, `stack`, or `stop`.
 - Builds an execution profile for the work instead of hardcoding one persona.
 - Creates or reuses `.kybernetes/<slug>/` run memory for control records,
-  checklists, impediments, decisions, learnings, evidence, and worker state.
-- Coordinates workers, subagents, side chats, or worktrees only when bounded
+  verification, checklists, impediments, decisions, learnings, and worker state.
+- Coordinates workers, subagents, sibling threads, or worktrees only when bounded
   child loops create real leverage.
 
 ## Install

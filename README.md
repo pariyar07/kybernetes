@@ -26,6 +26,14 @@ The first usable skill is:
 
 Future work may split the broader system into additional namespaced skills such as `kybernetes:runtime-codex`, `kybernetes:verify-run`, or `kybernetes:capture-learning`. Planned skills live in architecture docs until pressure scenarios prove they need a real installable `SKILL.md`.
 
+## V1 Control Contract
+
+- One public installable skill: `kybernetes:loop-governor`.
+- Readiness comes first: objective, DONE, admissible verifier, actuators, state, stop condition, and boundary.
+- Durable runs use a trust pair: `control.md` is current truth, and `verification.md` is evidence truth.
+- `stack` means bounded child loops with owner, boundary, admissible verifier, and return path. In Codex this can bind to subagents, sibling threads, cloud tasks, or worktrees.
+- Recurring automations require explicit objective, cadence, state, verifier, safety boundary, and activation approval.
+
 ## Control Model
 
 ![Governor loop](docs/assets/diagrams/1-governor-loop.svg)

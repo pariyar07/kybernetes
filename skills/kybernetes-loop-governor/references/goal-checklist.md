@@ -19,9 +19,9 @@ This root is for every file the Kybernetes skill creates for the run, including:
 
 - `control.md`
 - `checklist.md` or `plan.md`
-- `workers.md` or `workers/<worker-id>-report.md`
-- `evidence.md` or `verification.md`
+- `verification.md`
 - `decisions.md` or focused decision notes
+- `agents.md` and `workers/<worker-id>-*.md` only when delegated work exists
 
 Do not create Kybernetes run artifacts under legacy run roots from early drafts.
 
@@ -65,12 +65,14 @@ Minimum sections:
 Keep current state short. Split detailed history when useful:
 
 - `decisions.md` for durable decisions.
-- `workers.md` for worker contracts and status.
+- `agents.md` for delegated worker registry.
 - `learnings.md` for reusable observations.
-- `events.jsonl` only for high-volume append-only telemetry.
+- `verification.md` for admissible sensors, latest evidence, failures, gaps,
+  rerun instructions, and human acceptance.
 
-Markdown is the default because agents and humans can read it quickly. JSONL is
-useful for machine logs, not for the main operating surface.
+Markdown is the default because agents and humans can read it quickly.
+`events.jsonl` is deferred for v1. If it is introduced later, it is audit-only,
+single-writer, ordered by append position, and never the current truth.
 
 ## 2. Inputs
 
@@ -102,6 +104,9 @@ Before creating loop machinery, check:
 If setpoint or sensor is vague, go `down` before acting: ask one targeted
 question, define acceptance criteria, reproduce the issue, find evidence, or
 reduce scope.
+
+The verifier is admissible only when it can reject bad output without relying on
+the generator's self-claim. Above Simple tasks, self-assertion is not enough.
 
 Record:
 
@@ -152,7 +157,7 @@ Record the variety assessment in the control record:
 - Why this level: size, ambiguity, risk, independent parts, external impact,
   durable state, and verification needs.
 - Control response: main thread, checklist, durable state, goal, workers,
-  isolated workspace, parallel chats, or HITL.
+  isolated workspace, parallel chats / sibling threads, cloud tasks, or HITL.
 
 ## 5. Execution Profile
 
@@ -194,8 +199,11 @@ Pick the lightest surface that still controls risk:
   analysis, summarization.
 - Isolated workspace: concurrent writers, divergent implementation branches, or
   risky edits.
-- Parallel chats or background sessions: large independent work where the human
-  will supervise separate threads.
+- Parallel chats / sibling threads: large independent or multi-repo work where
+  the human will supervise separate peer workstreams and the parent has an
+  integration contract.
+- Background/cloud sessions: async work whose result can return to the parent
+  control surface.
 - External automation: CI, scheduled sweeps, or batch jobs.
 
 Read-heavy work can share a workspace. Concurrent writers need isolation or a
@@ -248,6 +256,10 @@ Each worker gets:
 
 Workers return distilled findings and evidence, not raw logs. The lead owns
 integration and final verification.
+
+Flat delegation is the v1 default. Recursive child loops are allowed only when a
+worker brief explicitly grants bounded delegation and the child loop is
+separately resumable, measurable, and scoped.
 
 ## 11. Integration
 

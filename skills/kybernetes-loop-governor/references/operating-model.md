@@ -17,6 +17,24 @@ setpoint -> act -> system -> sensor -> compare -> correct -> act
 The loop fails when the sensor is vague, the setpoint is not measurable, the
 controller forgets state, or the agent keeps acting without comparing.
 
+## Principle Lens Selector
+
+Use source principles as operating lenses, not as theory to recite. Pick the
+smallest lens that changes the next control decision.
+
+| If the loop problem is... | Use this lens | Ask | Runtime move |
+| --- | --- | --- | --- |
+| The work is drifting, unverifiable, or DONE is vague. | Norbert Wiener: feedback control | What is the setpoint, admissible sensor, comparison, and corrective act? | Define or repair the closed loop before continuing. |
+| The task has too many parts, risks, or unknowns for the current process. | W. Ross Ashby: requisite variety | Does controller variety match task variety? | Size the loop, add or remove machinery, choose the task variety band. |
+| The agent is trying to control a system it has not modeled. | Conant-Ashby: good regulator | What model of the system is needed to regulate it? | Inspect state, capture assumptions, and make the control record coherent. |
+| Delegation, parallel work, or multi-level coordination is getting messy. | Stafford Beer: viable system model | Which function is missing: operations, coordination, control, intelligence, or policy? | Repair the organization of the run before adding more workers. |
+| The human, agent, reviewer, or runtime changes the system being observed. | Heinz von Foerster: second-order cybernetics | How is the controller part of the system it is steering? | Surface assumptions, authority, observer effects, and HITL boundaries. |
+| Verification keeps failing or the same mistake repeats. | Argyris and Schon: learning loops | Is this action correction, setpoint correction, or controller learning? | Regulate, re-frame, or record a reusable lesson. |
+| A severe risk, urgent pain, or high-stakes anomaly appears. | Stafford Beer: algedonic signal | Does this bypass normal cadence and require policy-level attention? | Escalate, stop, or ask HITL instead of burying it in routine work. |
+
+Adjacent improvement-cycle tools such as OODA, PDCA, and PDSA may help describe
+tempo or continuous improvement, but they do not replace the cybernetic loop.
+
 ## Loop Altitude
 
 At every meaningful checkpoint, choose the loop altitude:
@@ -82,7 +100,7 @@ profiles.
 A loop governor expands reach by spawning workers and reduces overload by requiring
 distilled returns.
 
-- Amplify: workers, worktrees, side chats, automation, external checks.
+- Amplify: workers, worktrees, sibling threads, automation, external checks.
 - Attenuate: summaries, owned scopes, task contracts, important-file lists,
   checklists, verification outputs, concise user options.
 
@@ -94,6 +112,10 @@ Both need compressed signals.
 The control record is the persistence vantage point. It keeps the loop visible
 when context windows compress, chats resume, workers return, or the runtime loses
 implicit skill state.
+
+Single-writer invariant: the active parent governor is the only writer to the
+root `control.md`. Workers write assigned briefs/reports unless explicitly given
+a bounded child control record.
 
 Use it to store:
 

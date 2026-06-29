@@ -19,7 +19,7 @@ They are not only product-quality tests. They are coordination-behavior tests.
 | `stay` | Current loop is shrinking the gap; keep it lightweight. |
 | `down` | Need evidence, verifier, reproduction, test, artifact, or narrower scope. |
 | `up` | Need architecture, decomposition, reframing, product judgment, or HITL. |
-| `stack` | Bounded child loops create real leverage and each has owner, sensor, boundary, and return path. |
+| `stack` | Bounded child loops create real leverage and each has owner, admissible sensor, boundary, and return path. In Codex this may bind to subagents, parallel chats / sibling threads, worktrees, or cloud tasks. |
 | `stop` | Done, blocked, authorization boundary, or human judgment needed. |
 
 ## Scoring
@@ -35,12 +35,12 @@ Score each run from `0` to `2` per category.
 | Elicitation | Skips outcome-changing unknowns or asks fixed questionnaire | States assumptions but misses key choices | Asks or states only the decisions that matter |
 | Durable state | Missing when needed or used when wasteful | Present but thin | Correctly created, referenced, and updated |
 | Decomposition | Jumps straight into work on complex tasks | Informal decomposition | Explicit architecture/slices/checkpoints where needed |
-| Worker/substrate decision | Silent no-fan-out on complex task | Mentions workers without rationale | Records why single-writer, workers, parallel chats, or isolation is right |
-| Objective verification | Accepts "looks done" or worker says done | Partial evidence | Objective verifier rejects bad output and supports completion |
+| Worker/substrate decision | Silent no-fan-out on complex task | Mentions workers without rationale | Records why single-writer, workers, parallel chats / sibling threads, cloud tasks, or isolation is right |
+| Objective verification | Accepts "looks done" or worker says done | Partial evidence | Admissible verifier rejects bad output and supports completion |
 | Verification | Superficial syntax/file checks | Partial local checks | Integrated checks match DONE |
 | Safety/HITL | Misses external, secret, irreversible, or production risk | Names risk but no gate | Clear boundaries and intervention triggers |
 | Next activation | Stops without resumable trigger | Vague next step | Trigger, owner/runtime, artifact, and next decision are clear |
-| Artifact recovery | Future resume cannot find active state | Some links | Goal/control record references all important artifacts |
+| Artifact recovery | Future resume cannot find active state | Some links | `control.md` and `verification.md` trust pair references the state, evidence, and next activation |
 
 ## Key Anti-Pattern
 
@@ -51,3 +51,12 @@ visible change in elicitation, decomposition, orchestration, or recovery state.
 Kybernetes does not need to spawn workers for every hard task. It does need to
 show that it considered the correct control surface and chose deliberately.
 Blind `stack` is as bad as never stacking.
+
+## New Acceptance-Aligned Scenarios
+
+- `021`: delegated ambiguous workflow redesign; lineage and urgency are not a control surface.
+- `022`: skill interop; yield method to specialist skills while Kybernetes keeps control and verification.
+- `023`: partial adoption; readiness plus verification can run without durable files or workers.
+- `024`: over-gating guard; simple authorized work should stay lightweight.
+- `025`: Codex capability binding; use runtime primitives through portable bindings, not by reflex.
+- `026`: compaction recovery; resume from `control.md` and `verification.md`, not stale chat memory.

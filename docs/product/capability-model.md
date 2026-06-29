@@ -12,9 +12,9 @@ Kybernetes can help an agent run a long or complex task as a feedback-controlled
 | Adaptive intake | Ask only the questions needed to understand the task and its risk. |
 | Execution profile | Shape an agent stance for the task without hardcoded personalities. |
 | Durable control | Externalize active state into files that survive context loss. |
-| Coordination | Decide between same chat, subagents, parallel chats, or isolated workspaces. |
+| Coordination | Decide between same chat, subagents, parallel chats / sibling threads, cloud tasks, or isolated workspaces. |
 | Human steering | Surface intervention points with options and a recommendation. |
-| Measurement | Define DONE and VERIFY WITH before significant work. |
+| Measurement | Define DONE and an admissible verifier before significant work. |
 | Escalation | Move from action correction to plan reframing to durable learning. |
 | Portability | Work without a specific knowledge system, while supporting optional adapters. |
 | Loop readiness | Confirm setpoint, sensor/evidence, actuators, state, stop condition, and boundary before scaling. |

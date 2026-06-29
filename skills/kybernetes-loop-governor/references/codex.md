@@ -4,20 +4,27 @@ Use this file when the loop governor is running in Codex.
 
 ## Binding Table
 
-- `{SET_GOAL}`: prefer the available goal tool when the environment exposes one
-  and policy allows it. If the agent cannot set the goal itself, return a
-  copy-paste `/goal` prompt to the user.
-- `{SPAWN}`: spawn subagents only when explicitly useful. Worker prompts receive
-  task contracts, not slash commands.
-- `{ISOLATE}`: use git worktrees for concurrent writers.
-- `{CONCURRENCY}`: obey the current Codex agent/thread limits. Keep fan-out small
-  unless the slices are cleanly independent.
-- `{INSPECT}`: inspect or close worker threads with the runtime's agent/thread
-  inspection surface.
-- `{RUN_ROOT}`: project-local `.kybernetes/<slug>/` for every Kybernetes-created
-  run artifact.
-- `{CONTROL_RECORD}`: project-local `.kybernetes/<slug>/control.md`, or an
-  explicitly targeted external workstream or knowledge-base path.
+| Portable primitive | Codex binding |
+| --- | --- |
+| `{SET_GOAL}` | Prefer `/goal` when work is long-running, resumable, or needs a durable stopping condition. Keep goal state advisory; recover from `control.md`. If the agent cannot set the goal, return a copy-paste `/goal` prompt. |
+| Planning altitude | Use `/plan` when the correct move is `up`: architecture, scope, decomposition, or product judgment before action. |
+| Checklist / progress | Use in-session plan/checklist state when helpful; mirror durable progress into Kybernetes-owned `checklist.md` only when needed. |
+| `{PARALLEL_THREAD}` | Use parallel chats / sibling threads for human-visible peer workstreams, multi-repo coordination, or large tasks that need separate context and owner. Treat this binding as app-surface / partial until the installed Codex surface is verified. |
+| `{SPAWN}` | Use Codex subagents for bounded in-session delegation. Worker prompts receive task contracts, not slash commands. |
+| Async delegated work | Use Codex cloud tasks only when the result can be captured back into the parent control surface. |
+| `{ISOLATE}` | Use Codex worktrees or manual `git worktree` for concurrent writers. Cloud containers are separate isolation. |
+| `{CONCURRENCY}` | Obey Codex agent/thread limits. Keep fan-out small unless slices are cleanly independent; assume flat delegation unless the runtime and parent contract explicitly support more. |
+| `{INSPECT}` | Inspect, steer, or close workers through the runtime's agent/thread inspection surface when available. |
+| Permission boundary | Respect approval policy, sandbox mode, `/permissions`, and MCP tool policy. Treat destructive, external, production, publishing, billing, secrets, or customer-data actions as HITL boundaries. |
+| Skill package | Codex Agent Skills are the public packaging surface. Keep the main skill lean and lazy-load `references/`. |
+| External tool provider | Use MCP, browser, docs, GitHub, web, or other tools as bound sensors/actuators, not as product core. |
+| Verification sensor | Use tests, commands, `/review`, reviewer subagents, citations, screenshots, or human acceptance as proportionate sensors. No single Codex feature is the universal verifier. |
+| Hooks / audit | Hooks are optional bootstrap/audit infrastructure. Do not use them for full uninvited governance in v1; prefer native hooks over hand-maintained `events.jsonl` if audit later becomes necessary. |
+| Automations | Use Codex app/cloud automations only for stable recurring loops after manual pressure evidence exists and the user explicitly approves activation. Never create or activate a scheduled loop from vague "check every day" / "improve whatever looks bad" language. Do not assume a bare CLI scheduler; use external cron/launchd or a manual checkpoint in portable fallback. |
+| Memory | Treat Codex memory as advisory. Durable run truth lives in `control.md` and evidence truth in `verification.md`. |
+| Lifecycle | On resume, compact, fork, or handoff, re-anchor on `control.md`, then `verification.md`, checklist, and worker reports as needed. |
+| `{RUN_ROOT}` | Project-local `.kybernetes/<slug>/` for every Kybernetes-created run artifact. |
+| `{CONTROL_RECORD}` | Project-local `.kybernetes/<slug>/control.md`, or an explicitly targeted external workstream or knowledge-base path. |
 
 ## Goal Behavior
 
@@ -81,16 +88,74 @@ Codex workers should receive:
 The loop governor integrates worker summaries and updates the control record.
 
 For high and extreme variety in Codex, decide explicitly whether to use
-subagents, parallel chats, isolated workspaces, or a single-writer loop. Record
-the choice in the control record. A valid decision can be "no subagents yet",
-but it must include the reason and the condition that would trigger fan-out.
+subagents, parallel chats / sibling threads, cloud tasks, worktrees, or a
+single-writer loop. Record the choice in the control record. A valid decision
+can be "no subagents yet", but it must include the reason and the condition that
+would trigger fan-out.
 
-## Parallel Chats
+In delegated Codex runs, read the delegation payload as context, not as a
+complete execution contract. A `source_thread_id`, prior-thread handoff, or
+instruction to "move fast" does not by itself identify the target workflow,
+done condition, verifier, or safety boundary. If those are missing, do not spawn
+workers or create sibling threads yet. First return or record the smallest decision
+surface that would make the worker contract measurable.
+
+Use a single-writer discovery loop when the likely target files are not yet
+partitioned. Spawn workers only after the lead can give each worker owned paths
+or sources, permission level, done condition, verifier, and return format.
+
+## Parallel Chats / Sibling Threads
 
 Use separate chats only when the user asks for them or when a long-running task
-needs human-visible independent tracks. Record why a side chat is preferable to
-an in-session worker, what it owns, and how its output will return to the
-control record.
+needs human-visible independent tracks. Record why a sibling thread is
+preferable to an in-session worker, what it owns, its durable state pointer, and
+how its output will return to the parent `control.md`.
+
+Do not collapse these surfaces:
+
+- parallel chats / sibling threads: human-visible peer workstreams
+- subagents: in-session delegated workers
+- forks: alternate continuation of a thread
+- cloud tasks: async isolated runtime work
+- worktrees: filesystem/branch isolation
+- side chats: explanatory or status side conversations
+
+A sibling thread counts as `stack` only when it has a setpoint, admissible
+sensor, owner, boundary, and return path.
+
+## Automations
+
+Treat Codex automations as externalized loop actuators, not as ordinary local
+edits. Before creating or activating one, the parent governor must know:
+
+- Objective and explicit target surface.
+- Cadence and next activation.
+- Input source.
+- Durable state surface.
+- Admissible verifier.
+- Budget, attempt cap, or no-change behavior.
+- Safety/HITL boundary and stop/escalation condition.
+- User approval for activation.
+
+If any field is missing, do not create the automation. Offer a one-shot dry run,
+manual checkpoint, or decision surface instead. Paused or draft automation
+configuration is still a created runtime object; only produce it after the user
+has accepted that artifact as the next actuation step.
+
+## Skill Interop
+
+When another skill is invoked while Kybernetes is active in the same context,
+yield method to the specialist skill and keep the control plane:
+
+- objective and DONE
+- risk boundary
+- parent-owned verifier
+- integration decision
+- durable state if needed
+
+Do not double-govern with a redundant Kybernetes checklist. A specialist skill's
+"done" is evidence, not verified truth; rerun or adjudicate the parent-owned
+sensor on the integrated result.
 
 ## Goal Artifact References
 

@@ -22,7 +22,7 @@ developer documentation. Keep it local-only. You decide the stack and defaults.
   the control decision.
 - Create or locate a durable control record before significant implementation.
 - Define a variety assessment and execution profile.
-- Name the objective verifier before implementation begins.
+- Name the admissible verifier before implementation begins.
 - Record what evidence will prove the integrated system works.
 - Present or record a compact decomposition across config, routing, health,
   dashboard, tests, docs, and integration.
@@ -31,7 +31,7 @@ developer documentation. Keep it local-only. You decide the stack and defaults.
   - single-writer with rationale,
   - read-only workers for architecture/test review,
   - isolated writers for partitioned implementation, or
-  - parallel chats for independent long-running tracks.
+  - parallel chats / sibling threads for independent long-running tracks.
 - Record what would trigger fan-out if the first choice is single-writer.
 - Define the first checkpoint and next activation after that checkpoint.
 - Verify the integrated system, not only per-file or syntax checks.

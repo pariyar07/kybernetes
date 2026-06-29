@@ -64,7 +64,7 @@ development only. Verify routing and dashboard behavior locally.
   mocks/tests before claiming completion.
 - Extreme: create durable state and a runtime goal when available, do an
   architecture/decomposition pass before implementation, explicitly decide on
-  workers/subagents/parallel chats versus single-writer execution, and verify
+  workers/subagents/parallel chats / sibling threads versus single-writer execution, and verify
   integrated behavior.
 
 ## Evaluation Notes

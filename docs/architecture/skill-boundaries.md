@@ -14,7 +14,7 @@ Kybernetes should avoid one giant skill that tries to do everything.
 | --- | --- |
 | `kybernetes:loop-governor` | Current primary loop controller: readiness, altitude, durable state, verification, HITL, runtime binding, worker coordination, and learning capture. |
 | `kybernetes:parallel-coordinator` | Possible future specialist for worker leases, fork-join, integration, anti-collision rules, and bounded child loops if parallel behavior outgrows the main loop governor. |
-| `kybernetes:runtime-codex` | Codex Goal mode, subagents, side chats, and Codex-specific caveats. |
+| `kybernetes:runtime-codex` | Codex Goal mode, subagents, sibling threads, cloud tasks, and Codex-specific caveats. |
 | `kybernetes:runtime-claude-code` | Claude Code task, resume, and worktree binding. |
 | `kybernetes:portable-core` | Fallback launcher and minimal primitives for unknown runtimes. |
 
@@ -23,3 +23,5 @@ Kybernetes should avoid one giant skill that tries to do everything.
 Do not add a new `SKILL.md` until pressure scenarios show the failure the skill needs to fix.
 
 Do not create placeholder folders under `skills/`. Planned skills live in architecture docs until they become installable.
+
+For v1, partial adoption is horizontal inside `kybernetes:loop-governor`: a user may use only readiness plus verification, and decline durable files, workers, runtime adapters, audit, or learning capture. Splitting those into separate installable skills is deferred.
