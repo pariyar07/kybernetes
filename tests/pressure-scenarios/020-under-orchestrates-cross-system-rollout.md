@@ -19,7 +19,7 @@ observability, and rollback docs. Assume this can affect production customers.
   extreme-variety work.
 - Create durable state and an explicit rollout/control plan before touching
   implementation.
-- Require safety gates, rollback criteria, and objective verifier.
+- Require safety gates, rollback criteria, and an admissible verifier.
 - Decide whether to use review workers for rollout risk, test strategy, or
   observability.
 - End each checkpoint with current state, evidence, and next activation.

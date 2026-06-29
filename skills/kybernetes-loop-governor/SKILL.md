@@ -16,7 +16,8 @@ Kybernetes.
 
 Read these before a coordinated run:
 
-- `references/operating-model.md` for the control principles.
+- `references/operating-model.md` for the control principles and named
+  cybernetic lenses.
 - `references/goal-checklist.md` for the control record shape.
 - `references/adaptive-elicitation.md` for question sizing.
 - One runtime binding: `references/codex.md`, `references/claude-code.md`, or
@@ -39,6 +40,45 @@ If the setpoint or sensor is vague, go `down`: ask the smallest useful question,
 find evidence, define a verifier, or reduce the problem before acting. Do not
 create a large loop around an unmeasurable task.
 
+Urgency, source-thread lineage, and user autonomy grants are useful signals, but
+they are not a complete control surface. They do not replace objective, done
+condition, verifier, target surface, risk boundary, execution mode, or stop
+condition.
+
+When a high-variety prompt is ambiguous and pushes for speed, such as "move
+fast", "start implementing", or "use agents", do not treat urgency as a
+complete control surface. Before significant file edits or worker handoffs,
+establish the missing objective, done condition, verifier, target surface, risk
+boundary, and execution mode. If those are missing, choose `up` or `stop` and
+offer a compact decision surface with a recommended safe default.
+
+Recurring loops and automations require a stronger readiness gate than one-shot
+work. Do not create, activate, schedule, or register an automation from a vague
+request such as "check this every day" or "improve whatever looks bad." First
+establish the objective, cadence, input source, state surface, admissible
+verifier, safety/HITL boundary, budget or attempt cap, and stop/escalation
+condition. If any of those are missing, return a decision surface or propose a
+one-shot dry run instead of creating the automation.
+
+For ambiguous workflow-redesign prompts with no named repo, file, product,
+workflow, or workstream, the first action is the decision surface, not vault
+exploration, repo search, scenario-file inspection, durable-state creation,
+goal creation, or implementation. Do not infer the target from the current
+working directory, repository shape, pressure-test filename, source-thread
+lineage, or local skill package path. Ask at most three outcome-changing
+questions or offer a safe default such as "I can first map the current workflow
+and produce a redesign plan before edits." Only enter external knowledge bases
+or create `.kybernetes/<slug>/` after the target surface and verifier are known,
+unless the user explicitly named that scope in the current prompt.
+
+In delegated runs, treat source-thread metadata as lineage and recovery context,
+not as proof that the target surface or verifier is known. If the delegated
+payload itself says only to redesign a workflow, use agents, move fast, or start
+implementing, the loop is still not ready for edits or worker handoffs until the
+objective, DONE, verifier, target, risk boundary, and execution substrate are
+explicit or safely defaulted by the user accepting the decision surface. A local
+`SKILL.md` path identifies the method package, not the workflow to redesign.
+
 ## First Decision
 
 After the readiness gate, choose the smallest useful loop altitude:
@@ -49,7 +89,8 @@ After the readiness gate, choose the smallest useful loop altitude:
 - `up`: ascend into planning, architecture, decomposition, scope, product
   judgment, or human decision when the current loop is too local.
 - `stack`: create bounded child loops only when each has a setpoint, sensor,
-  owner, boundary, and return path.
+  owner, boundary, and return path. In Codex this may bind to subagents,
+  parallel chats / sibling threads, cloud tasks, or worktrees.
 - `stop`: finish, block, ask HITL, or halt at an authorization or judgment
   boundary.
 
@@ -149,6 +190,9 @@ The control record should include:
 - Learnings
 - Next checkpoint
 
+For durable runs, pair `control.md` with `verification.md`: `control.md` is the
+current truth, and `verification.md` is the evidence truth.
+
 Update the record after each meaningful result, blocker, routing decision, or
 scope change. Keep it concise. Move detailed logs into separate files when they
 start to drown the current checklist.
@@ -195,8 +239,25 @@ let concurrent writers share one workspace unless the files are explicitly
 partitioned and collision risk is negligible.
 
 Agent sprawl is a failure mode. If fan-out increases review burden, hides state,
-duplicates work, or lacks an objective verifier, go `down` or `stop` instead of
+duplicates work, or lacks an admissible verifier, go `down` or `stop` instead of
 adding workers.
+
+Flat delegation is the default. Do not create recursive worker trees unless the
+worker contract explicitly grants bounded child loops and each child is
+separately scoped, measurable, and resumable.
+
+## Skill Interop
+
+When another skill is invoked while Kybernetes is active in the same context,
+Kybernetes keeps the control plane and yields method to the specialist skill.
+Keep objective, DONE, risk boundary, integration, and parent-owned verification
+visible. Do not double-govern with a second checklist over a skill that already
+owns the method.
+
+When Kybernetes delegates to a worker and wants that worker to use another
+skill, put the method instruction in the worker brief. The worker's "done" is
+evidence, not verified truth; the lead re-runs or adjudicates the parent-owned
+verifier after integration.
 
 ## Human-In-The-Loop
 

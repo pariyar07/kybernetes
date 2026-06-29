@@ -14,11 +14,21 @@ Fill the right column for the current runtime:
 | `{ISOLATE}` | How concurrent writers avoid collisions | |
 | `{CONCURRENCY}` | Practical worker cap | |
 | `{INSPECT}` | How to inspect or close running workers | |
+| `{PARALLEL_THREAD}` | How the runtime supports human-visible sibling workstreams | |
 | `{CONTROL_RECORD}` | Durable state file for this run | |
 | `{RUN_ROOT}` | Root for Kybernetes-created run artifacts | |
 
 If a runtime lacks a persistent-goal feature, that is normal. Use a short lead
 prompt plus a durable control record.
+
+Durable runs use the trust pair:
+
+- `control.md`: current truth.
+- `verification.md`: evidence truth.
+
+Optional files such as `checklist.md`, `decisions.md`, `agents.md`, and worker
+briefs/reports are created only when useful. `events.jsonl` is deferred and
+audit-only if future pressure evidence requires it.
 
 ## Portable Launcher
 

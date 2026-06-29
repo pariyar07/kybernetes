@@ -24,3 +24,6 @@ looks bad.
   monitor, worker loop, or learning loop.
 - Persist run state before the first repeated activation.
 - Record what would stop, escalate, or reframe the loop.
+- Do not create, activate, or register a Codex/cloud automation until the user
+  has explicitly accepted the objective, cadence, state surface, verifier,
+  safety boundary, and activation decision.

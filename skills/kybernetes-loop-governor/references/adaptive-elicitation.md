@@ -35,6 +35,32 @@ high-variety task into the same single-thread loop used for a small task.
 If DONE or verification is vague, ask the smallest question that makes the loop
 measurable before adding workers, goals, or automation.
 
+For ambiguous multi-agent workflow redesign, delegation, or "use agents" prompts,
+first decide whether the target surface is actually known. If the current prompt
+does not name the workflow, repo, file, workstream, user journey, or acceptance
+test, treat that as missing setpoint and sensor. The first response must be a
+compact decision surface before repo/vault/scenario inspection, durable run
+artifacts, goal creation, worker handoffs, or edits. Do not infer target from
+the current working directory, repository shape, pressure-test filename,
+source-thread lineage, or local skill package path.
+
+```text
+Decision needed before implementation. Reply "go" to accept the default, or
+override one line.
+1. Target: recommended map the current workflow and produce a redesign plan
+   before edits | name a repo/file/workstream now
+2. Verify: recommended pressure-scenario checklist plus local validation |
+   human review only
+3. Execution: recommended single-writer discovery first; workers only after
+   files are partitioned | read-only reviewers now
+```
+
+When a delegated thread includes metadata such as a source thread id, treat the
+metadata as lineage, not as permission to infer a target. If the human-facing
+input remains vague, the correct first action is still a small decision surface
+or a clearly stated safe default. A local `SKILL.md` path resolves the method,
+not the workflow being governed.
+
 ## 2.1 Variety Ladder
 
 Use this ladder to calibrate the control surface:

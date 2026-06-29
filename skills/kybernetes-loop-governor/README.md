@@ -11,7 +11,7 @@ It does five jobs:
 - Builds an execution profile for the work instead of hardcoding one persona.
 - Creates or reuses `.kybernetes/<slug>/` run memory for control records,
   checklists, impediments, decisions, learnings, evidence, and worker state.
-- Coordinates workers, subagents, side chats, or worktrees only when bounded
+- Coordinates workers, subagents, sibling threads, or worktrees only when bounded
   child loops create real leverage.
 
 ## Install

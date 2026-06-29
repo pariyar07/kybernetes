@@ -8,6 +8,8 @@ Use this file when the loop governor is running in Claude Code.
   control record as the durable objective.
 - `{SPAWN}`: use the Task tool or configured subagents for bounded worker tasks.
 - `{ISOLATE}`: use git worktrees for concurrent writers.
+- `{PARALLEL_THREAD}`: use separate Claude Code chats or sessions only when the
+  work is a human-visible peer workstream with its own scope and return path.
 - `{CONCURRENCY}`: keep everyday fan-out small unless slices are cleanly
   independent and the lead can integrate the summaries.
 - `{INSPECT}`: use Claude Code's available agent/session inspection surfaces.
@@ -50,6 +52,10 @@ Subagents should receive task contracts:
 
 The lead integrates. Do not ask workers to merge the whole system themselves.
 
+Flat delegation is the default. A worker may create child loops only when the
+brief explicitly grants bounded delegation and the child loop has its own scope,
+verifier, boundary, and return path.
+
 ## Resume
 
 On resume, read the control record before continuing. Refresh:
@@ -57,6 +63,7 @@ On resume, read the control record before continuing. Refresh:
 - Current checklist.
 - Loop semantics and active altitude.
 - Sensor/evidence and next activation.
+- Verification record.
 - Worker registry.
 - Open impediments.
 - Latest decisions.
