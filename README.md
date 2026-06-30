@@ -91,8 +91,6 @@ For project-local installation, omit `--global`.
 
 Then invoke it as `$kybernetes:loop-governor` or ask your agent to use the Kybernetes loop governor skill.
 
-Legacy note: older drafts used `$parallel-coordinator`. Treat that as a compatibility alias only. New docs, prompts, tests, and examples should use `$kybernetes:loop-governor`.
-
 ## Public Guardrails
 
 - Public defaults must be generic. Maintainer-specific workflows belong in private notes or optional adapters.
