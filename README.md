@@ -1,18 +1,22 @@
 # Kybernetes
 
-Runtime-adaptive control plane for agentic work.
+Coding agents don't need more autonomy. They need better steering.
 
-Kybernetes helps coding agents and skill-compatible runtimes coordinate work through feedback loops: define a goal, check loop readiness, choose loop altitude, create durable control records, coordinate workers when useful, surface impediments, and verify completion.
+Kybernetes is an open-source steering layer for coding agents. It helps agent work stay on course: keep the goal visible, use the right amount of process, ask when stuck, delegate carefully, and check the work before calling it done.
+
+Technically, Kybernetes is a loop governor for agentic work. V1 ships as one installable skill: `kybernetes:loop-governor`.
 
 Origin essay: [The Word That Stopped the Video](https://satyampariyar.com/blog/the-word-that-stopped-the-video)
 
 ## Why
 
-Agents lose state, over-plan small tasks, under-plan risky tasks, confuse worker boundaries, and forget why they made decisions. Kybernetes gives the lead agent a small cybernetic control system: hold a setpoint, sense the gap, choose whether to stay, go down, go up, stack, or stop, then act, measure, correct, and learn.
+Agents lose the goal, over-plan small tasks, under-check risky tasks, confuse worker boundaries, and say "done" before the work is actually verified. Kybernetes gives the lead agent a small cybernetic control system: hold a setpoint, sense the gap, choose whether to stay, go down, go up, stack, or stop, then act, measure, correct, and learn.
 
 ## Why The Name Kybernetes
 
-`Kybernetes` comes from the Greek idea of a steersman, pilot, or governor. It is also the root lineage behind cybernetics: systems that steer through control, communication, and feedback.
+Yes, it sounds like Kubernetes. Same Greek root: `kybernetes`, meaning steersman, pilot, or governor. Different problem.
+
+It is also the root lineage behind cybernetics: systems that steer through control, communication, and feedback.
 
 That is the product metaphor. Kybernetes is not meant to be another checklist. It is the steersman for agentic work: it holds the goal, senses drift, chooses the right amount of machinery, coordinates workers, asks for human steering when needed, and corrects course until the work is verified.
 
