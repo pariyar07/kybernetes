@@ -13,15 +13,15 @@
 
   <!-- Loop 3 outer -->
   <rect x="60" y="95" width="700" height="300" rx="16" fill="none" stroke="#3fb950" stroke-width="1.6"/>
-  <text x="80" y="120" fill="#3fb950" font-size="13" font-weight="600">Loop 3 — LEARN</text>
+  <text x="80" y="120" fill="#3fb950" font-size="13" font-weight="600">Loop 3: LEARN</text>
 
   <!-- Loop 2 middle -->
   <rect x="95" y="135" width="630" height="225" rx="14" fill="none" stroke="#d29922" stroke-width="1.6"/>
-  <text x="115" y="160" fill="#d29922" font-size="13" font-weight="600">Loop 2 — RE-FRAME</text>
+  <text x="115" y="160" fill="#d29922" font-size="13" font-weight="600">Loop 2: RE-FRAME</text>
 
   <!-- Loop 1 inner -->
   <rect x="135" y="175" width="430" height="150" rx="12" fill="none" stroke="#4d9fff" stroke-width="1.6"/>
-  <text x="155" y="200" fill="#4d9fff" font-size="13" font-weight="600">Loop 1 — REGULATE</text>
+  <text x="155" y="200" fill="#4d9fff" font-size="13" font-weight="600">Loop 1: REGULATE</text>
 
   <rect x="170" y="220" width="150" height="60" rx="10" fill="#0d2a4d" stroke="#4d9fff"/>
   <text x="245" y="255" fill="#e6edf3" font-size="14" text-anchor="middle">Stay / Down</text>
