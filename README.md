@@ -2,7 +2,7 @@
 
 Coding agents don't need more autonomy. They need better steering.
 
-Kybernetes is an open-source steering layer for coding agents. It helps agent work stay on course: keep the goal visible, use the right amount of process, ask when stuck, delegate carefully, and check the work before calling it done.
+Kybernetes is an open-source steering layer for coding agents: my take on loop engineering for agentic work. It helps agent work stay on course: keep the goal visible, use the right amount of process, ask when stuck, delegate carefully, and check the work before calling it done.
 
 Technically, Kybernetes is a loop governor for agentic work. V1 ships as one installable skill: `kybernetes:loop-governor`.
 
