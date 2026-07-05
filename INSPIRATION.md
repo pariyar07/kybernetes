@@ -12,7 +12,7 @@ The lineage is short and load-bearing. Each idea maps to a concrete mechanism in
 - **W. Ross Ashby — requisite variety.** Only variety absorbs variety. Kybernetes sizes its machinery and questions to the task: small task, little machinery; ambiguous or risky task, more control surface.
 - **Stafford Beer — viable systems.** A viable coordinator needs operations, anti-collision coordination, resource control, environment sensing, and policy. Missing one predicts the failure.
 - **Heinz von Foerster — second-order cybernetics.** The observer is part of the system. Kybernetes tracks whether its own model of the task still matches reality.
-- **Argyris and Schon — learning loops.** Correct the action, then the plan, then the controller itself.
+- **Argyris and Schon — learning loops.** Correct the action, then the plan, then the controller itself. When a failure repeats, controller learning should become a durable constraint before it becomes another reminder.
 
 ## Governor Loop
 
@@ -32,7 +32,7 @@ When the error stops shrinking, Kybernetes climbs a ladder instead of grinding:
 
 - **Loop 1: regulate** — adjust the action toward the same goal.
 - **Loop 2: reframe** — question the plan, decomposition, scope, execution profile, or goal.
-- **Loop 3: learn** — persist the lesson so the next run starts smarter.
+- **Loop 3: learn** — persist the lesson so the next run starts smarter; when the failure repeats, first turn the lesson into a durable constraint.
 
 ![Three loops](docs/assets/diagrams/3-three-loops.svg)
 

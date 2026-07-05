@@ -29,7 +29,7 @@ smallest lens that changes the next control decision.
 | The agent is trying to control a system it has not modeled. | Conant-Ashby: good regulator | What model of the system is needed to regulate it? | Inspect state, capture assumptions, and make the control record coherent. |
 | Delegation, parallel work, or multi-level coordination is getting messy. | Stafford Beer: viable system model | Which function is missing: operations, coordination, control, intelligence, or policy? | Repair the organization of the run before adding more workers. |
 | The human, agent, reviewer, or runtime changes the system being observed. | Heinz von Foerster: second-order cybernetics | How is the controller part of the system it is steering? | Surface assumptions, authority, observer effects, and HITL boundaries. |
-| Verification keeps failing or the same mistake repeats. | Argyris and Schon: learning loops | Is this action correction, setpoint correction, or controller learning? | Regulate, re-frame, or record a reusable lesson. |
+| Verification keeps failing or the same mistake repeats. | Argyris and Schon: learning loops | Is this action correction, setpoint correction, controller learning, or a missing constraint? | Regulate, re-frame, or learn by converting repeated failure into a durable constraint before recording a reusable lesson. |
 | A severe risk, urgent pain, or high-stakes anomaly appears. | Stafford Beer: algedonic signal | Does this bypass normal cadence and require policy-level attention? | Escalate, stop, or ask HITL instead of burying it in routine work. |
 
 Adjacent improvement-cycle tools such as OODA, PDCA, and PDSA may help describe
@@ -143,9 +143,28 @@ When error is not shrinking, climb the ladder:
 
 1. Regulate: change the next action while keeping the same setpoint.
 2. Re-frame: change the plan, decomposition, scope, or setpoint.
-3. Learn: record what the controller should do differently next time.
+3. Learn: change the controller. For repeated failure, add the first
+   proportionate enforceable constraint before recording prose guidance.
 
 Repeated verification failure is a signal, not a reason to loop forever.
+
+## Constraints Over Reminders
+
+When a failure repeats, a reminder is usually too weak. First ask what durable
+constraint would make the same miss harder or impossible:
+
+- A test, fixture, snapshot, or validator.
+- A schema, type, parser, or API boundary.
+- A wrapper, helper, or narrower interface.
+- A lint rule, hook, CI check, or runtime guard.
+- A checklist, control-record gate, or permission boundary.
+- A repo, package, or ownership boundary.
+
+Use the first proportionate enforceable constraint that fits the risk. Escalate
+before adding constraints that affect public APIs, production behavior,
+permissions, data retention, billing, customer-visible workflows,
+privacy/security posture, or team policy. If no proportionate enforceable
+constraint exists, record why and keep the lesson as local guidance.
 
 ## Human-In-The-Loop
 

@@ -4,7 +4,7 @@ The primary Kybernetes skill. It turns a compatible agent into a
 runtime-adaptive loop controller for work that is multi-part, long-running,
 ambiguous, risky, parallelizable, or needs durable state.
 
-It does five jobs:
+It does six jobs:
 
 - Checks loop readiness before adding machinery.
 - Chooses loop altitude: `stay`, `down`, `up`, `stack`, or `stop`.
@@ -13,6 +13,7 @@ It does five jobs:
   verification, checklists, impediments, decisions, learnings, and worker state.
 - Coordinates workers, subagents, sibling threads, or worktrees only when bounded
   child loops create real leverage.
+- Converts repeated failures into durable constraints before adding reminders.
 
 ## Install
 
@@ -41,8 +42,10 @@ The skill loads:
 
 1. `references/operating-model.md`
 2. `references/goal-checklist.md`
-3. `references/adaptive-elicitation.md`
-4. The current runtime binding: `references/codex.md`,
+3. `references/failure-to-constraint.md` when repeated failure needs a durable
+   guard
+4. `references/adaptive-elicitation.md`
+5. The current runtime binding: `references/codex.md`,
    `references/claude-code.md`, or `references/portable-core.md`
 
 For Codex, the `/goal` prompt should stay short and point to the control record.
@@ -59,6 +62,7 @@ kybernetes-loop-governor/
     adaptive-elicitation.md
     claude-code.md
     codex.md
+    failure-to-constraint.md
     goal-checklist.md
     operating-model.md
     portable-core.md

@@ -38,6 +38,7 @@ Future work may split the broader system into additional namespaced skills such 
 - Readiness comes first: objective, DONE, admissible verifier, actuators, state, stop condition, and boundary.
 - Durable runs use a trust pair: `control.md` is current truth, and `verification.md` is evidence truth.
 - `stack` means bounded child loops with owner, boundary, admissible verifier, and return path. In Codex this can bind to subagents, sibling threads, cloud tasks, or worktrees.
+- Repeated failures should become durable constraints before they become another reminder.
 - Recurring automations require explicit objective, cadence, state, verifier, safety boundary, and activation approval.
 
 ## Control Model

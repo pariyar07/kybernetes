@@ -37,11 +37,16 @@ Default project-local control record path:
 ```
 
 External system path only when the user explicitly targets a knowledge base,
-workstream system, or project-management surface:
+workstream system, or project-management surface. Use that system's own path
+convention:
 
 ```text
-<workstream-system>/<slug>/Control.md
+<external-system-path-to-control-record>
 ```
+
+For Kybernetes-created local run artifacts, the run root remains
+`.kybernetes/<slug>/`; the control record remains
+`.kybernetes/<slug>/control.md`.
 
 ### Finding The Active Control Record
 
@@ -89,6 +94,8 @@ Keep current state short. Split detailed history when useful:
 - `decisions.md` for durable decisions.
 - `agents.md` for delegated worker registry.
 - `learnings.md` for reusable observations.
+- `constraints.md` for accepted failure-to-constraint candidates when they need
+  a separate durable surface.
 - `verification.md` for admissible sensors, latest evidence, failures, gaps,
   rerun instructions, and human acceptance.
 
@@ -337,7 +344,8 @@ When asking, give options and a recommendation.
 - Re-frame: the current objective or decomposition is wrong. Ask the human or
   rewrite the plan.
 - Learn: record run-local observations and promote reusable rules only through
-  the learning capture gate.
+  the learning capture gate. If the lesson came from repeated failure, run the
+  failure-to-constraint workflow before creating another reminder.
 
 Map stop conditions to altitude:
 
@@ -347,7 +355,30 @@ Map stop conditions to altitude:
 - Need bounded workers -> `stack`.
 - Human judgment or authorization needed -> `stop` with HITL.
 
-## 14. Learning Capture
+## 14. Failure-To-Constraint Workflow
+
+Use `failure-to-constraint.md` when verification repeats, the same mistake
+recurs, or a reviewer asks for a rule that prevents recurrence.
+
+Record:
+
+- Failure pattern: what repeated, with evidence.
+- Candidate constraint: test, schema/type, wrapper/API boundary, lint/hook,
+  runtime guard, checklist/control-record gate, permission gate, or documented
+  rule when no enforceable constraint is proportionate.
+- Constraint owner and target surface.
+- Why this constraint is proportionate.
+- Verification that the constraint catches or prevents the repeated failure.
+- HITL decision if the constraint changes public APIs, production behavior,
+  permissions, data retention, billing, customer-visible workflows,
+  privacy/security posture, or team policy.
+- Reason if no enforceable constraint is added.
+
+Prefer the first proportionate enforceable constraint that changes future
+behavior. A reminder is valid only when enforceable constraints are unavailable,
+disproportionate, or outside the current authority.
+
+## 15. Learning Capture
 
 Promote a lesson only when it is supported by evidence, repeated pattern, or
 verified failure; is general enough for future runs; and belongs in the target
