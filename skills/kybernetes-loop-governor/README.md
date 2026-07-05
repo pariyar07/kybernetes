@@ -11,8 +11,8 @@ It does six jobs:
 - Builds an execution profile for the work instead of hardcoding one persona.
 - Creates or reuses `.kybernetes/<slug>/` run memory for control records,
   verification, checklists, impediments, decisions, learnings, and worker state.
-- Coordinates workers, subagents, sibling threads, or worktrees only when bounded
-  child loops create real leverage.
+- Coordinates workers, peer workstreams, or isolated work only when bounded child
+  loops create real leverage.
 - Converts repeated failures into durable constraints before adding reminders.
 
 ## Install
@@ -48,9 +48,9 @@ The skill loads:
 5. The current runtime binding: `references/codex.md`,
    `references/claude-code.md`, or `references/portable-core.md`
 
-For Codex, the `/goal` prompt should stay short and point to the control record.
-For runtimes without a goal command, the lead prompt plus control record is the
-durable objective.
+For runtimes with a native durable-objective surface, keep the objective brief
+and point to the control record. Otherwise, the lead prompt plus control record
+is the durable objective.
 
 ## Files
 

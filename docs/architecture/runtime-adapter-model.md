@@ -4,24 +4,37 @@ Kybernetes separates the portable control model from runtime-specific primitives
 The loop governor skill should keep its loop semantics stable while each runtime
 binds those semantics to the tools it actually has.
 
-## Binding Slots
+Required L2 port contracts live in
+[`l2-port-contracts.md`](l2-port-contracts.md). The repo-side runtime matrix
+lives in [`portable-runtime-matrix.md`](portable-runtime-matrix.md). This file
+is the adapter index: it maps older binding slots to L0/L1/L2/L3 placement so
+runtime docs can bind native surfaces without changing core semantics.
 
-| Slot | Meaning |
-| --- | --- |
-| Skill namespace resolution | How the runtime invokes `kybernetes:loop-governor` and any future `kybernetes:*` skills. |
-| Durable objective | How the runtime sets or simulates a persistent goal. |
-| Planning surface | How the runtime supports `up` altitude before action. |
-| Checklist / progress | How the runtime exposes in-session progress while durable progress remains Kybernetes-owned. |
-| Parallel thread / sibling chat | How the runtime supports human-visible peer workstreams distinct from subagents. |
-| Worker spawn | How the runtime creates subagents or delegated workers. |
-| Isolation | How concurrent writers avoid collisions. |
-| Inspect | How the loop governor checks worker status. |
-| Elicitation | How the loop governor asks for human steering. |
-| Memory or control file | Where durable project or run state lives. |
-| Verification | How commands, tests, validators, or manual evidence are captured. |
-| Loop altitude | How the runtime records `stay`, `down`, `up`, `stack`, or `stop` decisions. |
-| Durability tier | Whether the run uses chat memory only, `.kybernetes/<slug>/`, or an explicit external workstream surface. |
-| Hook / audit | How the runtime exposes optional lifecycle or audit events. |
+## Slot To Port Mapping
+
+| Legacy slot or concern | Placement | Port or substrate |
+| --- | --- | --- |
+| Skill namespace resolution | L2/L3 | `skill_package`; packaging details stay in distribution docs and binding references. |
+| Durable objective | L2 | `durable_objective` |
+| Planning surface | L2 | `planning_surface` |
+| Checklist / progress | L2/L1 | `progress_surface`; durable progress mirrors to the L1 trust pair when needed. |
+| Parallel thread / sibling chat | L2 conditional | `peer_workstream` when exercised; otherwise treat as a runtime realization of a bounded workstream pattern. |
+| Worker spawn | L2 | `worker_spawn` |
+| Isolation | L2/L1 | `isolation`, including the state-propagation choice for `.kybernetes/` records across isolated surfaces. |
+| Inspect | L2 | `inspect_status` |
+| Elicitation | L2 | `elicitation` |
+| Memory or control file | L1 | `control.md` and `verification.md` remain canonical; runtime memory is advisory. |
+| Verification | L2/L1 | `verification_sensor`; evidence is recorded in `verification.md`. |
+| Loop altitude | L0/readiness | `stay`, `down`, `up`, `stack`, and `stop` are control-kernel decisions, not adapter features. |
+| Durability tier | L0/readiness and L1 | Chosen by task variety and recovery need; implemented through the L1 state surface. |
+| Hook / audit | L2 deferred | `audit_hook`; no always-on audit substrate until pressure evidence promotes it. |
+| Comparator/advisor | L2 conditional | `comparator_augmentation`; advisory only, never a substitute for `verification_sensor`. |
+| Schedule / recurrence | L2 conditional | `scheduler`; only when a concrete scheduled activation is requested and the notification/manual-checkpoint gate is satisfied. |
+| Event trigger | L2 conditional | `event_sensor`; only when a concrete event source is named and admissible. |
+| Notification | L2 conditional | `notification`; required before detached, scheduled, recurring, or background work can block away from the parent surface, unless manual checkpoints are explicitly accepted. |
+| External tools | L2 | `external_tool_provider` |
+| Permission model | L2 | `permission_boundary` |
+| Resume/recovery | L2/L1 | `lifecycle_recovery`, anchored back to `control.md` and `verification.md`. |
 
 ## Local Run Memory
 
@@ -57,28 +70,30 @@ Every adapter should preserve the same loop-governor contract:
    - `stay` for direct local execution.
    - `down` for focused investigation or implementation inside a subsystem.
    - `up` for reframing scope, constraints, or architecture.
-   - `stack` for bounded child loops, workers, parallel chats / sibling
-     threads, or isolated workspaces with return contracts.
+   - `stack` for bounded child loops, workers, peer workstreams, or isolated
+     workspaces with return contracts.
    - `stop` when evidence says the loop should pause or hand back.
 3. Record the active altitude and next activation point in the control record
    whenever the task is durable.
 4. Treat verification as the sensor layer. If the sensor is missing or failing
    repeatedly, change altitude instead of continuing the same motion.
 
-## Portable Matrix
+## Runtime Binding Matrix
 
 Adapter work should be checked against:
 
 ```text
-Portable Primitive | Codex Binding | Claude Code Binding | Portable Fallback
+L2 Port | Runtime Binding | Portable Fallback | Evidence / State Obligation
 ```
 
-The portable primitive owns the product meaning. Runtime commands are bindings,
-not architecture law.
+The L2 port owns the product meaning. Runtime commands and app surfaces are
+bindings, not architecture law. Availability, version, app/cloud caveats, and
+chosen native fallback belong in L3 binding references.
 
 ## First Order
 
-1. Codex
-2. Claude Code
-3. Portable core fallback
-4. Future runtime adapters
+1. Required L2 contracts.
+2. Core-neutrality enforcement.
+3. Runtime binding references.
+4. Portable runtime matrix.
+5. Future runtime adapters.

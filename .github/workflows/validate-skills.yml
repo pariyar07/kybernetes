@@ -81,6 +81,54 @@ jobs:
           grep -RIl "HITL\\|Human-In-The-Loop" skills tests docs examples README.md >/dev/null
           grep -RIl "impediment" skills tests docs examples README.md >/dev/null
 
+      - name: Reject runtime-token leaks from core semantics
+        run: |
+          ruby <<'RUBY'
+          core_files = [
+            "skills/kybernetes-loop-governor/SKILL.md",
+            "skills/kybernetes-loop-governor/README.md",
+            "skills/kybernetes-loop-governor/references/goal-checklist.md",
+            "skills/kybernetes-loop-governor/references/portable-core.md",
+            "docs/architecture/l2-port-contracts.md",
+            "tests/pressure-scenarios/README.md",
+          ]
+
+          runtime_tokens = [
+            ["/goal", %r{(?<![\w.-])/goal(?![\w.-])}],
+            ["/plan", %r{(?<![\w.-])/plan(?![\w.-])}],
+            ["/loop", %r{(?<![\w.-])/loop(?![\w.-])}],
+            ["/advisor", %r{(?<![\w.-])/advisor(?![\w.-])}],
+            ["/batch", %r{(?<![\w.-])/batch(?![\w.-])}],
+            ["/background", %r{(?<![\w.-])/background(?![\w.-])}],
+            ["/fork", %r{(?<![\w.-])/fork(?![\w.-])}],
+            ["/branch", %r{(?<![\w.-])/branch(?![\w.-])}],
+            ["/rewind", %r{(?<![\w.-])/rewind(?![\w.-])}],
+            ["plan mode", /\bplan mode\b/],
+            ["routines", /\broutines\b/],
+            ["Codex", /Codex/],
+            ["Claude Code", /Claude Code/],
+          ]
+
+          failed = false
+
+          core_files.each do |path|
+            File.readlines(path, chomp: true).each_with_index do |line, index|
+              runtime_tokens.each do |label, pattern|
+                next unless line.match?(pattern)
+
+                warn "#{path}:#{index + 1}: runtime token #{label.inspect} belongs in L3 binding references, not core semantics."
+                failed = true
+              end
+            end
+          end
+
+          if failed
+            warn "Move native availability, commands, app/cloud caveats, and runtime examples into references/codex.md or references/claude-code.md."
+          end
+
+          exit(failed ? 1 : 0)
+          RUBY
+
       - name: Reject stale run artifact defaults
         run: |
           if grep -RIn \
