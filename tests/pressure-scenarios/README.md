@@ -61,6 +61,7 @@ Blind `stack` is as bad as never stacking.
 - `025`: runtime capability binding; use native primitives through portable bindings, not by reflex.
 - `026`: compaction recovery; resume from `control.md` and `verification.md`, not stale chat memory.
 - `027`: repeated failure; convert recurrence into a durable constraint before another reminder.
+- `028`: second runtime capability binding; preserve L2 port vocabulary while using native surfaces proportionally.
 
 ## Boundary Failure Coverage
 
