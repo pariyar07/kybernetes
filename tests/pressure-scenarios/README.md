@@ -60,3 +60,4 @@ Blind `stack` is as bad as never stacking.
 - `024`: over-gating guard; simple authorized work should stay lightweight.
 - `025`: Codex capability binding; use runtime primitives through portable bindings, not by reflex.
 - `026`: compaction recovery; resume from `control.md` and `verification.md`, not stale chat memory.
+- `027`: repeated failure; convert recurrence into a durable constraint before another reminder.

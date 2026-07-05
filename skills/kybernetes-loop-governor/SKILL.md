@@ -19,6 +19,8 @@ Read these before a coordinated run:
 - `references/operating-model.md` for the control principles and named
   cybernetic lenses.
 - `references/goal-checklist.md` for the control record shape.
+- `references/failure-to-constraint.md` when verification repeats, the same
+  mistake recurs, or a lesson may need a durable constraint.
 - `references/adaptive-elicitation.md` for question sizing.
 - One runtime binding: `references/codex.md`, `references/claude-code.md`, or
   `references/portable-core.md`.
@@ -165,11 +167,15 @@ record path is:
 ```
 
 If the user explicitly targets an external knowledge base or workstream system,
-use that system's path convention. For example:
+use that system's path convention instead of inventing a Kybernetes path:
 
 ```text
-<workstream-system>/<slug>/Control.md
+<external-system-path-to-control-record>
 ```
+
+For Kybernetes-created local run artifacts, the run root remains
+`.kybernetes/<slug>/`; the control record remains
+`.kybernetes/<slug>/control.md`.
 
 When resuming or setting up a goal for existing durable work, locate the active
 control record before acting when possible. Prefer, in order:
@@ -312,8 +318,22 @@ At each checkpoint:
 6. Explain: give the user 1-2 lines for meaningful routing decisions.
 
 If the gap is not shrinking, climb the escalation ladder in
-`references/operating-model.md`: regulate, re-frame, then learn. Do not retry the
-same failing move indefinitely.
+`references/operating-model.md`: regulate, re-frame, then learn. When learning
+from repeated failure, run failure-to-constraint before adding prose guidance. Do
+not retry the same failing move indefinitely.
+
+## Failure-To-Constraint
+
+When the same failure repeats, or evidence shows a reminder would be easy to
+forget, prefer a durable constraint over another instruction. Use
+`references/failure-to-constraint.md` to choose the first proportionate
+enforceable constraint that would make the repeated failure harder or impossible
+next time.
+
+Escalate to HITL before adding constraints that change public APIs, production
+behavior, permissions, data retention, billing, customer-visible workflows,
+privacy/security posture, or team policy. If no enforceable constraint is
+proportionate, record the reason and keep the lesson local.
 
 ## Learning Policy
 

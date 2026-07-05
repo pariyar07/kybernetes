@@ -15,7 +15,8 @@ Kybernetes can help an agent run a long or complex task as a feedback-controlled
 | Coordination | Decide between same chat, subagents, parallel chats / sibling threads, cloud tasks, or isolated workspaces. |
 | Human steering | Surface intervention points with options and a recommendation. |
 | Measurement | Define DONE and an admissible verifier before significant work. |
-| Escalation | Move from action correction to plan reframing to durable learning. |
+| Escalation | Move from action correction to plan reframing to durable constraints and learning. |
+| Constraint promotion | Convert repeated failures into tests, boundaries, guards, gates, or other durable constraints before adding reminders. |
 | Portability | Work without a specific knowledge system, while supporting optional adapters. |
 | Loop readiness | Confirm setpoint, sensor/evidence, actuators, state, stop condition, and boundary before scaling. |
 | Loop altitude | Choose whether to stay, go down, go up, stack bounded child loops, or stop. |
