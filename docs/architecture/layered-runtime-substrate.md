@@ -5,20 +5,33 @@ accepted layer stack so architecture docs can say `L0`, `L1`, or `L2` without
 making readers hunt through external notes.
 
 This page is explanatory only. It does not create new architecture; it names the
-layers already assumed by the loop-governor skill, runtime adapter model, and L2
-port contracts.
+active layers already assumed by the loop-governor skill, runtime adapter model,
+and L2 port contracts. Reserved layer names are descriptive placeholders until
+pressure evidence makes them load-bearing.
 
-## Layer Summary
+## Active Layer Summary
 
 | Layer | Name | Owns | Does not own |
 | --- | --- | --- | --- |
-| L0 | Control Kernel | Objective, DONE condition, sensor choice, comparator, actuator choice, loop readiness, altitude, HITL, stop condition, and learning gate. | Runtime commands, provider-specific features, plugin paths, app version caveats, or packaging details. |
+| L0 | Control Kernel | Objective, DONE condition, sensor choice, comparator between setpoint and evidence, actuator choice, loop readiness, altitude, HITL, stop condition, and learning gate. | Runtime commands, provider-specific features, plugin paths, app version caveats, or packaging details. |
 | L1 | State And Evidence Substrate | `control.md`, `verification.md`, checklists, decisions, worker briefs or reports, next activation, and recovery order. | Runtime memory, transcripts, UI task state, audit logs, or goals as source of truth unless mirrored. |
 | L2 | Capability Ports | Runtime-neutral semantic capabilities such as durable objective, planning surface, worker spawn, isolation, verification sensor, elicitation, permission boundary, lifecycle recovery, and skill package. | Native command names or runtime availability claims. |
 | L3 | Runtime Bindings | Mapping L2 ports to concrete runtime surfaces, caveats, availability, app/cloud behavior, and native fallbacks. | Core semantics, cross-runtime laws, or canonical state. |
-| L4 | Execution Patterns | Compositions of ports such as single-writer loops, bounded workers, peer workstreams, scheduled activation, event-triggered activation, and recovery workflows. | New product primitives unless pressure evidence proves they generalize. |
-| L5 | Distribution And Packaging | Public skill packaging, plugin wrappers, SDK or CLI helpers, examples, and install docs. | Mandatory private workflow assumptions or unproven heavy machinery. |
-| L6 | Product Workflows | Pressure scenarios, launch docs, recipes, domain adapters, and optional private project adapters. | Generic core rules or runtime-specific implementation details. |
+
+## Reserved Layers
+
+L4-L6 are reserved names for higher-level composition, packaging, and product
+workflows. They are not used as architectural boundaries in the current repo and
+are promoted only when pressure evidence proves the distinction generalizes.
+Until then, treat them as descriptive vocabulary, not contracts.
+
+- L4 Execution Patterns: compositions of ports such as single-writer loops,
+  bounded workers, scheduled or event-triggered activation, and recovery
+  workflows.
+- L5 Distribution And Packaging: skill packaging, plugin wrappers, SDK or CLI
+  helpers, examples, and install docs.
+- L6 Product Workflows: pressure scenarios, launch docs, recipes, and domain
+  adapters.
 
 ## How To Read The Layers
 
@@ -41,12 +54,13 @@ not ask for a specific command.
 L3 decides how a concrete runtime satisfies an L2 port. Native command names,
 availability, caveats, and runtime-specific fallback choices belong here.
 
-L4 combines ports into patterns. A scheduled loop, worker fan-out, or recovery
-workflow is not a new core law by default; it is a pattern that composes lower
-layers.
+Reserved L4 vocabulary can describe patterns that combine ports. A scheduled
+loop, worker fan-out, or recovery workflow is not a new core law by default; it
+is a pattern that composes lower layers.
 
-L5 packages the behavior for installation and reuse. L6 documents product-facing
-workflows and pressure evidence.
+Reserved L5 vocabulary can describe packaging for installation and reuse.
+Reserved L6 vocabulary can describe product-facing workflows and pressure
+evidence.
 
 ## Repo Map
 
@@ -75,7 +89,9 @@ meaning:
   obligation, it is L2.
 - If it names a runtime feature, version caveat, command, app/cloud behavior, or
   native fallback, it is L3.
-- If it composes several capabilities into a reusable motion, it is L4.
-- If it changes install, packaging, examples, or release shape, it is L5.
+- If it composes several capabilities into a reusable motion, it is reserved L4
+  vocabulary until promoted by pressure evidence.
+- If it changes install, packaging, examples, or release shape, it is reserved L5
+  vocabulary until promoted by pressure evidence.
 - If it is a product-facing recipe, pressure scenario, launch note, or domain
-  adapter, it is L6.
+  adapter, it is reserved L6 vocabulary until promoted by pressure evidence.
