@@ -124,8 +124,8 @@ Before creating loop machinery, check:
 - Setpoint: objective and measurable done condition.
 - Sensor/evidence: test, artifact, citation, screenshot, human acceptance,
   independent review, or another verifier that can reject bad output.
-- Actuators: main thread, checklist, goal, workers, worktrees, tools, research,
-  tests, or HITL.
+- Actuators: main thread, checklist, durable objective, workers, isolation,
+  tools, research, tests, or HITL.
 - State: whether `.kybernetes/<slug>/` run memory is needed.
 - Stop condition: success, blocked, re-frame, or human decision.
 - Boundary: permissions, external effects, secrets, budget, and review.
@@ -198,7 +198,7 @@ Record the variety assessment in the control record:
 - Why this level: size, ambiguity, risk, independent parts, external impact,
   durable state, and verification needs.
 - Control response: main thread, checklist, durable state, goal, workers,
-  isolated workspace, parallel chats / sibling threads, cloud tasks, or HITL.
+  isolated workspace, peer workstream, detached work, or HITL.
 
 ## 5. Execution Profile
 
@@ -240,12 +240,11 @@ Pick the lightest surface that still controls risk:
   analysis, summarization.
 - Isolated workspace: concurrent writers, divergent implementation branches, or
   risky edits.
-- Parallel chats / sibling threads: large independent or multi-repo work where
-  the human will supervise separate peer workstreams and the parent has an
-  integration contract.
-- Background/cloud sessions: async work whose result can return to the parent
-  control surface.
-- External automation: CI, scheduled sweeps, or batch jobs.
+- Peer workstreams: large independent or multi-repo work where the human will
+  supervise separate visible tracks and the parent has an integration contract.
+- Detached sessions: async work whose result can return to the parent control
+  surface.
+- Scheduled or external jobs: CI, recurring sweeps, or batch jobs.
 
 Read-heavy work can share a workspace. Concurrent writers need isolation or a
 single-writer plan. Cross-cutting cleanup should be sequenced after feature work.
@@ -264,8 +263,9 @@ answer is no fan-out:
 
 - Fork-join: spawn, wait, integrate. Default for independent slices.
 - Checkpointed: workers report at meaningful milestones.
-- Async/background: use only when the runtime supports inspection and the control
-  record can stay current.
+- Async or detached: use only when the runtime supports inspection, the control
+  record can stay current, and there is either an outbound notification path or
+  an explicitly accepted manual checkpoint cadence.
 
 Substrate answers where work happens. Timing answers when results return.
 

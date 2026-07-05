@@ -1,6 +1,6 @@
 ---
 name: 'kybernetes:loop-governor'
-description: 'Use when a task needs adaptive loop control: loop altitude, loop-readiness, durable state, verification, HITL, subagents, worktrees, or auditable coordination.'
+description: 'Use when a task needs adaptive loop control: loop altitude, loop-readiness, durable state, verification, HITL, workers, isolation, or auditable coordination.'
 ---
 
 # Kybernetes Loop Governor
@@ -32,8 +32,8 @@ needs. A loop is ready when the loop governor can name:
 
 - Setpoint: objective and measurable done condition.
 - Sensor: the verification or evidence that can reject bad output.
-- Actuators: main-thread work, checklist, goal, workers, worktrees, tools,
-  research, tests, or HITL.
+- Actuators: main-thread work, checklist, durable objective, workers,
+  isolation, tools, research, tests, or HITL.
 - State: whether durable run memory is needed.
 - Stop condition: success, blocked, re-frame, or human decision.
 - Boundary: permissions, external effects, secrets, budget, and human review.
@@ -54,13 +54,15 @@ establish the missing objective, done condition, verifier, target surface, risk
 boundary, and execution mode. If those are missing, choose `up` or `stop` and
 offer a compact decision surface with a recommended safe default.
 
-Recurring loops and automations require a stronger readiness gate than one-shot
-work. Do not create, activate, schedule, or register an automation from a vague
-request such as "check this every day" or "improve whatever looks bad." First
-establish the objective, cadence, input source, state surface, admissible
-verifier, safety/HITL boundary, budget or attempt cap, and stop/escalation
-condition. If any of those are missing, return a decision surface or propose a
-one-shot dry run instead of creating the automation.
+Detached, scheduled, recurring, or background work requires a stronger
+readiness gate than one-shot work. Do not create, activate, schedule, or
+register recurring work from a vague request such as "check this every day" or
+"improve whatever looks bad." First establish the objective, cadence, input
+source, state surface, admissible verifier, safety/HITL boundary, budget or
+attempt cap, stop/escalation condition, and either an outbound notification path
+or an explicitly accepted manual checkpoint cadence. If any of those are
+missing, return a decision surface or propose a one-shot dry run instead of
+creating the recurring work.
 
 For ambiguous workflow-redesign prompts with no named repo, file, product,
 workflow, or workstream, the first action is the decision surface, not vault
@@ -91,8 +93,7 @@ After the readiness gate, choose the smallest useful loop altitude:
 - `up`: ascend into planning, architecture, decomposition, scope, product
   judgment, or human decision when the current loop is too local.
 - `stack`: create bounded child loops only when each has a setpoint, sensor,
-  owner, boundary, and return path. In Codex this may bind to subagents,
-  parallel chats / sibling threads, cloud tasks, or worktrees.
+  owner, boundary, isolation or peer-workstream choice, and return path.
 - `stop`: finish, block, ask HITL, or halt at an authorization or judgment
   boundary.
 
@@ -220,14 +221,15 @@ start to drown the current checklist.
 
 Bind the loop to the current environment instead of assuming one tool.
 
-- In Codex, use `references/codex.md`. If a goal tool is available and the
-  target, objective, done condition, verifier, constraints, and control record
-  are known enough to make a meaningful durable objective, create the goal with
-  the minimal prompt shape there. If those fields are missing, repair readiness
-  before setting or returning a goal prompt. If the agent cannot create a goal
-  after readiness is repaired, return a copy-paste `/goal` prompt to the user.
-- In Claude Code, use `references/claude-code.md`.
-- In any other skill-compatible agent, use `references/portable-core.md`.
+Use exactly one runtime binding reference for the active environment:
+`references/codex.md`, `references/claude-code.md`, or
+`references/portable-core.md`. If a durable-objective surface is available and
+the target, objective, done condition, verifier, constraints, and control record
+are known enough to make a meaningful objective, create it with that binding's
+minimal prompt shape. If those fields are missing, repair readiness before
+setting or returning a durable-objective prompt. If the active runtime cannot
+create the objective after readiness is repaired, return the binding's portable
+copy-paste prompt to the user.
 
 The durable objective belongs to the lead loop-governor thread only. Do not put a
 goal command inside worker prompts.
@@ -238,12 +240,13 @@ Spawn workers only when the split creates real leverage. This is the `stack`
 altitude, and it must be bounded. Each worker gets a task contract, not the
 whole run.
 
-For high and extreme variety, actively evaluate whether workers, parallel chats,
-or isolated workspaces would reduce risk or improve coverage. Consider fan-out
-when the task has separable surfaces such as product/UX, architecture, data
-model, implementation, tests, security, docs, or runtime verification. Do not
-spawn workers merely because the task is large; use them when the slices are
-cleanly owned and the integration cost is lower than the coverage gained.
+For high and extreme variety, actively evaluate whether workers,
+peer-workstreams, or isolated workspaces would reduce risk or improve coverage.
+Consider fan-out when the task has separable surfaces such as product/UX,
+architecture, data model, implementation, tests, security, docs, or runtime
+verification. Do not spawn workers merely because the task is large; use them
+when the slices are cleanly owned and the integration cost is lower than the
+coverage gained.
 
 Worker contracts must include:
 

@@ -4,27 +4,27 @@ Use this file when the loop governor is running in Codex.
 
 ## Binding Table
 
-| Portable primitive | Codex binding |
-| --- | --- |
-| `{SET_GOAL}` | Prefer `/goal` when work is long-running, resumable, or needs a durable stopping condition and the objective is ready enough to name. Keep goal state advisory; recover from `control.md`. If the agent cannot set the goal, return a copy-paste `/goal` prompt. |
-| Planning altitude | Use `/plan` when the correct move is `up`: architecture, scope, decomposition, or product judgment before action. |
-| Checklist / progress | Use in-session plan/checklist state when helpful; mirror durable progress into Kybernetes-owned `checklist.md` only when needed. |
-| `{PARALLEL_THREAD}` | Use parallel chats / sibling threads for human-visible peer workstreams, multi-repo coordination, or large tasks that need separate context and owner. Treat this binding as app-surface / partial until the installed Codex surface is verified. |
-| `{SPAWN}` | Use Codex subagents for bounded in-session delegation. Worker prompts receive task contracts, not slash commands. |
-| Async delegated work | Use Codex cloud tasks only when the result can be captured back into the parent control surface. |
-| `{ISOLATE}` | Use Codex worktrees or manual `git worktree` for concurrent writers. Cloud containers are separate isolation. |
-| `{CONCURRENCY}` | Obey Codex agent/thread limits. Keep fan-out small unless slices are cleanly independent; assume flat delegation unless the runtime and parent contract explicitly support more. |
-| `{INSPECT}` | Inspect, steer, or close workers through the runtime's agent/thread inspection surface when available. |
-| Permission boundary | Respect approval policy, sandbox mode, `/permissions`, and MCP tool policy. Treat destructive, external, production, publishing, billing, secrets, or customer-data actions as HITL boundaries. |
-| Skill package | Codex Agent Skills are the public packaging surface. Keep the main skill lean and lazy-load `references/`. |
-| External tool provider | Use MCP, browser, docs, GitHub, web, or other tools as bound sensors/actuators, not as product core. |
-| Verification sensor | Use tests, commands, `/review`, reviewer subagents, citations, screenshots, or human acceptance as proportionate sensors. No single Codex feature is the universal verifier. |
-| Hooks / audit | Hooks are optional bootstrap/audit infrastructure. Do not use them for full uninvited governance in v1; prefer native hooks over hand-maintained `events.jsonl` if audit later becomes necessary. |
-| Automations | Use Codex app/cloud automations only for stable recurring loops after manual pressure evidence exists and the user explicitly approves activation. Never create or activate a scheduled loop from vague "check every day" / "improve whatever looks bad" language. Do not assume a bare CLI scheduler; use external cron/launchd or a manual checkpoint in portable fallback. |
-| Memory | Treat Codex memory as advisory. Durable run truth lives in `control.md` and evidence truth in `verification.md`. |
-| Lifecycle | On resume, compact, fork, or handoff, re-anchor on `control.md`, then `verification.md`, checklist, and worker reports as needed. |
-| `{RUN_ROOT}` | Project-local `.kybernetes/<slug>/` for every Kybernetes-created run artifact. |
-| `{CONTROL_RECORD}` | Project-local `.kybernetes/<slug>/control.md`, or an explicitly targeted external workstream or knowledge-base path. |
+| L2 port or layer | Codex binding | Caveat / fallback | Evidence and state obligation |
+| --- | --- | --- | --- |
+| `durable_objective` | Prefer `/goal` when work is long-running, resumable, or needs a durable stopping condition and the objective is ready enough to name. | If the agent cannot set the goal, return a copy-paste `/goal` prompt or continue from `control.md`. Goal state is advisory. | Mirror objective, DONE, verifier, constraints, and recovery pointer into `control.md`. |
+| `planning_surface` | Use `/plan` when the correct move is `up`: architecture, scope, decomposition, or product judgment before action. | If plan mode is unavailable or unnecessary, write a compact plan in chat or `control.md`. | Accepted plan, assumptions, rejected alternatives, and next checkpoint belong in L1 state when durable. |
+| `progress_surface` | Use in-session plan/checklist state, goal progress, or app thread state when helpful. | Runtime progress UI is advisory unless recoverable and linked from L1. | Mirror durable progress into `checklist.md` or `control.md` only when needed. |
+| `worker_spawn` | Use Codex subagents for bounded in-session delegation. Worker prompts receive task contracts, not slash commands. | Codex does not need to spawn workers by reflex; use single-writer work when integration cost is higher than coverage gain. | Worker reports are evidence inputs; parent loop owns integration and final verification. |
+| `peer_workstream` | Use parallel chats, sibling threads, cloud tasks, or Handoff only for human-visible peer workstreams with their own owner and return path. | Treat app/cloud/thread availability as surface-specific. If unavailable, use a manual sibling note/thread or stay in the parent loop. | Record owner, scope, durable pointer, return contract, and integration decision in `control.md`. |
+| `isolation` | Use Codex app worktrees, cloud containers, sandbox policy, or manual `git worktree` for concurrent writers. | Worktrees and cloud tasks may not carry ignored `.kybernetes/` state automatically. | Before spawning isolated work, pass either a copied brief, an absolute parent run-root pointer, or a rule that the worker must not depend on reading parent L1 files directly. Record the state-propagation choice. |
+| `inspect_status` | Inspect, steer, or close workers through `/agent`, thread status, automation panes, command output, or app/server state when available. | Silence is not success. If inspection is unavailable, ask for a report or return to foreground/manual control. | Record inspected surface, status, report pointer, blocker, and next action in `control.md`. |
+| `verification_sensor` | Use tests, commands, `/review`, reviewer subagents, GitHub review, citations, screenshots, or human acceptance as proportionate sensors when they can reject bad output. | No single Codex feature is the universal verifier. Advisory review is not verification unless it has rejection authority and is recorded as evidence. | Record command/method, result, coverage, gaps, and acceptance decision in `verification.md`. |
+| `comparator_augmentation` | Use reviewer/subagent/human second-pass input as an advisory comparison at decision points. | There is no assumed universal Codex advisor primitive. Comparator input cannot replace `verification_sensor`. | Record comparator advice in `control.md` decisions, not as DONE evidence unless separately promoted to verification. |
+| `scheduler` | Use Codex app/cloud automations only for stable recurring loops after the user approves activation. | Do not assume a bare CLI scheduler. Use external cron/launchd, a human-created reminder, or manual checkpoint fallback when native scheduling is unavailable. | Record cadence, input source, state surface, verifier, budget/attempt cap, stop condition, and approval. |
+| `event_sensor` | Use app/plugin/GitHub/cloud signals or automation polling only when a concrete event source is named. | Kybernetes has no generic v1 event bus. If event delivery is not reliable, use manual polling or a scheduled/manual check. | Record event source, admissibility, owner, and next activation in `control.md`. |
+| `notification` | Use app notifications, automation inbox/triage, thread updates, or another configured outbound path for detached work. | Detached/cloud/automation surfaces must fail closed without outbound notification or an explicitly accepted manual checkpoint cadence. | Record notification path or accepted manual cadence before detached work can block away from the parent chat. |
+| `external_tool_provider` | Use MCP, browser, docs, GitHub, web, filesystem, shell, plugins, or app tools as bounded sensors/actuators. | Tool availability and side effects are governed by the active sandbox and approval policy. | Record side effects, permission decision, result pointer, and whether output is sensor evidence. |
+| `elicitation` | Use chat questions, permission prompts, plan approval, tool approval prompts, or app prompts. | If the answer changes objective, boundary, or approval, re-sense before acting. | Record exact question, answer/default, approved action, and changed boundary when durable. |
+| `permission_boundary` | Respect approval policy, sandbox mode, `/permissions`, MCP/app side-effect approvals, workspace roots, and network policy. | Autonomy grants do not imply permission for irreversible, external, secret-bearing, customer-visible, production, billing, publishing, or destructive actions. | Record allowed/denied/ask status and exact unlocked action in `control.md`. |
+| `lifecycle_recovery` | On resume, compact, fork, Handoff, archive/delete, or app/server resume, re-anchor on `control.md`, then `verification.md`, checklist, and worker reports. | Runtime memory, transcripts, checkpoints, and app state are advisory unless mirrored or independently recoverable. | Record recovered source, stale/conflicting surfaces, chosen continuation, and next activation. |
+| `skill_package` | Codex Agent Skills are the workflow package; plugins are optional distribution for reusable install shape. | If `$kybernetes:loop-governor` does not resolve in the active surface, use the local skill path or copy-paste launcher. | Record selected package/reference and namespace caveat when it affects recovery. |
+| `audit_hook` | Hooks may support lifecycle or audit behavior after pressure evidence justifies them. | Hooks are deferred for v1 governance; do not introduce always-on audit machinery by default. | Use manual verification notes unless audit machinery is explicitly promoted. |
+| L1 state | Project-local `.kybernetes/<slug>/control.md` and `verification.md`, or an explicitly targeted external workstream path. | Codex goal state, memory, progress UI, transcripts, and hooks are not the source of current truth. | `control.md` is current truth; `verification.md` is evidence truth. |
 
 ## Goal Behavior
 
@@ -95,10 +95,10 @@ Codex workers should receive:
 The loop governor integrates worker summaries and updates the control record.
 
 For high and extreme variety in Codex, decide explicitly whether to use
-subagents, parallel chats / sibling threads, cloud tasks, worktrees, or a
-single-writer loop. Record the choice in the control record. A valid decision
-can be "no subagents yet", but it must include the reason and the condition that
-would trigger fan-out.
+subagents, peer workstreams, detached cloud work, worktrees, or a single-writer
+loop. Record the choice in the control record. A valid decision can be "no
+subagents yet", but it must include the reason and the condition that would
+trigger fan-out.
 
 In delegated Codex runs, read the delegation payload as context, not as a
 complete execution contract. A `source_thread_id`, prior-thread handoff, or
@@ -110,6 +110,22 @@ surface that would make the worker contract measurable.
 Use a single-writer discovery loop when the likely target files are not yet
 partitioned. Spawn workers only after the lead can give each worker owned paths
 or sources, permission level, done condition, verifier, and return format.
+
+## Isolation State Propagation
+
+Before using a Codex worktree, cloud task, or other isolated surface, choose how
+the isolated worker will see the parent run state:
+
+- Copied brief: paste the objective, DONE, constraints, verifier, owned scope,
+  return format, and relevant `control.md` / `verification.md` excerpts.
+- Parent run-root pointer: provide an absolute path to the parent
+  `.kybernetes/<slug>/` root and state whether the worker may read or write it.
+- No-parent-state mode: state that the worker must not rely on parent run files
+  and must return a self-contained report.
+
+If `.kybernetes/` is ignored or unavailable in the isolated checkout, do not
+assume the child can recover the parent control record. Missing state is a
+boundary failure; pause or re-brief before edits.
 
 ## Parallel Chats / Sibling Threads
 
@@ -130,6 +146,28 @@ Do not collapse these surfaces:
 A sibling thread counts as `stack` only when it has a setpoint, admissible
 sensor, owner, boundary, and return path.
 
+## Elicitation
+
+Use Codex chat, permission prompts, plan approval, app prompts, and tool approval
+dialogs as the `elicitation` port. Ask only for missing decisions that change the
+outcome. When approval arrives after a block, treat it as changed boundary
+evidence and re-check the active objective, checklist item, verifier, and risk
+before acting.
+
+## Verification And Comparator Split
+
+Codex review surfaces, reviewer subagents, and human second passes can play two
+different roles:
+
+- `verification_sensor`: the review has authority to reject output against DONE,
+  and the result is recorded in `verification.md`.
+- `comparator_augmentation`: the review is advisory input for a decision, and
+  the lead still needs an admissible verifier before claiming completion.
+
+Do not launder advisory comparison into verification. If a reviewer says "looks
+reasonable" without a rejection-capable method, record it as comparator advice
+and run or define a verifier.
+
 ## Automations
 
 Treat Codex automations as externalized loop actuators, not as ordinary local
@@ -142,6 +180,8 @@ edits. Before creating or activating one, the parent governor must know:
 - Admissible verifier.
 - Budget, attempt cap, or no-change behavior.
 - Safety/HITL boundary and stop/escalation condition.
+- Outbound notification path or explicitly accepted manual checkpoint cadence
+  when results may appear away from the parent chat.
 - User approval for activation.
 
 If any field is missing, do not create the automation. Offer a one-shot dry run,
