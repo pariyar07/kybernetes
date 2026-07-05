@@ -6,7 +6,7 @@ Use this file when the loop governor is running in Codex.
 
 | Portable primitive | Codex binding |
 | --- | --- |
-| `{SET_GOAL}` | Prefer `/goal` when work is long-running, resumable, or needs a durable stopping condition. Keep goal state advisory; recover from `control.md`. If the agent cannot set the goal, return a copy-paste `/goal` prompt. |
+| `{SET_GOAL}` | Prefer `/goal` when work is long-running, resumable, or needs a durable stopping condition and the objective is ready enough to name. Keep goal state advisory; recover from `control.md`. If the agent cannot set the goal, return a copy-paste `/goal` prompt. |
 | Planning altitude | Use `/plan` when the correct move is `up`: architecture, scope, decomposition, or product judgment before action. |
 | Checklist / progress | Use in-session plan/checklist state when helpful; mirror durable progress into Kybernetes-owned `checklist.md` only when needed. |
 | `{PARALLEL_THREAD}` | Use parallel chats / sibling threads for human-visible peer workstreams, multi-repo coordination, or large tasks that need separate context and owner. Treat this binding as app-surface / partial until the installed Codex surface is verified. |
@@ -30,6 +30,11 @@ Use this file when the loop governor is running in Codex.
 
 The goal belongs to the loop governor thread. Workers must not receive `/goal`
 commands.
+
+Before creating or returning a goal prompt, confirm the goal can name the target,
+objective, done condition, verifier, constraints, and active control record. A
+prompt like "set a goal for this" is not enough when "this" lacks a recoverable
+target or verifier. Go `down` to repair readiness before setting a durable goal.
 
 In Codex, the model may see goal state across turns through the runtime, but do
 not rely on the goal alone. The stable recovery point is the control record. Read
@@ -65,9 +70,11 @@ create and include a compact control-record template.
 If `/goal` is unavailable, fails, or the agent is not allowed to call the goal
 tool:
 
-1. Continue in the current chat with the same control record.
-2. Return the copy-paste `/goal` prompt to the user.
-3. State that the run can continue without goal mode as long as the control
+1. Repair readiness first if target, objective, DONE, verifier, constraints, or
+   control record are still vague.
+2. Continue in the current chat with the same control record.
+3. Return the copy-paste `/goal` prompt to the user.
+4. State that the run can continue without goal mode as long as the control
    record is maintained.
 
 Do not bury the fallback in prose. Put it in a fenced block the user can copy.
@@ -141,6 +148,23 @@ If any field is missing, do not create the automation. Offer a one-shot dry run,
 manual checkpoint, or decision surface instead. Paused or draft automation
 configuration is still a created runtime object; only produce it after the user
 has accepted that artifact as the next actuation step.
+
+## Approval Changes
+
+When a user approves a previously blocked or HITL-gated action, treat that
+approval as changed runtime evidence. It updates the boundary; it does not prove
+that the old plan, checklist position, target surface, verifier, or risk posture
+is still valid.
+
+Before acting on approval:
+
+- Re-read or request the active control record.
+- Name the exact action now approved.
+- Re-check objective, current checklist item, verifier, and safety boundary.
+- Record the approval and resulting decision when durable state exists.
+
+If the approval is vague, stale, broader than the requested action, or the active
+state is unclear, choose `stop` and return a compact decision surface.
 
 ## Skill Interop
 

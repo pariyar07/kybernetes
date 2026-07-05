@@ -43,6 +43,27 @@ workstream system, or project-management surface:
 <workstream-system>/<slug>/Control.md
 ```
 
+### Finding The Active Control Record
+
+When resuming, setting a runtime goal, or continuing after compaction/handoff,
+find the active control record before significant work.
+
+Use this order:
+
+1. Explicit path in the current prompt, handoff, or user answer.
+2. Runtime goal, checklist, worker report, or resume prompt that names a
+   `control.md`.
+3. Project-local `.kybernetes/index.md`, manifest, or equivalent pointer if the
+   project has one.
+4. Recent `.kybernetes/*/control.md` candidates whose objective matches the
+   current task.
+
+If there are zero plausible candidates, reconstruct the smallest safe state from
+available artifacts before acting. If reconstruction is under-determined or would
+invent state, ask one targeted question instead. If there are multiple plausible
+candidates, ask the user to choose and provide a one-line recommendation with why
+one record appears safest.
+
 Minimum sections:
 
 - Objective
@@ -61,6 +82,7 @@ Minimum sections:
 - Decisions
 - Learnings
 - Next checkpoint
+- Next activation
 
 Keep current state short. Split detailed history when useful:
 
@@ -113,8 +135,20 @@ Record:
 - Active altitude: `stay`, `down`, `up`, `stack`, or `stop`.
 - Why this altitude is right now.
 - Sensor/evidence to inspect next.
-- Next activation: trigger, owner/runtime, first artifact to inspect, and next
-  decision.
+- Next activation:
+  - Trigger, condition, or time.
+  - Owner/runtime.
+  - First artifact to inspect.
+  - Next decision.
+  - Stop/escalation condition.
+  - If activation depends on user approval, the exact action that approval
+    unlocks.
+  - If the work is complete, state that there is no next activation except
+    optional follow-up.
+
+Next checkpoint is the next within-run cadence or verification stop. Next
+activation is the cross-turn, resume, scheduled, or approval-triggered condition
+that tells a future loop how to restart safely.
 
 ## 4. Adaptive Pre-Flight
 

@@ -171,6 +171,17 @@ use that system's path convention. For example:
 <workstream-system>/<slug>/Control.md
 ```
 
+When resuming or setting up a goal for existing durable work, locate the active
+control record before acting when possible. Prefer, in order:
+
+1. An explicit path from the user or current prompt.
+2. A runtime goal, checklist, or handoff pointer that names a control record.
+3. A project-local Kybernetes index or manifest, if present.
+4. Recent `.kybernetes/*/control.md` candidates that match the named task.
+
+If more than one plausible active record remains, ask the user to choose before
+significant edits, worker handoffs, or external actions.
+
 The control record should include:
 
 - Objective
@@ -179,6 +190,7 @@ The control record should include:
 - Constraints and out of scope
 - Loop semantics: altitude, setpoint, sensor/evidence, actuators, stop
   condition, boundary, and next activation
+- Variety assessment
 - Execution profile
 - Important files and references
 - Current checklist
@@ -189,6 +201,7 @@ The control record should include:
 - Decisions
 - Learnings
 - Next checkpoint
+- Next activation
 
 For durable runs, pair `control.md` with `verification.md`: `control.md` is the
 current truth, and `verification.md` is the evidence truth.
@@ -201,9 +214,12 @@ start to drown the current checklist.
 
 Bind the loop to the current environment instead of assuming one tool.
 
-- In Codex, use `references/codex.md`. If a goal tool is available, create the
-  goal with the minimal prompt shape there. If the agent cannot create a goal,
-  return a copy-paste `/goal` prompt to the user.
+- In Codex, use `references/codex.md`. If a goal tool is available and the
+  target, objective, done condition, verifier, constraints, and control record
+  are known enough to make a meaningful durable objective, create the goal with
+  the minimal prompt shape there. If those fields are missing, repair readiness
+  before setting or returning a goal prompt. If the agent cannot create a goal
+  after readiness is repaired, return a copy-paste `/goal` prompt to the user.
 - In Claude Code, use `references/claude-code.md`.
 - In any other skill-compatible agent, use `references/portable-core.md`.
 
@@ -275,6 +291,12 @@ Ask for human input when the loop needs a higher-order controller:
 When escalating, do not write an essay. Give the user the smallest useful
 decision surface: 2-4 options, one recommended default, and the consequence of
 choosing it.
+
+Treat new approval after a block or HITL pause as runtime evidence, not as a
+command to continue the old plan unchanged. Re-sense the active control record,
+current checklist, exact approved action, verifier, and risk boundary before
+acting. If the approval is broad or the state has changed, return a small
+decision surface instead of proceeding silently.
 
 ## Checkpoint Loop
 
