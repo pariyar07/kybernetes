@@ -6,9 +6,9 @@ Use this file when the loop governor is running in Claude Code.
 
 | L2 port or layer | Claude Code binding | Caveat / fallback | Evidence and state obligation |
 | --- | --- | --- | --- |
-| `durable_objective` | Use the lead prompt, current session, and `control.md` as the durable objective. If the active surface exposes a goal-like or task-like state, treat it as advisory. | Do not assume a universal persistent goal command. If native persistence is unavailable, continue from the trust pair. | Mirror objective, DONE, verifier, constraints, and recovery pointer into `control.md`. |
+| `durable_objective` | Use the lead prompt, current session, and `control.md` as the durable objective. If the active surface exposes a goal-like, task-like, or TaskCreate-style state, treat it as advisory. | Do not assume a universal persistent goal command. If native persistence is unavailable, continue from the trust pair. | Mirror objective, DONE, verifier, constraints, and recovery pointer into `control.md`. |
 | `planning_surface` | Use plan mode, plan permission mode, or a compact planning prompt when the correct move is `up`. | If plan mode is unavailable or unnecessary, write the plan in chat or `control.md`. | Accepted plan, assumptions, rejected alternatives, and next checkpoint belong in L1 state when durable. |
-| `progress_surface` | Use todo/session state, task lists, or the current transcript as advisory progress. | Runtime UI state is not canonical unless recoverable and linked from L1. | Mirror durable progress into `checklist.md` or `control.md` when needed. |
+| `progress_surface` | Use todo/session state, task lists, task objects, or the current transcript as advisory progress. | Runtime UI state is not canonical unless recoverable and linked from L1. | Mirror durable progress into `checklist.md` or `control.md` when needed. |
 | `worker_spawn` | Use the Agent tool, Task tool, configured subagents, or project/user subagents for bounded worker tasks. | Keep delegation flat unless the worker brief explicitly grants bounded child loops. | Worker output is evidence input; parent loop owns integration and final verification. |
 | `peer_workstream` | Use separate Claude Code chats, sessions, background agents, or agent teams only for human-visible peer workstreams with their own owner and return path. | Treat background or team features as surface-specific. If unavailable, use a manual sibling note/thread or stay in the parent loop. | Record owner, scope, durable pointer, return contract, and integration decision in `control.md`. |
 | `isolation` | Use git worktrees, branch/session boundaries, permission modes, or sandboxed/cloud sessions for concurrent writers. | Isolated sessions may not carry ignored `.kybernetes/` state automatically. | Before spawning isolated work, pass either a copied brief, an absolute parent run-root pointer, or a rule that the worker must not depend on reading parent L1 files directly. Record the state-propagation choice. |
@@ -48,6 +48,14 @@ blockers, risk, or irreversible actions.
 If the active Claude Code surface can invoke skills directly, prefer that. If
 the skill name or namespace does not resolve, use this lead prompt and include
 the local `SKILL.md` path.
+
+## Surface Sizing
+
+For medium variety, prefer zero extra Claude Code surfaces unless a specific L2
+gap justifies each one. Do not invoke plan mode, worker tools, worktrees,
+background sessions, or review subagents by reflex. Use them when they solve a
+named need such as `planning_surface`, `worker_spawn`, `isolation`,
+`verification_sensor`, or `comparator_augmentation`.
 
 ## Workers
 
