@@ -39,6 +39,9 @@ and preserve durable recovery.
   `comparator_augmentation` when it is advisory only.
 - Use MCP, plugins, browser/web tools, shell, GitHub, and app tools only through
   `external_tool_provider` and `permission_boundary`.
+- Respect approval policy, sandbox mode, and tool approvals; a granted
+  permission authorizes an action but is not evidence that the output is
+  correct.
 - Keep memory, progress UI, hooks, SDK/app-server state, transcripts, and
   runtime goals advisory unless mirrored into `control.md` / `verification.md`
   or recorded as independently recoverable pointers.
