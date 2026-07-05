@@ -71,6 +71,8 @@ tests/
 
 Planned skills are documented in [docs/architecture/planned-skills.md](docs/architecture/planned-skills.md). They will move into `skills/` only after pressure scenarios justify publishing a real `SKILL.md`.
 
+Runtime layering is explained in [docs/architecture/layered-runtime-substrate.md](docs/architecture/layered-runtime-substrate.md).
+
 ## Install The Seed Skill
 
 Use the skills CLI to install from GitHub.

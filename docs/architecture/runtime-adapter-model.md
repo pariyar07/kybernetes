@@ -8,7 +8,9 @@ Required L2 port contracts live in
 [`l2-port-contracts.md`](l2-port-contracts.md). The repo-side runtime matrix
 lives in [`portable-runtime-matrix.md`](portable-runtime-matrix.md). This file
 is the adapter index: it maps older binding slots to L0/L1/L2/L3 placement so
-runtime docs can bind native surfaces without changing core semantics.
+runtime docs can bind native surfaces without changing core semantics. The full
+layer legend lives in
+[`layered-runtime-substrate.md`](layered-runtime-substrate.md).
 
 ## Slot To Port Mapping
 
