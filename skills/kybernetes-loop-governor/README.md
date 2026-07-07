@@ -45,7 +45,9 @@ The skill loads:
 3. `references/failure-to-constraint.md` when repeated failure needs a durable
    guard
 4. `references/adaptive-elicitation.md`
-5. The current runtime binding: `references/codex.md`,
+5. `references/runtime-use-rubric.md` when choosing which runtime surfaces are
+   actually needed
+6. The current runtime binding: `references/codex.md`,
    `references/claude-code.md`, or `references/portable-core.md`
 
 For runtimes with a native durable-objective surface, keep the objective brief
@@ -66,6 +68,7 @@ kybernetes-loop-governor/
     goal-checklist.md
     operating-model.md
     portable-core.md
+    runtime-use-rubric.md
   README.md
 ```
 

@@ -6,6 +6,8 @@ caveats, and selected native surfaces belong in L3 binding references.
 
 For the full layer legend, see
 [`layered-runtime-substrate.md`](layered-runtime-substrate.md).
+For proportionate use guidance, see the loop-governor
+[`runtime-use-rubric.md`](../../skills/kybernetes-loop-governor/references/runtime-use-rubric.md).
 
 L0 chooses a control move. L1 preserves state and evidence. L2 names the
 semantic capability an adapter must provide or safely emulate. An adapter may
