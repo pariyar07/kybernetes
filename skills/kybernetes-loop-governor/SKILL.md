@@ -22,6 +22,8 @@ Read these before a coordinated run:
 - `references/failure-to-constraint.md` when verification repeats, the same
   mistake recurs, or a lesson may need a durable constraint.
 - `references/adaptive-elicitation.md` for question sizing.
+- `references/runtime-use-rubric.md` when choosing which runtime surfaces are
+  actually needed.
 - One runtime binding: `references/codex.md`, `references/claude-code.md`, or
   `references/portable-core.md`.
 
