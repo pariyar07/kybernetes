@@ -12,6 +12,10 @@ coverage/
 # Legacy local run artifacts from early drafts.
 .agent-runs/
 
-# Local Claude settings and private local memory.
+# Local agent settings and private local memory.
 .claude/
+.gemini/
 CLAUDE.local.md
+GEMINI.local.md
+AGENTS.override.md
+**/AGENTS.override.md
