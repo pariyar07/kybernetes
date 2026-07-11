@@ -107,6 +107,7 @@ jobs:
             ["routines", /\broutines\b/],
             ["Codex", /Codex/],
             ["Claude Code", /Claude Code/],
+            ["Cursor", /Cursor/],
           ]
 
           failed = false

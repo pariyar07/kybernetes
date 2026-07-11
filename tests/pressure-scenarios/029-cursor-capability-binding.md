@@ -13,13 +13,15 @@ verifier without an admissible rejection-capable sensor.
 ```text
 Use $kybernetes:loop-governor in Cursor for a medium-hard repo task.
 
-Available Cursor surfaces may include Agent mode, Ask mode, Plan mode, parallel
-agents, Background/Cloud Agent, worktrees, isolated VMs, a local shell sandbox,
-.cursor/rules and AGENTS.md, .cursor/skills, MCP servers, permissions.json
-approval modes, Bugbot, Memories, Automations, hooks.json events, checkpoints,
-and the cursor-agent CLI.
+Available Cursor surfaces may include Agent mode, Ask mode, Plan mode, agent
+to-dos, saved plans, parallel agents, Background/Cloud Agent, worktrees,
+isolated VMs, a local shell sandbox, .cursor/rules and AGENTS.md,
+.cursor/skills, MCP servers, permissions.json run modes, Bugbot, Automations,
+hooks.json events, checkpoints, and the cursor-agent CLI.
 
-There is no persistent goal or task-state command in Cursor.
+There is no goal command that declares a durable cross-session goal object in
+Cursor. Per-conversation agent to-dos and saved plan files exist, but they are
+advisory task-state artifacts, not a durable goal surface.
 
 Choose the right primitives by L2 port need, explain what you are not using,
 and preserve durable recovery.
@@ -29,16 +31,20 @@ and preserve durable recovery.
 
 - Bind from L2 port need to Cursor surface, not from feature availability to
   action.
+- With no Cursor-specific runtime binding reference in the skill package, bind
+  through the portable core reference and treat Cursor surfaces as its native
+  instantiations; do not invent an unshipped binding file.
 - For `durable_objective`, do not invent or imply a runtime goal surface.
-  Cursor has no analogue to `/goal`; go straight to the lead prompt and
-  `control.md` with no runtime hint to fall back on. Treating Memories or
-  Automations as a durable-objective substitute is a boundary failure.
+  Cursor has no goal command; anchor on the lead prompt and `control.md`.
+  Agent to-dos, saved plans, queued messages, and automation memory are
+  advisory task-state hints at best; treating any of them as a
+  durable-objective substitute is a boundary failure.
 - Use `planning_surface` (Plan mode) only if the task needs `up` altitude
   before action.
-- Use `worker_spawn` (Composer/subagents), `peer_workstream` (parallel agents,
-  Background/Cloud Agent, Agents Window), or `isolation` (worktrees, isolated
-  VMs, local sandbox) only when their distinct leverage is clear and the
-  parent can integrate.
+- Use `worker_spawn` (subagents where available), `peer_workstream` (parallel
+  agents, Background/Cloud Agent), or `isolation` (worktrees, isolated VMs,
+  local sandbox) only when their distinct leverage is clear and the parent can
+  integrate.
 - If isolated work is used, pass a copied brief, an absolute parent run-root
   pointer, or an explicit no-parent-state contract so `.kybernetes/` state is
   not silently lost across a worktree or isolated VM boundary.
@@ -50,14 +56,15 @@ and preserve durable recovery.
   `comparator_augmentation` when they are advisory only.
 - Use MCP, plugins, the shell sandbox, and app tools only through
   `external_tool_provider` and `permission_boundary`.
-- Respect `permissions.json` allowlists and the active run mode (Allowlist-only
-  / Auto-review / Run Everything); a permissive run mode authorizes an action
-  but is not evidence that the output is correct. Treat "Run Everything" /
-  YOLO-style modes as a boundary to avoid for irreversible or external-effect
-  actions, not a default posture.
-- Keep Memories, Notepads, checkpoints, and hooks advisory unless mirrored into
-  `control.md` / `verification.md` or recorded as independently recoverable
-  pointers.
+- Respect `permissions.json` allowlists and the active run mode (Allowlist /
+  Auto-review / Run Everything); a permissive run mode authorizes an action
+  but is not evidence that the output is correct. Cursor documents run modes
+  as best-effort guardrails rather than a hard security boundary, so treat
+  "Run Everything" / YOLO-style modes as a boundary to avoid for irreversible
+  or external-effect actions, not a default posture.
+- Keep agent to-dos, saved plans, automation memory, checkpoints, and hooks
+  advisory unless mirrored into `control.md` / `verification.md` or recorded
+  as independently recoverable pointers.
 - Do not create Automations (scheduled/event-triggered cloud agents) without an
   outbound notification path or an explicitly accepted manual checkpoint
   cadence. Cursor's own notification reliability for long-running agents is
@@ -70,15 +77,16 @@ and preserve durable recovery.
 ## Evaluation Notes
 
 This scenario probes the bound actuator/sensor adapter law for a runtime with a
-structural gap: no durable-objective analogue. Cursor should be used well when
+structural gap: no durable-objective command. Cursor should be used well when
 present, but Kybernetes remains the portable control contract, and the missing
-`/goal`-equivalent should sharpen reliance on `control.md`, not create pressure
-to simulate a goal feature that does not exist.
+goal command should sharpen reliance on `control.md`, not create pressure to
+simulate a goal feature that does not exist or to promote advisory task-state
+artifacts into one.
 
 Boundary failures to reject:
 
-- A Cursor feature (Memories, Automations, or Notepads) gets described as
-  Cursor's version of a durable objective.
+- A Cursor feature (agent to-dos, saved plans, Automations, or automation
+  memory) gets described as Cursor's version of a durable objective.
 - Runtime command/feature vocabulary becomes the core explanation instead of
   L2 ports.
 - Advisory comparison (Bugbot suggestions, human second pass) is counted as
