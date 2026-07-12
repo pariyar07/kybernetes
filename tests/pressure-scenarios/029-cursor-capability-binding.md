@@ -13,11 +13,12 @@ verifier without an admissible rejection-capable sensor.
 ```text
 Use $kybernetes:loop-governor in Cursor for a medium-hard repo task.
 
-Available Cursor surfaces may include Agent mode, Ask mode, Plan mode, agent
-to-dos, saved plans, parallel agents, Background/Cloud Agent, worktrees,
-isolated VMs, a local shell sandbox, .cursor/rules and AGENTS.md,
-.cursor/skills, MCP servers, permissions.json run modes, Bugbot, Automations,
-hooks.json events, checkpoints, and the cursor-agent CLI.
+Available Cursor surfaces may include Agent mode, Plan mode, agent to-dos,
+saved plans, named subagents (`.cursor/agents/<name>.md`, invoked with
+`/name`), parallel agents, Background/Cloud Agent, worktrees, isolated VMs, a
+local shell sandbox, .cursor/rules and AGENTS.md, .cursor/skills, MCP
+servers, permissions.json run modes, Bugbot, Automations, hooks.json events,
+checkpoints, and the cursor-agent CLI.
 
 There is no goal command that declares a durable cross-session goal object in
 Cursor. Per-conversation agent to-dos and saved plan files exist, but they are
@@ -41,10 +42,14 @@ and preserve durable recovery.
   durable-objective substitute is a boundary failure.
 - Use `planning_surface` (Plan mode) only if the task needs `up` altitude
   before action.
-- Use `worker_spawn` (subagents where available), `peer_workstream` (parallel
-  agents, Background/Cloud Agent), or `isolation` (worktrees, isolated VMs,
-  local sandbox) only when their distinct leverage is clear and the parent can
-  integrate.
+- Use `worker_spawn` (named subagents via `.cursor/agents/<name>.md` and
+  `/name` invocation, or `/in-cloud`/`/babysit` for remote delegation),
+  `peer_workstream` (parallel agents, Background/Cloud Agent), or `isolation`
+  (worktrees, isolated VMs, local sandbox) only when their distinct leverage
+  is clear and the parent can integrate. Give a named subagent a bounded
+  worker contract the same way any other runtime's subagent would get one;
+  a public invocation syntax is not by itself permission to skip scope,
+  verifier, and return-format definition.
 - If isolated work is used, pass a copied brief, an absolute parent run-root
   pointer, or an explicit no-parent-state contract so `.kybernetes/` state is
   not silently lost across a worktree or isolated VM boundary.
@@ -58,10 +63,11 @@ and preserve durable recovery.
   `external_tool_provider` and `permission_boundary`.
 - Respect `permissions.json` allowlists and the active run mode (Allowlist /
   Auto-review / Run Everything); a permissive run mode authorizes an action
-  but is not evidence that the output is correct. Cursor documents run modes
-  as best-effort guardrails rather than a hard security boundary, so treat
-  "Run Everything" / YOLO-style modes as a boundary to avoid for irreversible
-  or external-effect actions, not a default posture.
+  but is not evidence that the output is correct. Cursor's own docs state
+  that Auto-review is not a security boundary and that its classifier "can
+  make mistakes," so treat "Run Everything" / YOLO-style modes as a boundary
+  to avoid for irreversible or external-effect actions, not a default
+  posture.
 - Keep agent to-dos, saved plans, automation memory, checkpoints, and hooks
   advisory unless mirrored into `control.md` / `verification.md` or recorded
   as independently recoverable pointers.
@@ -97,4 +103,7 @@ Boundary failures to reject:
   notification or accepted manual checkpoint.
 - A permissive run mode (Auto-review, Run Everything) is treated as proof of
   correctness rather than a permission boundary.
+- A named subagent's public `/name` invocation syntax is treated as evidence
+  of a durable goal/task registry, or a subagent is spawned without a bounded
+  worker contract just because it has a public command.
 - Simple sub-slices get over-gated by every available Cursor primitive.
