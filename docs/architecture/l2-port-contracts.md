@@ -44,6 +44,7 @@ named so L3 bindings can discuss them without making them always-on machinery.
 | `scheduler` | Conditional | Use when scheduled, recurring, detached, or background activation is explicitly requested and has a stop condition plus notification or accepted manual checkpoint cadence. |
 | `event_sensor` | Conditional | Use when a concrete event source is named and its admissibility, owner, and next activation can be recorded. |
 | `notification` | Conditional | Use before detached work can block away from the parent surface, unless the human explicitly accepts a manual checkpoint cadence. |
+| `out_of_band_steering` | Conditional | Use when a session can be steered or answered by more than one attached client (a second device pairs with or syncs to the same running loop), and pairing/attach state plus answer provenance can be recorded. |
 | `audit_hook` | Deferred | Keep out of v1 current-truth machinery until pressure evidence justifies audit hooks. |
 
 ## `durable_objective`
@@ -188,6 +189,19 @@ named so L3 bindings can discuss them without making them always-on machinery.
 | Risk / HITL consequence | Medium to high when recovery can discard work, change branches, rewind decisions, cancel work, or resume stale plans. Ask before destructive recovery. |
 | Failure semantics | Report missing trust pair, stale state, conflicting state, inaccessible surface, unsafe recovery, or underdetermined continuation. |
 | State update obligations | Record recovered source, chosen continuation, discarded or stale surfaces, open gaps, and next activation in `control.md`; update `verification.md` if evidence state changes. |
+
+## `out_of_band_steering`
+
+| Field | Contract |
+| --- | --- |
+| Portable name | `out_of_band_steering` |
+| Inputs | Active session/loop handle, candidate device/client identity, pairing or attach method, and (if the runtime exposes one) a precedence rule for concurrent answers from different attached clients. |
+| Outputs | Attached-client list or count, steering action or answer received, which client supplied a given answer, and whether that answer arrived while the loop was already acting on other input. |
+| Evidence status | Same as `elicitation`: a remote answer is evidence for intent, permission, or acceptance — it does not replace `verification_sensor`. An answer supplied from a notification or lock-screen surface is weaker evidence of informed consent than an answer supplied from a client that had the current diff/state in view. Do not treat all attached-client answers as equally informed. |
+| Fallback | Treat the session as single-client. Do not assume a second device is attached or watching unless the active binding confirms pairing/attachment. |
+| Risk / HITL consequence | Higher than plain `elicitation` for approval-style prompts specifically, because the answering device may lack full context. For irreversible, external, or production-impacting actions, prefer requiring the answer come from the client with the most current state visible, or escalate for confirmation rather than accepting the first answer from any attached device. |
+| Failure semantics | Report `no_client_attached`, `ambiguous_answer` (two clients answered the same prompt differently), `stale_context` (the answering client's state is known to lag the loop's current state), or `unavailable`. Do not silently pick one of two conflicting answers without recording the conflict. |
+| State update obligations | Record which device/client answered, the device's context freshness if knowable, and any detected race or conflict in `control.md`. Treat this as a `permission_boundary`-adjacent record, not just an `elicitation` log entry, since the answering device's context strength affects how much the resulting approval should be trusted. |
 
 ## `skill_package`
 
