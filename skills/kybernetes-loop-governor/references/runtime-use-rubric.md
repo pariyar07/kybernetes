@@ -91,6 +91,14 @@ Prefer the least side-effecting tool path that can answer the control question.
 Escalate before tool use that sends messages, deploys, deletes, bills, changes
 production state, exposes secrets, or writes to external systems.
 
+Installing a plugin bundle is a `permission_boundary` decision, not a
+`skill_package` load. Multiple runtimes now package rules, skills, agents,
+hooks, and MCP servers together as one installable unit; accepting that
+install can silently grant tool access, event hooks, and MCP servers in a
+single action. Route plugin installation through the same capability-grant
+reasoning as any other permission decision, and record what the bundle
+actually granted, not just that a skill became available.
+
 ## Scheduled Or Detached Work
 
 Scheduled, recurring, detached, event-driven, and background work needs a
@@ -110,6 +118,39 @@ detached-style `worker_spawn`, establish:
 
 If any field is missing, return a decision surface or propose a one-shot dry run
 instead of creating the detached surface.
+
+## Recurring Cross-Tool Patterns
+
+Two patterns now recur across multiple runtime bindings (not just one tool's
+quirk). Treat the recurrence itself as evidence the pattern is a real
+portable concern, while still binding each instance through its runtime's
+own L3 reference rather than inventing a shared literal command.
+
+**Advisory review features can sound like verifiers and are not.** Several
+runtimes now ship deep, multi-stage, or cloud-run review features with
+confidence language such as "independently reproduced and verified" or
+extensive multi-pass analysis. Under adversarial verification, none of the
+ones checked so far carry documented rejection authority: their own CLI/API
+contracts return success regardless of whether findings exist, and their
+own docs describe results as advisory input for a human to accept, dismiss,
+or promote to a stricter check. Bind these to `comparator_augmentation`, not
+`verification_sensor`, no matter how thorough the marketing language sounds.
+The non-mixing rule under Review Surfaces above is the general law; this is
+a concrete, recurring instance of teams needing to re-apply it as new
+"AI review" features ship. A caller can still turn one into an admissible
+sensor by building their own accept/reject gate on top of structured
+(JSON/SARIF) output — but that composition is not what ships by default.
+
+**Out-of-band steering from another device is now common, but not uniform.**
+Multiple runtimes let a phone or browser steer a session whose tools
+execute on user-owned compute. This is genuine two-way `elicitation` and
+`notification`, not passive monitoring — but the session-identity and
+pairing model differs meaningfully per runtime (symmetric multi-device sync
+of one session vs. a persistent host a device pairs to vs. a cloud-hosted
+agent loop with local tool execution). Do not write one shared prompt
+assuming a single session-identity model; bind each runtime's variant
+through its own L3 reference, and treat the pattern itself only as a signal
+to check whether the active runtime has one.
 
 ## Over-Gating Check
 
