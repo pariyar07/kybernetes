@@ -34,6 +34,7 @@ layer legend lives in
 | Schedule / recurrence | L2 conditional | `scheduler`; only when a concrete scheduled activation is requested and the notification/manual-checkpoint gate is satisfied. |
 | Event trigger | L2 conditional | `event_sensor`; only when a concrete event source is named and admissible. |
 | Notification | L2 conditional | `notification`; required before detached, scheduled, recurring, or background work can block away from the parent surface, unless manual checkpoints are explicitly accepted. |
+| Out-of-band steering | L2 conditional | `out_of_band_steering`; only when a session can be steered or answered by more than one attached client, and pairing/attach state plus answer provenance can be recorded. |
 | External tools | L2 | `external_tool_provider` |
 | Permission model | L2 | `permission_boundary` |
 | Resume/recovery | L2/L1 | `lifecycle_recovery`, anchored back to `control.md` and `verification.md`. |
