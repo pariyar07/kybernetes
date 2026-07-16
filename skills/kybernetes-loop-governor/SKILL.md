@@ -21,6 +21,8 @@ Read these before a coordinated run:
 - `references/goal-checklist.md` for the control record shape.
 - `references/canonical-lifecycle.md` for durable states, recoverable waits,
   terminal native status writes, divergence, and migration.
+- `references/capability-negotiation.md` before relying on consequential native
+  lifecycle, scheduling, event, notification, worker, or recovery surfaces.
 - `references/failure-to-constraint.md` when verification repeats, the same
   mistake recurs, or a lesson may need a durable constraint.
 - `references/adaptive-elicitation.md` for question sizing.
@@ -226,6 +228,11 @@ start to drown the current checklist.
 ## Runtime Binding
 
 Bind the loop to the current environment instead of assuming one tool.
+
+Classify the required L2 ports and transitions, then inspect the active callable
+surface. Documentation and another product surface are not capability proof.
+Use a dated capability snapshot when the choice affects recovery or detached
+work, and record unsupported transitions plus the portable fallback.
 
 Use exactly one runtime binding reference for the active environment:
 `references/codex.md`, `references/claude-code.md`, or

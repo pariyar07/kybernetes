@@ -65,6 +65,8 @@ Blind `stack` is as bad as never stacking.
 - `029`: third runtime capability binding; preserve L2 port vocabulary in a runtime with no durable-objective command, without inventing one or promoting advisory task-state into one.
 - `030`: canonical lifecycle; recoverable human, time, event, pause,
   verification, and recovery waits must not become native terminal blocked.
+- `031`: capability negotiation; documentation is not proof of active
+  agent-callable transitions or surface parity.
 
 ## Boundary Failure Coverage
 
@@ -79,3 +81,5 @@ The suite should keep explicit pressure on substrate-boundary failures:
 - Simple authorized tasks being over-gated by durable-state or orchestration
   ceremony.
 - Recoverable waits being mirrored into an irreversible native terminal state.
+- Documented user controls being assumed available to the active agent without
+  callable-surface evidence or a safe probe.

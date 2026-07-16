@@ -17,6 +17,15 @@ surface: stay in the current loop, do the work, run the verifier, and report the
 result. Runtime surfaces should reduce uncertainty, risk, recovery cost, or
 coordination load. If they mostly create ceremony, do not use them.
 
+## Capability Negotiation
+
+- Start from the semantic L2 port and transition the task requires, not from a
+  runtime feature list.
+- Inspect the active callable surface before selecting a native binding.
+- Record a dated capability snapshot when the choice affects recovery,
+  detached work, external side effects, or another consequential boundary.
+- Record unsupported and unknown transitions plus the portable fallback.
+
 ## Selection Protocol
 
 Before binding a surface, answer these in order:

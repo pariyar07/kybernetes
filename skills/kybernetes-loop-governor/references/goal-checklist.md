@@ -77,6 +77,7 @@ Minimum sections:
 - Constraints and out of scope
 - Loop semantics
 - Canonical lifecycle
+- Capability snapshot
 - Variety assessment
 - Execution profile
 - Important files and references
@@ -168,6 +169,15 @@ that tells a future loop how to restart safely.
 - Evidence or decision required for the next transition.
 
 Use `canonical-lifecycle.md` for allowed transitions and terminal mirroring.
+
+## 3B. Capability Snapshot
+
+- Observation date and evidence source.
+- Runtime, surface, version, provider, and plan when known.
+- Required, supported, unsupported, and unknown operations or transitions.
+- Safe probe result, if needed.
+- Selected binding and portable fallback.
+- Refresh trigger.
 
 ## 4. Adaptive Pre-Flight
 

@@ -92,6 +92,7 @@ jobs:
             "skills/kybernetes-loop-governor/README.md",
             "skills/kybernetes-loop-governor/references/goal-checklist.md",
             "skills/kybernetes-loop-governor/references/canonical-lifecycle.md",
+            "skills/kybernetes-loop-governor/references/capability-negotiation.md",
             "skills/kybernetes-loop-governor/references/portable-core.md",
             "docs/architecture/l2-port-contracts.md",
             "tests/pressure-scenarios/README.md",

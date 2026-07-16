@@ -32,4 +32,23 @@ require_terms(
   ],
 )
 
+capability_path =
+  "skills/kybernetes-loop-governor/references/capability-negotiation.md"
+capability = require_file(capability_path)
+
+require_terms(
+  capability_path,
+  capability,
+  [
+    "observed_at",
+    "surface",
+    "callable operations",
+    "supported transitions",
+    "unsupported transitions",
+    "portable fallback",
+    "documentation is not proof",
+    "safe probe",
+  ],
+)
+
 puts "runtime governance validation passed"
