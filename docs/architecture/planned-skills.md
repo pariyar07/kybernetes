@@ -23,3 +23,4 @@ Placeholder folders under `skills/` make the repo look installable before behavi
 
 - [`skills/kybernetes-loop-governor`](../../skills/kybernetes-loop-governor/README.md), installed as `kybernetes:loop-governor`
 - [`skills/kybernetes-loop-architect`](../../skills/kybernetes-loop-architect/SKILL.md), installed as `kybernetes:loop-architect` after scenarios 037-040 established its independent advisory boundary.
+- [`skills/kybernetes-loop-closeout`](../../skills/kybernetes-loop-closeout/SKILL.md), installed as `kybernetes:loop-closeout` after scenarios 051-054 established checkpoint, handoff, and retirement behavior.
