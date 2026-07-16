@@ -480,9 +480,9 @@ Live probes separately test Codex, Claude Code, and portable fallback bindings.
 Results are date-stamped and distinguish CLI, app, cloud, plan, and
 agent-callable surfaces.
 
-## Delivery Sequence
+## Delivered Sequence
 
-Implement this architecture incrementally rather than as one change:
+The v0.1 release implemented this architecture incrementally:
 
 1. Canonical state machine, native-mirroring constraint, and capability
    negotiation.
@@ -493,23 +493,20 @@ Implement this architecture incrementally rather than as one change:
    rules.
 5. `kybernetes:loop-closeout` with checkpoint, handoff, workstream, and program
    modes.
-6. `kybernetes:verify-run` and `kybernetes:capture-learning` only after their
-   pressure gates pass.
+6. `kybernetes:verify-run` and `kybernetes:capture-learning` after their
+   pressure gates passed.
 7. Stronger transactional or production backends only when portable file-based
    coordination proves insufficient.
 
 Each stage remains portable, independently testable, and releasable. Existing
 governor behavior must remain functional while responsibilities migrate.
-Implementation planning is split by stage. The first implementation plan covers
-stage 1 only; later stages receive their own pressure-backed specifications and
-plans when their entry gates are satisfied.
+Implementation planning and evidence are split across nine stage plans and
+pressure scenarios 030-068.
 
 ## Deferred Decisions
 
 These are deliberate future gates, not unspecified requirements:
 
-- Exact packaging point for each helper skill, decided by pressure evidence and
-  always-loaded context cost.
 - Exact transactional backend, deferred until file-based coordination is
   insufficient.
 - Recursive child programs, deferred until a flat workgraph fails a real case.
