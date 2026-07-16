@@ -10,7 +10,7 @@ Module identifiers are stable manifest values; paths are implementation details.
 | `elicitation` | `adaptive-elicitation.md` | Missing choices change outcome, risk, permission, budget, topology, or verifier. |
 | `lifecycle` | `canonical-lifecycle.md` | State is durable, waiting, paused, terminal, migrated, or diverges from runtime state. |
 | `capability` | `capability-negotiation.md` | Any native goal, scheduler, worker, event, notification, hook, or background surface may be used. |
-| `topology` | `goal-checklist.md` | Work may stack child loops, use peer workstreams, or require single-writer coordination. |
+| `topology` | `workgraph.md` | Work may stack child loops, use peer workstreams, or require single-writer coordination. |
 | `recovery` | `canonical-lifecycle.md` | State is stale, missing, conflicting, terminally trapped, or being migrated. |
 | `verification` | `goal-checklist.md` | Evidence must reject completion, integrate child results, or survive handoff. |
 | `learning` | `failure-to-constraint.md` | Failure repeats or a reusable constraint may be promoted. |
