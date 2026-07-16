@@ -87,6 +87,9 @@ jobs:
       - name: Validate lazy governor kernel
         run: ruby tests/validate-lazy-governor.rb
 
+      - name: Validate loop architect
+        run: ruby tests/validate-loop-architect.rb
+
       - name: Reject runtime-token leaks from core semantics
         run: |
           ruby <<'RUBY'

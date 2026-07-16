@@ -22,3 +22,4 @@ Placeholder folders under `skills/` make the repo look installable before behavi
 ## Current Installable Skills
 
 - [`skills/kybernetes-loop-governor`](../../skills/kybernetes-loop-governor/README.md), installed as `kybernetes:loop-governor`
+- [`skills/kybernetes-loop-architect`](../../skills/kybernetes-loop-architect/SKILL.md), installed as `kybernetes:loop-architect` after scenarios 037-040 established its independent advisory boundary.
