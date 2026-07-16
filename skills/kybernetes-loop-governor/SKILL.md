@@ -19,6 +19,8 @@ Read these before a coordinated run:
 - `references/operating-model.md` for the control principles and named
   cybernetic lenses.
 - `references/goal-checklist.md` for the control record shape.
+- `references/canonical-lifecycle.md` for durable states, recoverable waits,
+  terminal native status writes, divergence, and migration.
 - `references/failure-to-constraint.md` when verification repeats, the same
   mistake recurs, or a lesson may need a durable constraint.
 - `references/adaptive-elicitation.md` for question sizing.
@@ -199,6 +201,8 @@ The control record should include:
 - Constraints and out of scope
 - Loop semantics: altitude, setpoint, sensor/evidence, actuators, stop
   condition, boundary, and next activation
+- Canonical lifecycle: current state, previous state, transition reason, native
+  state if known, and divergence status
 - Variety assessment
 - Execution profile
 - Important files and references

@@ -81,6 +81,9 @@ jobs:
           grep -RIl "HITL\\|Human-In-The-Loop" skills tests docs examples README.md >/dev/null
           grep -RIl "impediment" skills tests docs examples README.md >/dev/null
 
+      - name: Validate runtime governance
+        run: ruby tests/validate-runtime-governance.rb
+
       - name: Reject runtime-token leaks from core semantics
         run: |
           ruby <<'RUBY'
@@ -88,6 +91,7 @@ jobs:
             "skills/kybernetes-loop-governor/SKILL.md",
             "skills/kybernetes-loop-governor/README.md",
             "skills/kybernetes-loop-governor/references/goal-checklist.md",
+            "skills/kybernetes-loop-governor/references/canonical-lifecycle.md",
             "skills/kybernetes-loop-governor/references/portable-core.md",
             "docs/architecture/l2-port-contracts.md",
             "tests/pressure-scenarios/README.md",
