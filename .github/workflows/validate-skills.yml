@@ -105,6 +105,9 @@ jobs:
       - name: Validate learning capture
         run: ruby tests/validate-capture-learning.rb
 
+      - name: Validate v0.1 release contract
+        run: ruby tests/validate-v0.1-release.rb
+
       - name: Reject runtime-token leaks from core semantics
         run: |
           ruby <<'RUBY'

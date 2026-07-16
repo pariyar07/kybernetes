@@ -1,6 +1,6 @@
 # Runtime-Adaptive Harness v0.1 Release Train
 
-Status: approved for implementation
+Status: implementation complete; release verification in progress
 Date: 2026-07-17
 Target release: `v0.1.0`
 Required prerelease: `v0.1.0-rc.1`
@@ -115,7 +115,7 @@ Every Kybernetes installable skill:
 
 ### Stage 1: Canonical Lifecycle And Capability Negotiation
 
-Status: implemented and validated in the Stage 1 branch.
+Status: implemented, validated, and integrated.
 
 Deliverables:
 

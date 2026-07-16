@@ -2,7 +2,11 @@
 
 Only real installable skills belong under `skills/`. Planned skills stay in this document until pressure scenarios justify creating a `SKILL.md`.
 
-Accepted v1 rule: maintain one installable public skill, `kybernetes:loop-governor`. Runtime bindings, verification, learning capture, parallel coordination, and portable fallback remain lazy-loaded references or internal modules until pressure evidence proves a split is necessary and the always-loaded context cost exceeds average-run value.
+Accepted v0.1 rule: maintain one canonical governor. Publish helper skills only
+after pressure evidence proves an independently testable boundary and the split
+reduces always-loaded cost or improves rejection authority. Runtime wrappers,
+parallel coordination, and portable fallback remain references until they pass
+the same gate.
 
 ## Planned Skill Boundaries
 

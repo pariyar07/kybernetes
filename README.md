@@ -4,7 +4,9 @@ Coding agents don't need more autonomy. They need better steering.
 
 Kybernetes is an open-source steering layer for coding agents: my take on loop engineering for agentic work. It helps agent work stay on course: keep the goal visible, use the right amount of process, ask when stuck, delegate carefully, and check the work before calling it done.
 
-Technically, Kybernetes is a loop governor for agentic work. V1 ships as one installable skill: `kybernetes:loop-governor`.
+Technically, Kybernetes is a loop governor plus bounded helper skills for loop
+architecture, independent verification, learning promotion, and closeout. The
+governor remains the only canonical controller.
 
 Origin essay: [The Word That Stopped the Video](https://satyampariyar.com/blog/the-word-that-stopped-the-video)
 
@@ -24,22 +26,31 @@ The name also keeps the project independent from any one runtime or knowledge sy
 
 ## Current Status
 
-This repository is in early seed form.
+The v0.1 runtime-adaptive harness includes:
 
-The first usable skill is:
+- [`kybernetes:loop-governor`](skills/kybernetes-loop-governor/README.md): the
+  canonical controller and lean routing kernel.
+- [`kybernetes:loop-architect`](skills/kybernetes-loop-architect/SKILL.md):
+  dynamic independent lenses and execution-contract design.
+- [`kybernetes:loop-closeout`](skills/kybernetes-loop-closeout/SKILL.md):
+  checkpoint, handoff, workstream, and program retirement.
+- [`kybernetes:verify-run`](skills/kybernetes-verify-run/SKILL.md): independent
+  rejection-capable verification.
+- [`kybernetes:capture-learning`](skills/kybernetes-capture-learning/SKILL.md):
+  evidence-gated reusable constraint proposals.
 
-- [`skills/kybernetes-loop-governor`](skills/kybernetes-loop-governor/README.md), installed as `kybernetes:loop-governor`
+## v0.1 Control Contract
 
-Future work may split the broader system into additional namespaced skills such as `kybernetes:runtime-codex`, `kybernetes:verify-run`, or `kybernetes:capture-learning`. Planned skills live in architecture docs until pressure scenarios prove they need a real installable `SKILL.md`.
-
-## V1 Control Contract
-
-- One public installable skill: `kybernetes:loop-governor`.
+- One canonical governor; helpers cannot mutate parent lifecycle state.
 - Readiness comes first: objective, DONE, admissible verifier, actuators, state, stop condition, and boundary.
 - Durable runs use a trust pair: `control.md` is current truth, and `verification.md` is evidence truth.
 - `stack` means bounded child loops with owner, boundary, admissible verifier, and return path. In Codex this can bind to subagents, sibling threads, cloud tasks, or worktrees.
 - Repeated failures should become durable constraints before they become another reminder.
-- Recurring automations require explicit objective, cadence, state, verifier, safety boundary, and activation approval.
+- Recurring automations require explicit objective, cadence/event, state,
+  verifier, safety boundary, notification/manual checkpoint, budget, idempotency,
+  retirement, and activation approval.
+- Runtime goals, tasks, workers, hooks, schedules, and UI state are advisory.
+- Recoverable human, time, and event waits never become native terminal blocked.
 
 ## Control Model
 
@@ -49,13 +60,19 @@ Future work may split the broader system into additional namespaced skills such 
 
 ![Three loops](docs/assets/diagrams/3-three-loops.svg)
 
+![Runtime-adaptive harness](docs/assets/diagrams/4-runtime-adaptive-harness.svg)
+
 The deeper rationale is in [INSPIRATION.md](INSPIRATION.md).
 
 ## Repository Shape
 
 ```text
 skills/
-  kybernetes-loop-governor/    # primary kybernetes:loop-governor skill
+  kybernetes-loop-governor/
+  kybernetes-loop-architect/
+  kybernetes-loop-closeout/
+  kybernetes-verify-run/
+  kybernetes-capture-learning/
 
 docs/
   product/
@@ -64,16 +81,19 @@ docs/
 examples/
   codex-goal-run/
   portable-run/
+  portable-workgraph/
+  runtime-adaptive-program/
 
 tests/
   pressure-scenarios/
 ```
 
-Planned skills are documented in [docs/architecture/planned-skills.md](docs/architecture/planned-skills.md). They will move into `skills/` only after pressure scenarios justify publishing a real `SKILL.md`.
+Remaining planned runtime wrappers are documented in
+[docs/architecture/planned-skills.md](docs/architecture/planned-skills.md).
 
 Contributors: the runtime layer legend is in [docs/architecture/layered-runtime-substrate.md](docs/architecture/layered-runtime-substrate.md).
 
-## Install The Seed Skill
+## Install
 
 Use the skills CLI to install from GitHub.
 
@@ -83,7 +103,7 @@ List available Kybernetes skills:
 npx skills add pariyar07/kybernetes --list
 ```
 
-Install the seed skill globally for all supported agents:
+Install the governor globally for all supported agents:
 
 ```bash
 npx skills add pariyar07/kybernetes \
@@ -97,6 +117,11 @@ npx skills add pariyar07/kybernetes \
 For project-local installation, omit `--global`.
 
 Then invoke it as `$kybernetes:loop-governor` or ask your agent to use the Kybernetes loop governor skill.
+
+Install a helper explicitly when useful by replacing the `--skill` value with
+`kybernetes:loop-architect`, `kybernetes:loop-closeout`,
+`kybernetes:verify-run`, or `kybernetes:capture-learning`. The governor also has
+portable in-kernel fallbacks when a helper is unavailable.
 
 ## Public Guardrails
 
