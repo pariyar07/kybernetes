@@ -1,5 +1,13 @@
 # Codex Binding
 
+## Activation Binding
+
+Map available automations, task wakeups, events, and notifications through
+`activation-bindings.md`. Inspect the active callable tools first; UI or CLI
+documentation does not prove agent-callable create, inspect, pause, resume,
+delete, or notify transitions. Prefer foreground/manual re-entry when the
+notification and retirement gates cannot be enforced.
+
 Use this file when the loop governor is running in Codex. Codex now ships as
 part of "the ChatGPT desktop app" branding (macOS/Windows) alongside its CLI,
 IDE extension, and cloud surfaces; "Codex app" in this file refers to any of

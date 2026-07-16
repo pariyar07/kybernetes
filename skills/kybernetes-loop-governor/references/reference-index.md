@@ -12,6 +12,7 @@ Module identifiers are stable manifest values; paths are implementation details.
 | `capability` | `capability-negotiation.md` | Any native goal, scheduler, worker, event, notification, hook, or background surface may be used. |
 | `topology` | `workgraph.md` | Work may stack child loops, use peer workstreams, or require single-writer coordination. |
 | `recovery` | `canonical-lifecycle.md` | State is stale, missing, conflicting, terminally trapped, or being migrated. |
+| `activation` | `activation-bindings.md` | Re-entry is human, time, event, scheduled, recurring, detached, or notification-dependent. |
 | `verification` | `goal-checklist.md` | Evidence must reject completion, integrate child results, or survive handoff. |
 | `learning` | `failure-to-constraint.md` | Failure repeats or a reusable constraint may be promoted. |
 | `architect` | `kybernetes:loop-architect` | Decision consequence and unresolved uncertainty justify independent loop-shape design or reframing. |

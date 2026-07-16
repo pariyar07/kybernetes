@@ -1,5 +1,13 @@
 # Claude Code Binding
 
+## Activation Binding
+
+Map loops, schedules, routines, hooks, and notification surfaces through
+`activation-bindings.md`. Separate model-callable tools from user commands,
+hooks, CLI process behavior, and hosted plan features. Hooks are sensors or
+actuators, not canonical controllers; every activation needs idempotency,
+revision, stop, and retirement rules.
+
 Use this file when the loop governor is running in Claude Code.
 
 ## Binding Table

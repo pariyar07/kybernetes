@@ -1,5 +1,12 @@
 # Portable Core
 
+## Activation Binding
+
+When no reliable scheduler, event, or notification API is callable, represent
+the activation contract durably and use foreground continuation or an explicit
+human checkpoint. External cron may wake a fresh process only when it can pass
+the activation identity, canonical revision, state pointers, and return path.
+
 Use this file when the loop governor is running in a skill-compatible agent that
 does not have a dedicated binding yet.
 
