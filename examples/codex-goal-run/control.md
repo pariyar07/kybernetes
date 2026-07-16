@@ -46,6 +46,26 @@
 - durability tier: local skill run | durable run memory | orchestrated workflow | production loop
 - next activation:
 
+## Canonical Lifecycle
+
+- current state: designing | active | waiting_human | waiting_time | waiting_event | paused | verifying | recovering | blocked_terminal | superseded | completed
+- previous state:
+- transition reason and owner:
+- native state if known:
+- divergence status: aligned | stale_native | missing_native | unsupported_transition | conflicting | unknown
+
+## Capability Snapshot
+
+- observed at:
+- evidence source:
+- runtime and surface:
+- required transitions:
+- supported transitions:
+- unsupported or unknown transitions:
+- selected binding:
+- portable fallback:
+- refresh trigger:
+
 ## Important Artifacts
 
 - control record:

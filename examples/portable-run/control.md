@@ -12,14 +12,18 @@ Unknown or portable fallback.
 
 `.kybernetes/<slug>/`
 
-## Available Primitives
+## Capability Snapshot
 
-- durable goal:
-- worker spawn:
-- isolation:
-- inspect:
-- elicitation:
-- verification:
+- observed at:
+- evidence source:
+- runtime and surface: unknown or portable fallback
+- callable operations:
+- required transitions:
+- supported transitions:
+- unsupported or unknown transitions:
+- selected binding: portable
+- portable fallback: `control.md`, `verification.md`, foreground/manual activation
+- refresh trigger:
 
 ## Decision
 
@@ -39,6 +43,14 @@ Use main-thread execution until a runtime primitive is confirmed.
 - active altitude: stay | down | up | stack | stop
 - durability tier: local skill run | durable run memory | orchestrated workflow | production loop
 - next activation:
+
+## Canonical Lifecycle
+
+- current state: designing | active | waiting_human | waiting_time | waiting_event | paused | verifying | recovering | blocked_terminal | superseded | completed
+- previous state:
+- transition reason and owner:
+- native state if known:
+- divergence status: aligned | stale_native | missing_native | unsupported_transition | conflicting | unknown
 
 ## Execution Profile
 

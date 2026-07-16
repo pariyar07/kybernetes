@@ -22,6 +22,9 @@ Kybernetes can help an agent run a long or complex task as a feedback-controlled
 | Loop altitude | Choose whether to stay, go down, go up, stack bounded child loops, or stop. |
 | Durability tier | Distinguish local skill runs, durable run memory, orchestrated workflows, and production loops. |
 | Artifact recovery | Ensure resumes can find control records, evidence, worker state, decisions, and next activation. |
+| Canonical lifecycle | Own recoverable and terminal program state independently of runtime goals, tasks, threads, hooks, workers, and progress UI. |
+| Capability negotiation | Inspect the active callable surface, record a dated snapshot, and bind the smallest reliable runtime or portable fallback. |
+| Lifecycle reconciliation | Detect native/canonical divergence, recover from the trust pair, and migrate to a fresh binding when native repair is unavailable. |
 
 ## Loop Altitude
 

@@ -153,3 +153,10 @@ jobs:
             echo ".kybernetes/ contains local run artifacts and must not be committed."
             exit 1
           fi
+
+      - name: Reject committed Superpowers artifacts
+        run: |
+          if git ls-files '.superpowers/*' 'docs/superpowers/*' | grep .; then
+            echo ".superpowers/ and docs/superpowers/ must not be committed."
+            exit 1
+          fi
