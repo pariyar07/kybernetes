@@ -1,5 +1,13 @@
 # Codex Binding
 
+## Activation Binding
+
+Map available automations, task wakeups, events, and notifications through
+`activation-bindings.md`. Inspect the active callable tools first; UI or CLI
+documentation does not prove agent-callable create, inspect, pause, resume,
+delete, or notify transitions. Prefer foreground/manual re-entry when the
+notification and retirement gates cannot be enforced.
+
 Use this file when the loop governor is running in Codex. Codex now ships as
 part of "the ChatGPT desktop app" branding (macOS/Windows) alongside its CLI,
 IDE extension, and cloud surfaces; "Codex app" in this file refers to any of
@@ -214,6 +222,19 @@ Before acting on approval:
 
 If the approval is vague, stale, broader than the requested action, or the active
 state is unclear, choose `stop` and return a compact decision surface.
+
+## Canonical Lifecycle And Divergence
+
+Inspect the active agent tool schema before treating CLI, app, or documented
+goal transitions as callable in the current task. A user-facing command does not
+prove agent-callable pause, resume, clear, unblock, or delete.
+
+When canonical and native state disagree, preserve `control.md` and
+`verification.md`, record the mismatch, and follow `canonical-lifecycle.md`.
+If safe repair is not callable, migrate to a fresh task or portable binding.
+Rebind required automations only after the new lead reconstructs and verifies
+canonical state. Mark the old surface superseded; do not make its retirement a
+prerequisite for recovery.
 
 ## Skill Interop
 

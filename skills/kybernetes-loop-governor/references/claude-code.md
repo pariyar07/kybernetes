@@ -1,5 +1,13 @@
 # Claude Code Binding
 
+## Activation Binding
+
+Map loops, schedules, routines, hooks, and notification surfaces through
+`activation-bindings.md`. Separate model-callable tools from user commands,
+hooks, CLI process behavior, and hosted plan features. Hooks are sensors or
+actuators, not canonical controllers; every activation needs idempotency,
+revision, stop, and retirement rules.
+
 Use this file when the loop governor is running in Claude Code.
 
 ## Binding Table
@@ -154,6 +162,19 @@ before making new edits.
 Runtime summaries, memory, task state, checkpoints, and transcripts are advisory
 unless mirrored into the trust pair or recorded as independently recoverable
 pointers.
+
+## Canonical Lifecycle And Divergence
+
+Treat `/goal` and session lifecycle commands as user/runtime surfaces unless an
+active model-callable tool proves the required transition is available. Do not
+infer model-callable pause, resume, clear, unblock, or delete from documentation
+or interactive command availability.
+
+When canonical and native state disagree, preserve `control.md` and
+`verification.md`, record the mismatch, and follow `canonical-lifecycle.md`.
+If safe repair is unavailable, use a fresh session or portable launcher. Rebind
+scheduled or detached work only after the new lead verifies canonical state,
+and mark the old surface superseded.
 
 `/doctor` may suggest trimming checked-in `CLAUDE.md` content Claude could
 otherwise derive from the codebase itself. Treat that as project-instruction

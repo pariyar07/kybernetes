@@ -182,12 +182,12 @@ named so L3 bindings can discuss them without making them always-on machinery.
 | Field | Contract |
 | --- | --- |
 | Portable name | `lifecycle_recovery` |
-| Inputs | Recovery trigger, available state surfaces, active control record path, verification record path, current branch/workspace, open workers, and requested recovery action. |
-| Outputs | Recovered state, chosen continuation point, abandoned or cancelled surfaces, unresolved gaps, and next checkpoint. |
-| Evidence status | Advisory until the recovered state is reconciled against `control.md` and `verification.md`. |
+| Inputs | Recovery trigger, canonical state, native state, capability snapshot, available state surfaces, active control record path, verification record path, current branch/workspace, open workers, open automations, divergence class, and requested recovery action. |
+| Outputs | Recovered state, chosen continuation point, selected fresh binding, superseded handles, rebind decisions, residual stale surfaces, unresolved gaps, and next checkpoint. |
+| Evidence status | Advisory until the recovered state is reconciled against `control.md` and `verification.md`. When intact L1 state and native state disagree, native state remains advisory; the governor must reconcile or migrate before new side effects. |
 | Fallback | Read `control.md`, then `verification.md`, checklist, decisions, and worker reports; reconstruct the smallest safe state and ask when underdetermined. |
 | Risk / HITL consequence | Medium to high when recovery can discard work, change branches, rewind decisions, cancel work, or resume stale plans. Ask before destructive recovery. |
-| Failure semantics | Report missing trust pair, stale state, conflicting state, inaccessible surface, unsafe recovery, or underdetermined continuation. |
+| Failure semantics | Report missing trust pair, stale state, conflicting state, inaccessible surface, unsupported transition, unsafe recovery, or underdetermined continuation. Native state must not override intact L1 truth. |
 | State update obligations | Record recovered source, chosen continuation, discarded or stale surfaces, open gaps, and next activation in `control.md`; update `verification.md` if evidence state changes. |
 
 ## `out_of_band_steering`

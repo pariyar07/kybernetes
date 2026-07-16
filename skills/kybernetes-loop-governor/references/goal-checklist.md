@@ -76,6 +76,8 @@ Minimum sections:
 - Verification
 - Constraints and out of scope
 - Loop semantics
+- Canonical lifecycle
+- Capability snapshot
 - Variety assessment
 - Execution profile
 - Important files and references
@@ -156,6 +158,26 @@ Record:
 Next checkpoint is the next within-run cadence or verification stop. Next
 activation is the cross-turn, resume, scheduled, or approval-triggered condition
 that tells a future loop how to restart safely.
+
+## 3A. Canonical Lifecycle
+
+- Current state.
+- Previous state.
+- Transition reason and owner.
+- Native runtime state if known.
+- Divergence status.
+- Evidence or decision required for the next transition.
+
+Use `canonical-lifecycle.md` for allowed transitions and terminal mirroring.
+
+## 3B. Capability Snapshot
+
+- Observation date and evidence source.
+- Runtime, surface, version, provider, and plan when known.
+- Required, supported, unsupported, and unknown operations or transitions.
+- Safe probe result, if needed.
+- Selected binding and portable fallback.
+- Refresh trigger.
 
 ## 4. Adaptive Pre-Flight
 

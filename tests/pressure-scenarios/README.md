@@ -63,6 +63,21 @@ Blind `stack` is as bad as never stacking.
 - `027`: repeated failure; convert recurrence into a durable constraint before another reminder.
 - `028`: second runtime capability binding; preserve L2 port vocabulary while using native surfaces proportionally.
 - `029`: third runtime capability binding; preserve L2 port vocabulary in a runtime with no durable-objective command, without inventing one or promoting advisory task-state into one.
+- `030`: canonical lifecycle; recoverable human, time, event, pause,
+  verification, and recovery waits must not become native terminal blocked.
+- `031`: capability negotiation; documentation is not proof of active
+  agent-callable transitions or surface parity.
+- `032`: lifecycle recovery; canonical state survives stale, missing, or
+  irreparable native state through verified fresh-binding migration.
+- `033-036`: lean kernel, manifest reconstruction, stale schema, and no-loader fallback.
+- `037-040`: consequence-triggered architecture, dynamic lenses, and advisory consensus.
+- `041-045`: workgraph identity, revisions, leases, conflict, and recursion gates.
+- `046-050`: activation, notification, deduplication, polling, and retirement.
+- `051-054`: evidence-preserving checkpoint, handoff, and closeout idempotency.
+- `055-059`: independent verification, coverage, subjective judgment, and freshness.
+- `060-063`: evidence-gated learning, enforceable constraints, and revalidation.
+- `064-068`: integrated duration, recurring program, provider abstraction,
+  migration, and final retirement behavior.
 
 ## Boundary Failure Coverage
 
@@ -76,3 +91,7 @@ The suite should keep explicit pressure on substrate-boundary failures:
   notification path or an explicitly accepted manual checkpoint cadence.
 - Simple authorized tasks being over-gated by durable-state or orchestration
   ceremony.
+- Recoverable waits being mirrored into an irreversible native terminal state.
+- Documented user controls being assumed available to the active agent without
+  callable-surface evidence or a safe probe.
+- Stale native lifecycle state overriding a valid canonical continuation.

@@ -81,6 +81,33 @@ jobs:
           grep -RIl "HITL\\|Human-In-The-Loop" skills tests docs examples README.md >/dev/null
           grep -RIl "impediment" skills tests docs examples README.md >/dev/null
 
+      - name: Validate runtime governance
+        run: ruby tests/validate-runtime-governance.rb
+
+      - name: Validate lazy governor kernel
+        run: ruby tests/validate-lazy-governor.rb
+
+      - name: Validate loop architect
+        run: ruby tests/validate-loop-architect.rb
+
+      - name: Validate workgraph
+        run: ruby tests/validate-workgraph.rb
+
+      - name: Validate activation bindings
+        run: ruby tests/validate-activation-bindings.rb
+
+      - name: Validate loop closeout
+        run: ruby tests/validate-loop-closeout.rb
+
+      - name: Validate independent verification
+        run: ruby tests/validate-verify-run.rb
+
+      - name: Validate learning capture
+        run: ruby tests/validate-capture-learning.rb
+
+      - name: Validate v0.1 release contract
+        run: ruby tests/validate-v0.1-release.rb
+
       - name: Reject runtime-token leaks from core semantics
         run: |
           ruby <<'RUBY'
@@ -88,6 +115,8 @@ jobs:
             "skills/kybernetes-loop-governor/SKILL.md",
             "skills/kybernetes-loop-governor/README.md",
             "skills/kybernetes-loop-governor/references/goal-checklist.md",
+            "skills/kybernetes-loop-governor/references/canonical-lifecycle.md",
+            "skills/kybernetes-loop-governor/references/capability-negotiation.md",
             "skills/kybernetes-loop-governor/references/portable-core.md",
             "docs/architecture/l2-port-contracts.md",
             "tests/pressure-scenarios/README.md",
@@ -146,5 +175,12 @@ jobs:
         run: |
           if git ls-files '.kybernetes/*' | grep .; then
             echo ".kybernetes/ contains local run artifacts and must not be committed."
+            exit 1
+          fi
+
+      - name: Reject committed Superpowers artifacts
+        run: |
+          if git ls-files '.superpowers/*' 'docs/superpowers/*' | grep .; then
+            echo ".superpowers/ and docs/superpowers/ must not be committed."
             exit 1
           fi
