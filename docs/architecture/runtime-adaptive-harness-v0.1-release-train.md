@@ -1,6 +1,6 @@
 # Runtime-Adaptive Harness v0.1 Release Train
 
-Status: approved design, pending written-spec review
+Status: approved for implementation
 Date: 2026-07-17
 Target release: `v0.1.0`
 Required prerelease: `v0.1.0-rc.1`
