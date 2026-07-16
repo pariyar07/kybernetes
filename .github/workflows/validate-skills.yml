@@ -102,6 +102,9 @@ jobs:
       - name: Validate independent verification
         run: ruby tests/validate-verify-run.rb
 
+      - name: Validate learning capture
+        run: ruby tests/validate-capture-learning.rb
+
       - name: Reject runtime-token leaks from core semantics
         run: |
           ruby <<'RUBY'
