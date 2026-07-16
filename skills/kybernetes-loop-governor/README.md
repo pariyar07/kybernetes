@@ -15,6 +15,11 @@ It does six jobs:
   loops create real leverage.
 - Converts repeated failures into durable constraints before adding reminders.
 
+The always-loaded `SKILL.md` is intentionally lean. Small foreground work uses
+the kernel alone. Durable or higher-variety work resolves focused modules from
+`references/reference-index.md`; `.kybernetes/<slug>/manifest.md` records the
+selected modules and runtime binding for reconstruction across turns.
+
 ## Install
 
 From the repository root or from GitHub, prefer the skills CLI:
@@ -38,17 +43,11 @@ Legacy note: older drafts used `$parallel-coordinator`. Treat that name as a
 compatibility alias only. New docs, prompts, tests, and examples should use
 `$kybernetes:loop-governor`.
 
-The skill loads:
-
-1. `references/operating-model.md`
-2. `references/goal-checklist.md`
-3. `references/failure-to-constraint.md` when repeated failure needs a durable
-   guard
-4. `references/adaptive-elicitation.md`
-5. `references/runtime-use-rubric.md` when choosing which runtime surfaces are
-   actually needed
-6. The current runtime binding: `references/codex.md`,
-   `references/claude-code.md`, or `references/portable-core.md`
+The skill loads references conditionally. Read `references/reference-index.md`
+to map task signals to modules, and use `manifest.md` as the portable schema for
+durable reconstruction. Exactly one runtime binding is selected from observed
+capability: `references/codex.md`, `references/claude-code.md`, or
+`references/portable-core.md`.
 
 For runtimes with a native durable-objective surface, keep the objective brief
 and point to the control record. Otherwise, the lead prompt plus control record
@@ -59,6 +58,7 @@ is the durable objective.
 ```text
 kybernetes-loop-governor/
   SKILL.md
+  manifest.md
   agents/openai.yaml
   references/
     adaptive-elicitation.md
@@ -68,6 +68,7 @@ kybernetes-loop-governor/
     goal-checklist.md
     operating-model.md
     portable-core.md
+    reference-index.md
     runtime-use-rubric.md
   README.md
 ```

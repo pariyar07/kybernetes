@@ -84,6 +84,9 @@ jobs:
       - name: Validate runtime governance
         run: ruby tests/validate-runtime-governance.rb
 
+      - name: Validate lazy governor kernel
+        run: ruby tests/validate-lazy-governor.rb
+
       - name: Reject runtime-token leaks from core semantics
         run: |
           ruby <<'RUBY'
