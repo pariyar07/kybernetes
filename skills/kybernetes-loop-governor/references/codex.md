@@ -215,6 +215,19 @@ Before acting on approval:
 If the approval is vague, stale, broader than the requested action, or the active
 state is unclear, choose `stop` and return a compact decision surface.
 
+## Canonical Lifecycle And Divergence
+
+Inspect the active agent tool schema before treating CLI, app, or documented
+goal transitions as callable in the current task. A user-facing command does not
+prove agent-callable pause, resume, clear, unblock, or delete.
+
+When canonical and native state disagree, preserve `control.md` and
+`verification.md`, record the mismatch, and follow `canonical-lifecycle.md`.
+If safe repair is not callable, migrate to a fresh task or portable binding.
+Rebind required automations only after the new lead reconstructs and verifies
+canonical state. Mark the old surface superseded; do not make its retirement a
+prerequisite for recovery.
+
 ## Skill Interop
 
 When another skill is invoked while Kybernetes is active in the same context,

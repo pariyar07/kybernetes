@@ -51,4 +51,16 @@ require_terms(
   ],
 )
 
+require_terms(
+  lifecycle_path,
+  lifecycle,
+  [
+    "Freeze new side effects",
+    "Classify divergence",
+    "fresh binding",
+    "superseded",
+    "Rebind",
+  ],
+)
+
 puts "runtime governance validation passed"

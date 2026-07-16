@@ -67,6 +67,8 @@ Blind `stack` is as bad as never stacking.
   verification, and recovery waits must not become native terminal blocked.
 - `031`: capability negotiation; documentation is not proof of active
   agent-callable transitions or surface parity.
+- `032`: lifecycle recovery; canonical state survives stale, missing, or
+  irreparable native state through verified fresh-binding migration.
 
 ## Boundary Failure Coverage
 
@@ -83,3 +85,4 @@ The suite should keep explicit pressure on substrate-boundary failures:
 - Recoverable waits being mirrored into an irreversible native terminal state.
 - Documented user controls being assumed available to the active agent without
   callable-surface evidence or a safe probe.
+- Stale native lifecycle state overriding a valid canonical continuation.

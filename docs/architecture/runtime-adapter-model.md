@@ -26,6 +26,7 @@ layer legend lives in
 | Inspect | L2 | `inspect_status` |
 | Elicitation | L2 | `elicitation` |
 | Memory or control file | L1 | `control.md` and `verification.md` remain canonical; runtime memory is advisory. |
+| Capability negotiation | L0/L2/L3 | Classify semantic need in L0, record a dated active-surface snapshot through L2 state obligations, and keep concrete availability in L3. |
 | Verification | L2/L1 | `verification_sensor`; evidence is recorded in `verification.md`. |
 | Loop altitude | L0/readiness | `stay`, `down`, `up`, `stack`, and `stop` are control-kernel decisions, not adapter features. |
 | Durability tier | L0/readiness and L1 | Chosen by task variety and recovery need; implemented through the L1 state surface. |
@@ -80,6 +81,10 @@ Every adapter should preserve the same loop-governor contract:
    whenever the task is durable.
 4. Treat verification as the sensor layer. If the sensor is missing or failing
    repeatedly, change altitude instead of continuing the same motion.
+
+Native terminal mirroring is governed by the canonical lifecycle contract, not
+by an adapter. An adapter may expose a transition without making it semantically
+safe for the current canonical state.
 
 ## Runtime Binding Matrix
 

@@ -17,6 +17,10 @@ Fill the right column for the current runtime:
 | `{PARALLEL_THREAD}` | How the runtime supports human-visible sibling workstreams | |
 | `{CONTROL_RECORD}` | Durable state file for this run | |
 | `{RUN_ROOT}` | Root for Kybernetes-created run artifacts | |
+| `{CANONICAL_STATE}` | Current state from `canonical-lifecycle.md` | |
+| `{NATIVE_STATE}` | Advisory runtime state, if inspectable | |
+| `{SUPPORTED_TRANSITIONS}` | Lifecycle transitions confirmed callable | |
+| `{PORTABLE_FALLBACK}` | Foreground, manual, file-based, or fresh-binding fallback | |
 
 If a runtime lacks a persistent-goal feature, that is normal. Use a short lead
 prompt plus a durable control record.
@@ -48,7 +52,16 @@ Run the loop: sense, compare, choose stay/down/up/stack/stop, act, verify,
 record. Ask adaptive questions when the setpoint or sensor is unclear. Escalate
 with options plus a recommendation when human input is needed. Record next
 activation because portable runtimes may not preserve goal state.
+Canonical lifecycle: preserve <canonical state>; treat <native state> as
+advisory; use only <supported transitions>; fall back through <portable fallback>.
 ```
+
+## Canonical Lifecycle And Divergence
+
+When runtime state is missing, stale, or irreparable, keep the trust pair
+canonical. Freeze new side effects, reconstruct the smallest safe continuation,
+verify it, and create a fresh portable binding. Record any residual stale handle
+as superseded and prevent it from receiving new activations.
 
 ## Adding A Runtime Binding
 

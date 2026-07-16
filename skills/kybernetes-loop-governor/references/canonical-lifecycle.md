@@ -56,3 +56,19 @@ recovery, or verification with terminal blocked.
 Record canonical state, previous state, transition reason, transition owner,
 observation time, native state if known, divergence status, next activation, and
 the evidence or decision permitting the next transition in `control.md`.
+
+## Runtime Divergence Recovery
+
+1. Freeze new side effects.
+2. Read `control.md`, then `verification.md`, then only reports needed to
+   reconstruct current state.
+3. Classify divergence as stale native state, missing native state, unsupported
+   transition, conflicting state, or missing canonical state.
+4. Reconcile to the smallest safe canonical continuation and verify it.
+5. Repair the binding when safe and callable; otherwise create a fresh binding
+   or migrate to portable foreground control.
+6. Rebind required automations only after the new lead confirms canonical state.
+7. Mark the old surface `superseded` and retire it when a safe path exists.
+
+Retirement of an inaccessible old surface is not a prerequisite for recovery.
+Record the residual stale surface and prevent new activations from reaching it.
