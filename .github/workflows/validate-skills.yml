@@ -93,6 +93,9 @@ jobs:
       - name: Validate workgraph
         run: ruby tests/validate-workgraph.rb
 
+      - name: Validate activation bindings
+        run: ruby tests/validate-activation-bindings.rb
+
       - name: Reject runtime-token leaks from core semantics
         run: |
           ruby <<'RUBY'
