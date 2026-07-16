@@ -14,6 +14,7 @@ Module identifiers are stable manifest values; paths are implementation details.
 | `recovery` | `canonical-lifecycle.md` | State is stale, missing, conflicting, terminally trapped, or being migrated. |
 | `verification` | `goal-checklist.md` | Evidence must reject completion, integrate child results, or survive handoff. |
 | `learning` | `failure-to-constraint.md` | Failure repeats or a reusable constraint may be promoted. |
+| `architect` | `kybernetes:loop-architect` | Decision consequence and unresolved uncertainty justify independent loop-shape design or reframing. |
 | `runtime:codex` | `codex.md` | The active runtime is Codex; confirm actual callable operations first. |
 | `runtime:claude-code` | `claude-code.md` | The active runtime is Claude Code; distinguish model, CLI, hooks, and hosted surfaces. |
 | `runtime:portable-core` | `portable-core.md` | Runtime is unknown, required native operations are absent, or dynamic loading is unavailable. |
