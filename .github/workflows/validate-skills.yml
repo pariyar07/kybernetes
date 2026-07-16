@@ -99,6 +99,9 @@ jobs:
       - name: Validate loop closeout
         run: ruby tests/validate-loop-closeout.rb
 
+      - name: Validate independent verification
+        run: ruby tests/validate-verify-run.rb
+
       - name: Reject runtime-token leaks from core semantics
         run: |
           ruby <<'RUBY'
