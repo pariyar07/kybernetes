@@ -6,7 +6,11 @@ Kybernetes is an open-source steering layer for coding agents. Keep repository g
 
 ```text
 skills/
-  kybernetes-loop-governor/  # public installable skill, `kybernetes:loop-governor`
+  kybernetes-loop-governor/  # canonical controller, `kybernetes:loop-governor`
+  kybernetes-loop-architect/  # advisory execution-contract design
+  kybernetes-loop-closeout/  # checkpoint, handoff, and retirement
+  kybernetes-verify-run/  # independent rejection-capable verification
+  kybernetes-capture-learning/  # evidence-gated constraint proposals
 docs/
   architecture/              # runtime and boundary design
   product/                   # product model and non-goals
@@ -31,7 +35,7 @@ tests/
 - For skill changes, update or add a pressure scenario in `tests/pressure-scenarios/`, show the failure or gap, then change the smallest relevant skill text.
 - Keep `skills/kybernetes-loop-governor/SKILL.md` focused on operational instructions. Put deeper runtime details in `references/`.
 - Do not add placeholder folders under `skills/`; every folder there must contain a real `SKILL.md`.
-- Preserve the V1 contract: one public installable skill, `kybernetes:loop-governor`, until pressure evidence justifies a split.
+- Preserve the V1 control contract: `kybernetes:loop-governor` is the sole canonical lifecycle controller. Pressure-backed helper skills may inspect state and return owned outputs, but they cannot mutate parent canonical state or accept completion.
 
 ## Validation
 

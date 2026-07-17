@@ -2,6 +2,18 @@
 
 All notable changes to Kybernetes will be recorded here.
 
+## [0.1.1] - 2026-07-17
+
+- Hardened `permission_boundary` so permission to invoke a tool does not imply
+  permission to release unbounded context through it. External information
+  release now requires a bounded destination, purpose, minimum payload,
+  exclusions, handling, approval evidence, residual-risk record, and fail-closed
+  fallback.
+- Added pressure scenario 069 and deterministic regression coverage for
+  unbounded information release while preserving lightweight local work.
+- Aligned repository agent guidance and release validation with the five-skill
+  v0.1 harness and its single canonical governor.
+
 ## [0.1.0] - 2026-07-17
 
 - Made Kybernetes canonical across runtime goals, tasks, workers, schedulers,
