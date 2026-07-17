@@ -84,6 +84,9 @@ jobs:
       - name: Validate runtime governance
         run: ruby tests/validate-runtime-governance.rb
 
+      - name: Validate acceptance boundary
+        run: ruby tests/validate-acceptance-boundary.rb
+
       - name: Validate lazy governor kernel
         run: ruby tests/validate-lazy-governor.rb
 

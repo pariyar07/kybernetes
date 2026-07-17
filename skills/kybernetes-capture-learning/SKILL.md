@@ -21,7 +21,8 @@ or authorized human reviews and applies accepted changes.
 
 - `observation`: one local event with no reusable claim yet.
 - `candidate`: evidence suggests recurrence or a strong causal mechanism.
-- `promote`: review accepts a scoped constraint and its validation/rollback.
+- `promote`: the accountable owner accepts a scoped constraint and its
+  validation/rollback.
 - `reject`: evidence, proportionality, or causality is insufficient.
 - `defer`: more observations or authority are required.
 
@@ -64,6 +65,7 @@ enforceable_constraint: <specific mechanism>
 validation: <test that can reject the constraint>
 rollback: <how to remove or reverse safely>
 owner: <responsible boundary>
+owner_approval: pending | accepted | narrowed | rejected
 revalidation: <time, version, failure, or capability-drift trigger>
 supersedes: <prior rule or none>
 risks: <false positives, cost, rigidity, policy effects>
@@ -72,10 +74,12 @@ risks: <false positives, cost, rigidity, policy effects>
 Constraints require a rejection-capable validation and a rollback. Promoted
 learning remains revisable: current contradictory evidence triggers
 revalidation, revision, or explicit supersession with provenance preserved.
+Until the accountable owner records approval for the proposed scope, the
+learning must remain a proposal and cannot mutate governance or shared policy.
 
 ## Return To Governor
 
 Return the packet and do not edit target files. The governor checks scope,
-authority, evidence, proportionality, and verification; requests HITL where
-required; then accepts, rejects, defers, or routes implementation through the
-normal tested change process.
+authority, owner approval, evidence, proportionality, and verification; requests
+HITL where required; then accepts, rejects, defers, or routes implementation
+through the normal tested change process.

@@ -30,6 +30,8 @@ Before significant action, sense only dimensions that can change the harness:
 - objective, measurable done condition, and admissible verifier;
 - duration, cadence, continuity, and next activation source;
 - external effects, information release, reversibility, permissions, and HITL latency;
+- brownfield implicit constraints, dependent-system impact, accountable owner,
+  acceptance, and wrongness response;
 - durability, concurrency, isolation, evidence, and notification needs;
 - budget, attempt cap, stop semantics, and observed runtime capability.
 
@@ -92,8 +94,9 @@ system. `control.md` is current truth; `verification.md` is evidence truth;
 
 The control record minimally contains objective, done, verification,
 constraints, lifecycle state, altitude, setpoint, sensor, actuators, boundary,
-execution profile, checklist, owners, impediments, decisions, next checkpoint,
-and next activation. Record capability observations with time and surface.
+execution profile, checklist, owners, conditional acceptance boundary,
+impediments, decisions, next checkpoint, and next activation. Record capability
+observations with time and surface.
 
 Canonical lifecycle and mirroring rules live in `canonical-lifecycle.md`.
 Never use native terminal `blocked` unless canonical state is
@@ -124,6 +127,12 @@ At meaningful results, compare evidence with DONE, update canonical state, and
 select the next altitude. Advisory review augments comparison; only an admitted
 rejection-capable sensor verifies completion.
 
+Admitted evidence is not an acceptance verdict. Before work crosses a dependent
+system, policy, publication, or external-effect boundary, name the accountable
+owner and record the requested verdict, accepted scope, rationale, and wrongness
+response in `control.md`. If the verdict is unavailable, stop at `waiting_human`;
+do not make local reversible work carry this ceremony.
+
 When failure repeats, prefer the first proportionate enforceable constraint:
 test, schema, type, parser, guard, hook, permission boundary, or checklist gate.
 Escalate before changing public APIs, production behavior, privacy, billing,
@@ -148,4 +157,6 @@ authority, cost, or product tradeoff requires their decision.
 
 Completion requires admitted evidence covering DONE, resolved or disclosed
 gaps, retired bounded machinery, and a concise durable handoff when continuity
-matters. Mark the native goal complete only after canonical `completed`.
+matters. Work that crosses an acceptance boundary also requires the accountable
+owner's recorded verdict before the effect or accepted-completion claim. Mark
+the native goal complete only after canonical `completed`.

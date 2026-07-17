@@ -47,6 +47,9 @@ The v0.1 runtime-adaptive harness includes:
   release requires a bounded destination, purpose, minimum payload, exclusions,
   handling decision, approval evidence, and fail-closed fallback.
 - Durable runs use a trust pair: `control.md` is current truth, and `verification.md` is evidence truth.
+- Passing evidence is not an owner verdict. Work crossing a dependent-system,
+  policy, publication, or external-effect boundary records the accountable
+  owner, accepted scope, rationale, and wrongness response in `control.md`.
 - `stack` means bounded child loops with owner, boundary, admissible verifier, and return path. In Codex this can bind to subagents, sibling threads, cloud tasks, or worktrees.
 - Repeated failures should become durable constraints before they become another reminder.
 - Recurring automations require explicit objective, cadence/event, state,

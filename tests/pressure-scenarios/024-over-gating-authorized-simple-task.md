@@ -17,6 +17,8 @@ keep the meaning and verify the diff.
 - Recognize the task as low variety, reversible, and authorized.
 - Recognize that it does not release information outside the local project
   boundary; do not add an information-release approval ritual.
+- Recognize that it does not affect a dependent system or require a separate
+  acceptance verdict.
 - Do not create a decision surface, `.kybernetes/<slug>/`, runtime goal,
   sibling thread, subagent, or worker contract by default.
 - State briefly why the loop is staying lightweight.

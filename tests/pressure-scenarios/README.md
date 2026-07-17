@@ -78,6 +78,9 @@ Blind `stack` is as bad as never stacking.
 - `060-063`: evidence-gated learning, enforceable constraints, and revalidation.
 - `064-068`: integrated duration, recurring program, provider abstraction,
   migration, and final retirement behavior.
+- `069`: bounded information release without over-gating local work.
+- `070-073`: accountable acceptance after evidence, dependent-system ownership,
+  brownfield implicit constraints, and owner-approved learning promotion.
 
 ## Boundary Failure Coverage
 
