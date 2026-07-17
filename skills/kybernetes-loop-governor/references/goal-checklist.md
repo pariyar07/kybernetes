@@ -130,7 +130,8 @@ Before creating loop machinery, check:
   tools, research, tests, or HITL.
 - State: whether `.kybernetes/<slug>/` run memory is needed.
 - Stop condition: success, blocked, re-frame, or human decision.
-- Boundary: permissions, external effects, secrets, budget, and review.
+- Boundary: permissions, external effects, information release, secrets, budget,
+  and review.
 
 If setpoint or sensor is vague, go `down` before acting: ask one targeted
 question, define acceptance criteria, reproduce the issue, find evidence, or

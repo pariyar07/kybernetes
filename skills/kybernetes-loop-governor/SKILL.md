@@ -29,7 +29,7 @@ Before significant action, sense only dimensions that can change the harness:
 
 - objective, measurable done condition, and admissible verifier;
 - duration, cadence, continuity, and next activation source;
-- external effects, reversibility, permissions, and HITL latency;
+- external effects, information release, reversibility, permissions, and HITL latency;
 - durability, concurrency, isolation, evidence, and notification needs;
 - budget, attempt cap, stop semantics, and observed runtime capability.
 

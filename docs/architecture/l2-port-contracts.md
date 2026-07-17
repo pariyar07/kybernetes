@@ -27,7 +27,7 @@ state update obligations below.
 | `verification_sensor` | Run evidence that can reject bad output. | Admissible verification when independent of the generator claim. |
 | `external_tool_provider` | Expose tools as bounded sensors or actuators. | Depends on tool output and permission boundary. |
 | `elicitation` | Ask the human for steering, permission, missing input, or acceptance. | Human answer is evidence for the boundary or decision. |
-| `permission_boundary` | Represent allowed, denied, asked, and external effects. | Boundary evidence; not DONE evidence. |
+| `permission_boundary` | Represent allowed, denied, asked, external effects, and information release. | Boundary evidence; not DONE evidence. |
 | `lifecycle_recovery` | Resume, compact, branch, rewind, cancel, or recover state. | Advisory until re-anchored to L1. |
 | `skill_package` | Load reusable workflow behavior. | Method guidance only; not verification. |
 
@@ -169,13 +169,13 @@ named so L3 bindings can discuss them without making them always-on machinery.
 | Field | Contract |
 | --- | --- |
 | Portable name | `permission_boundary` |
-| Inputs | Requested action, actor, workspace or external surface, allowed tools, denied tools, approval mode, data sensitivity, and reversibility. |
-| Outputs | Allowed, denied, ask, or externally approved; constraints; required approval; and residual risk. |
-| Evidence status | Boundary evidence. It authorizes or blocks action but does not prove the work is correct. |
-| Fallback | Use least-privilege local work, ask the human, or stop before crossing the boundary. |
+| Inputs | Requested action, actor, workspace or external surface, allowed tools, denied tools, approval mode, data sensitivity, and reversibility. For information release: destination, purpose, minimum necessary payload, exclusions, and inspection or sanitization method. |
+| Outputs | Allowed, denied, ask, or externally approved; constraints; required approval; approved destination and payload scope when information leaves the current boundary; handling decision; and residual risk. |
+| Evidence status | Boundary evidence. It authorizes or blocks action but does not prove the work is correct. Permission to invoke a tool does not authorize an unbounded information release through it. |
+| Fallback | Use least-privilege local work, reduce and inspect the payload, ask the human, or choose a local or no-send fallback before crossing the boundary. |
 | Risk / HITL consequence | High when action is irreversible, external, production-facing, secret-bearing, billing-related, or customer-visible. |
-| Failure semantics | Report denied, unknown, ambiguous, expired, or mismatched permission. Do not expand authority by inference from a vague autonomy grant. |
-| State update obligations | Record permission assumption, approval, denied action, boundary change, and exact unlocked action in `control.md`. |
+| Failure semantics | Report denied, unknown, ambiguous, expired, or mismatched permission, destination, payload scope, data sensitivity, or approving authority. Fail closed before release when the payload cannot be inspected or authority remains unclear; do not expand authority from a vague autonomy or tool grant. |
+| State update obligations | Record permission assumption, approval, denied action, boundary change, and exact unlocked action in `control.md`. For information release, also record destination, purpose, payload scope, exclusions, handling, approval evidence, and residual risk. |
 
 ## `lifecycle_recovery`
 
