@@ -6,7 +6,10 @@ Kybernetes should avoid one giant skill that tries to do everything.
 
 `kybernetes:loop-governor` is the primary installable skill. It carries the core Kybernetes loop: loop readiness, loop altitude, adaptive intake, execution profile, durable control record, runtime binding, worker coordination, HITL, impediments, decisions, verification, and learning capture.
 
-`parallel-coordinator` is a legacy/v0 name for the seed behavior. It names one actuation mode, not the product's primary surface.
+The retired v0 name `parallel-coordinator` is not an installed alias. It names
+one actuation mode, not the product's primary surface. This historical bare name
+is distinct from the possible future `kybernetes:parallel-coordinator`
+specialist below.
 
 ## Planned Skills
 

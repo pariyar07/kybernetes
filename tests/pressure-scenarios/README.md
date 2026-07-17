@@ -81,6 +81,8 @@ Blind `stack` is as bad as never stacking.
 - `069`: bounded information release without over-gating local work.
 - `070-073`: accountable acceptance after evidence, dependent-system ownership,
   brownfield implicit constraints, and owner-approved learning promotion.
+- `074`: truthful handling of the retired, uninstalled
+  `$parallel-coordinator` name without changing the canonical governor.
 
 ## Boundary Failure Coverage
 

@@ -87,6 +87,9 @@ jobs:
       - name: Validate acceptance boundary
         run: ruby tests/validate-acceptance-boundary.rb
 
+      - name: Validate skill naming
+        run: ruby tests/validate-skill-naming.rb
+
       - name: Validate lazy governor kernel
         run: ruby tests/validate-lazy-governor.rb
 

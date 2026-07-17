@@ -39,9 +39,9 @@ folder into the target agent's skills directory.
 Invoke the skill as `$kybernetes:loop-governor` or ask the agent to use the
 Kybernetes loop governor skill.
 
-Legacy note: older drafts used `$parallel-coordinator`. Treat that name as a
-compatibility alias only. New docs, prompts, tests, and examples should use
-`$kybernetes:loop-governor`.
+Naming note: the retired v0 name `$parallel-coordinator` is not an installed alias.
+Install and invoke `$kybernetes:loop-governor`; runtimes should not claim that
+the retired token resolved when no alias is present.
 
 The skill loads references conditionally. Read `references/reference-index.md`
 to map task signals to modules, and use `manifest.md` as the portable schema for

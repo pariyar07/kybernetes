@@ -2,6 +2,18 @@
 
 All notable changes to Kybernetes will be recorded here.
 
+## [0.1.3] - 2026-07-17
+
+- Corrected the retired `$parallel-coordinator` name from a claimed
+  compatibility alias to an explicit historical name with canonical
+  `$kybernetes:loop-governor` redirection.
+- Added pressure scenario 074 and deterministic naming validation so public
+  documentation cannot promise an alias that the installed package does not
+  expose.
+- Preserved the five-skill inventory, sole canonical governor, runtime
+  bindings, lifecycle, durable records, and the separately gated possible
+  future `kybernetes:parallel-coordinator` specialist.
+
 ## [0.1.2] - 2026-07-17
 
 - Separated rejection-capable verification evidence from accountable acceptance
