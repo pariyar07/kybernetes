@@ -18,6 +18,10 @@ owns completion.
 - Evidence pointers with provenance and timestamps.
 - Producer identity and available checker independence.
 - Permission boundary for read-only checks or explicitly authorized probes.
+- Accountable owner and acceptance boundary when the tested work affects a
+  dependent system or owner-held external decision.
+- Known brownfield constraints, operational evidence, dependent systems, and
+  unobservable gaps when visible code and tests may not cover the real contract.
 
 ## Verifier Types
 
@@ -26,6 +30,10 @@ owns completion.
 - `subjective`: explicit rubric, evaluator, examples, threshold, and residual
   judgment.
 - `human_acceptance`: named decision boundary and exact accepted scope.
+
+Human acceptance may serve as the verifier only when the human is explicitly
+named for that criterion. A technical or reviewer pass does not issue the
+acceptance verdict for a dependent system.
 
 Advisory reviews, generated lenses, popularity, and “looks good” are comparator
 augmentation, not verification.
@@ -65,6 +73,8 @@ revision, scope, provenance, or integration gaps.
 verification_result: pass | fail | inconclusive | blocked | not_run
 canonical_revision: <tested revision>
 maker_checker: <relationship and independence>
+acceptance_status: not_required | pending | recorded
+acceptance_owner: <accountable owner or none>
 criteria:
   - id: <done criterion>
     result: <result>
@@ -78,6 +88,8 @@ residual_judgment: <none or explicit>
 
 ## Return To Governor
 
-Return the immutable result packet. The governor checks revision and scope,
-records the evidence in `verification.md`, routes failures to correction, and
-alone decides whether canonical state may become `completed`.
+Return the immutable result packet. It does not issue the acceptance verdict.
+The governor checks revision and scope, records the evidence in
+`verification.md`, routes failures to correction, and requests or records the
+owner verdict in `control.md` when required. The governor alone decides whether
+canonical state may become `completed`.

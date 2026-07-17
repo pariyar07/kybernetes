@@ -86,6 +86,8 @@ Minimum sections:
 - Impediments
 - Escalations
 - Intervention requests
+- Acceptance boundary when work affects a dependent system or accountable
+  external decision
 - Decisions
 - Learnings
 - Next checkpoint
@@ -99,7 +101,8 @@ Keep current state short. Split detailed history when useful:
 - `constraints.md` for accepted failure-to-constraint candidates when they need
   a separate durable surface.
 - `verification.md` for admissible sensors, latest evidence, failures, gaps,
-  rerun instructions, and human acceptance.
+  rerun instructions, and named human acceptance when it is the verifier. A
+  verifier result does not imply an accountable acceptance verdict.
 
 Markdown is the default because agents and humans can read it quickly.
 `events.jsonl` is deferred for v1. If it is introduced later, it is audit-only,
@@ -132,10 +135,17 @@ Before creating loop machinery, check:
 - Stop condition: success, blocked, re-frame, or human decision.
 - Boundary: permissions, external effects, information release, secrets, budget,
   and review.
+- Brownfield model: contracts, runbooks, history, operational evidence,
+  dependent systems, owners, and implicit constraints not covered by current
+  tests.
 
 If setpoint or sensor is vague, go `down` before acting: ask one targeted
 question, define acceptance criteria, reproduce the issue, find evidence, or
 reduce scope.
+
+For brownfield work, missing historical or operational constraints lower
+harnessability. Surface them as evidence, assumptions, tests, owner questions,
+or explicit gaps before raising autonomy or treating local checks as complete.
 
 The verifier is admissible only when it can reject bad output without relying on
 the generator's self-claim. Above Simple tasks, self-assertion is not enough.
@@ -180,6 +190,29 @@ Use `canonical-lifecycle.md` for allowed transitions and terminal mirroring.
 - Selected binding and portable fallback.
 - Refresh trigger.
 
+## 3C. Acceptance Boundary
+
+Use this section when work affects a dependent system, shared contract, policy,
+publication, production/customer surface, or another decision whose
+consequences belong to an accountable owner. Do not add it as ceremony for
+local, reversible, low-risk work.
+
+Record in `control.md`:
+
+- Evidence summary or `verification.md` pointer.
+- Requested verdict and exact decision boundary.
+- Accountable owner; in a solo workflow this may be the user or maintainer.
+- Decision, rationale, and accepted scope when the owner answers.
+- Wrongness response: rollback, mitigation, observation, or escalation if the
+  accepted decision proves harmful.
+- Status: not required, pending, accepted, narrowed, redirected, or rejected.
+
+Passing verification leaves acceptance pending unless the named verifier is
+also the authorized owner and the same response explicitly records both roles.
+When a required owner or verdict is unavailable, preserve the evidence, stop
+before the dependent-system effect, and use canonical `waiting_human` rather
+than terminal blocked.
+
 ## 4. Adaptive Pre-Flight
 
 Sense first, then right-size the gate:
@@ -206,6 +239,8 @@ Choose from this menu only when it matters:
 - Concurrency.
 - Budget and stopping rules.
 - Human-in-the-loop triggers.
+- Dependent systems, accountable owner, requested verdict, and wrongness
+  response when an acceptance boundary applies.
 
 Present choices with a recommended default. The user should be able to reply
 `go` or override one line.
@@ -377,6 +412,8 @@ Map stop conditions to altitude:
 - Wrong objective or decomposition -> `up`.
 - Need bounded workers -> `stack`.
 - Human judgment or authorization needed -> `stop` with HITL.
+- Passing evidence but missing required acceptance -> `stop` at `waiting_human`
+  before the dependent-system effect.
 
 ## 14. Failure-To-Constraint Workflow
 

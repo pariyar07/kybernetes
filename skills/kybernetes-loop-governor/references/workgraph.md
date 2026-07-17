@@ -98,7 +98,10 @@ The parent single writer:
 3. quarantines identity reuse, ownership overlap, conflicting reports, and
    unverifiable effects;
 4. independently checks evidence against the parent verifier;
-5. records admitted evidence and advances canonical revision once.
+5. distinguishes the implementation owner from the accountable acceptance owner
+   when work affects a dependent system;
+6. records admitted evidence and advances canonical revision once, but does not
+   cross the dependent-system boundary until the authorized verdict is recorded.
 
 Evidence from a stale revision may be reusable, but it cannot authorize new
 effects and is never automatically admitted. Conflicts remain visible until the

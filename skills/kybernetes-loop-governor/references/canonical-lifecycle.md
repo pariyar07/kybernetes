@@ -18,7 +18,7 @@ task, hook, scheduler, worker, and progress state is advisory.
 | `recovering` | Canonical and runtime state are being reconciled or migrated. | yes |
 | `blocked_terminal` | No known answer, time, event, retry, fallback, or safe migration can resume the objective. | no |
 | `superseded` | A new objective or canonical program replaced this run. | no |
-| `completed` | DONE is supported by evidence recorded in `verification.md`. | no |
+| `completed` | DONE is supported by evidence in `verification.md` and any required accountable-owner verdict is recorded in `control.md`. | no |
 
 ## Transition Constraints
 
@@ -28,6 +28,8 @@ task, hook, scheduler, worker, and progress state is advisory.
 - `blocked_terminal` may become `superseded`; it does not resume as the same
   objective.
 - A transition to `completed` requires admissible evidence in `verification.md`.
+  When the objective includes a dependent-system effect or accepted-completion
+  claim, it also requires the accountable owner's verdict in `control.md`.
 - A transition to `blocked_terminal` requires terminal-block proof in
   `control.md` and an exhausted or unsafe recovery path.
 
@@ -44,8 +46,9 @@ A native blocked write is allowed only when
 is terminal, no known answer, time, event, retry, fallback, or safe migration can
 resume it, and recovery has failed or is unsafe.
 
-A native complete write is allowed only when `canonical_state == completed` and
-`verification.md` records admissible evidence.
+A native complete write is allowed only when `canonical_state == completed`,
+`verification.md` records admissible evidence, and any required acceptance
+verdict is recorded in `control.md`.
 
 If the runtime lacks a safe transition, preserve canonical state, record the
 mismatch, and use the portable fallback. Do not approximate pause, wait,
@@ -54,8 +57,9 @@ recovery, or verification with terminal blocked.
 ## Durable Record Fields
 
 Record canonical state, previous state, transition reason, transition owner,
-observation time, native state if known, divergence status, next activation, and
-the evidence or decision permitting the next transition in `control.md`.
+observation time, native state if known, divergence status, next activation,
+conditional acceptance boundary, and the evidence or decision permitting the
+next transition in `control.md`.
 
 ## Runtime Divergence Recovery
 

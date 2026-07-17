@@ -18,6 +18,7 @@ abort("skill inventory mismatch: #{names.inspect}") unless names == expected
 required = %w[
   README.md CHANGELOG.md docs/releases/v0.1.0-rc.1.md docs/releases/v0.1.0.md
   docs/releases/v0.1.1.md docs/releases/v0.1.1-verification.md
+  docs/releases/v0.1.2.md docs/releases/v0.1.2-verification.md
   docs/architecture/runtime-adaptive-harness-architecture.md
   docs/assets/diagrams/4-runtime-adaptive-harness.svg
   examples/runtime-adaptive-program/README.md
@@ -38,6 +39,9 @@ changelog = File.read("CHANGELOG.md")
 abort("CHANGELOG missing v0.1.1") unless changelog.include?("## [0.1.1] - 2026-07-17")
 release = File.read("docs/releases/v0.1.1.md")
 abort("v0.1.1 release missing verification link") unless release.include?("v0.1.1-verification.md")
+abort("CHANGELOG missing v0.1.2") unless changelog.include?("## [0.1.2] - 2026-07-17")
+release_012 = File.read("docs/releases/v0.1.2.md")
+abort("v0.1.2 release missing verification link") unless release_012.include?("v0.1.2-verification.md")
 
 tracked = `git ls-files '.superpowers/*' 'docs/superpowers/*' '.kybernetes/*'`.lines
 abort("forbidden tracked artifacts: #{tracked.join}") unless tracked.empty?

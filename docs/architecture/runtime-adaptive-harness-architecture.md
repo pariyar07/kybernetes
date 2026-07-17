@@ -319,9 +319,15 @@ the control record explains why the block is terminal under the current
 objective, no known human answer, time passage, event, retry, fallback, or safe
 migration can resume it, and recovery has failed or is unsafe.
 
-A native complete write is allowed only when canonical_state == completed and
-verification.md records admissible evidence.
+A native complete write is allowed only when canonical_state == completed,
+verification.md records admissible evidence, and any required accountable-owner
+verdict is recorded in control.md.
 ```
+
+Passing evidence is not an acceptance verdict. When work crosses a dependent
+system, policy, publication, or external-effect boundary, the owner-held verdict
+and wrongness response remain in `control.md`; a missing verdict uses recoverable
+`waiting_human`. No additional canonical state or artifact is required.
 
 This law remains in force even if Codex, Claude Code, or another runtime later
 offers complete goal edit, pause, resume, clear, and unblock APIs.
@@ -452,6 +458,8 @@ governor decisions unless the user requests detail.
 - Activation deduplication and idempotency.
 - Stale manifests, contracts, reports, and capability snapshots.
 - Helper input/output contracts.
+- Evidence passing without a required accountable-owner verdict.
+- Brownfield implicit constraints omitted from readiness and verification.
 - Dynamic reference-loading decisions.
 - Closeout retention and deletion rules.
 
@@ -472,6 +480,8 @@ governor decisions unless the user requests detail.
 - A recoverable HITL wait encounters an irreversible native blocked transition.
 - A stale blocked goal requires fresh-task migration.
 - Verification rejects a producer's completion claim.
+- Passing verification attempts to stand in for dependent-system acceptance.
+- Learning capture attempts to install a policy without owner approval.
 - Learning capture attempts to promote a rule from one anecdote.
 - Closeout stops automations but preserves canonical evidence.
 - Cleanup attempts to delete unresolved or non-reproducible artifacts.

@@ -2,6 +2,17 @@
 
 All notable changes to Kybernetes will be recorded here.
 
+## [0.1.2] - 2026-07-17
+
+- Separated rejection-capable verification evidence from accountable acceptance
+  for dependent-system, policy, publication, and external-effect boundaries.
+- Added pressure scenarios 070-073 for missing verdict ownership, dependent
+  systems without accountable owners, brownfield implicit constraints, and
+  learning promotion without owner approval.
+- Preserved lightweight local work and the existing `control.md` /
+  `verification.md` trust pair; no new lifecycle state or canonical artifact was
+  introduced.
+
 ## [0.1.1] - 2026-07-17
 
 - Hardened `permission_boundary` so permission to invoke a tool does not imply

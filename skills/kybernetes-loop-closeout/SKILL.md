@@ -25,6 +25,8 @@ program completion.
 
 - Mode, parent control and verification pointers, canonical revision.
 - Scope being closed and measurable completion claim.
+- Acceptance boundary, accountable owner, and recorded or pending verdict when
+  the scope crosses a dependent system or owner-held external decision.
 - Runtime capability snapshot and permission boundary.
 - Worker, goal, thread, scheduler, event, hook, automation, lease, and temporary
   access inventory.
@@ -34,14 +36,17 @@ program completion.
 
 1. Read canonical state and verification evidence.
 2. Compare the scoped completion claim with its rejection-capable verifier.
-3. Identify missing, conflicting, stale, or non-reproducible evidence.
-4. Preserve admitted and unresolved evidence; archive canonical records by
+3. Confirm any required accountable-owner verdict and wrongness response in
+   `control.md`; passing evidence alone is not acceptance.
+4. Identify missing, conflicting, stale, or non-reproducible evidence.
+5. Preserve admitted and unresolved evidence; archive canonical records by
    default.
-5. Delete only material explicitly marked disposable and reproducible, within
+6. Delete only material explicitly marked disposable and reproducible, within
    current permission.
 
-If verification is incomplete, return `not_ready` and the gaps. Do not disguise
-cleanup as completion.
+If verification or required acceptance is incomplete, return `not_ready` and
+the gaps. Keep a missing owner verdict recoverable as `waiting_human`; do not
+disguise cleanup as completion.
 
 ## retirement inventory
 
@@ -68,6 +73,7 @@ closeout_status: ready | not_ready | partial
 mode: checkpoint | handoff | workstream | program
 canonical_revision: <observed>
 verification: <coverage and gaps>
+acceptance: <not required, pending, or recorded owner verdict>
 retirement_inventory: <per-object results>
 retained: <canonical and evidence artifacts>
 deleted: <explicitly disposable artifacts and reasons>
