@@ -61,7 +61,10 @@ kybernetes-loop-governor/
   manifest.md
   agents/openai.yaml
   references/
+    activation-bindings.md
     adaptive-elicitation.md
+    canonical-lifecycle.md
+    capability-negotiation.md
     claude-code.md
     codex.md
     failure-to-constraint.md
@@ -70,6 +73,7 @@ kybernetes-loop-governor/
     portable-core.md
     reference-index.md
     runtime-use-rubric.md
+    workgraph.md
   README.md
 ```
 

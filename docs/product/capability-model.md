@@ -4,6 +4,11 @@
 
 Kybernetes can help an agent run a long or complex task as a feedback-controlled system: measurable, recoverable, explainable, and correctly sized to the work.
 
+These are target product properties. In v0.1, “shipped” means an instruction
+contract, portable convention, example, pressure scenario, or deterministic
+structural validator exists. It does not by itself prove comparative real-world
+improvement.
+
 ## Capability Families
 
 | Family | Product ability |
@@ -25,6 +30,11 @@ Kybernetes can help an agent run a long or complex task as a feedback-controlled
 | Canonical lifecycle | Own recoverable and terminal program state independently of runtime goals, tasks, threads, hooks, workers, and progress UI. |
 | Capability negotiation | Inspect the active callable surface, record a dated snapshot, and bind the smallest reliable runtime or portable fallback. |
 | Lifecycle reconciliation | Detect native/canonical divergence, recover from the trust pair, and migrate to a fresh binding when native repair is unavailable. |
+| Information-release boundary | Separate permission to invoke a tool from permission to release context through it; require bounded destination, purpose, payload, exclusions, handling, and fallback. |
+| Accountable acceptance | Keep rejection-capable evidence separate from an owner-held verdict when work crosses a dependent-system, policy, publication, or external-effect boundary. |
+
+The v0.1 contract covers every family above. Comparative quality, overhead,
+external adoption, and cross-runtime behavioral parity remain unvalidated.
 
 ## Loop Altitude
 
