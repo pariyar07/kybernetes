@@ -39,6 +39,15 @@ The v0.1 runtime-adaptive harness includes:
 - [`kybernetes:capture-learning`](skills/kybernetes-capture-learning/SKILL.md):
   evidence-gated reusable constraint proposals.
 
+### Evidence maturity
+
+The shipped product is an instruction package plus portable file conventions,
+examples, pressure scenarios, and deterministic structural validators. Those
+checks establish packaging and contract consistency; they do not yet establish
+comparative outcome improvement, runtime enforcement, token/time overhead, or
+broad external-user validation. Native runtime behavior remains
+capability-dependent and should be probed before consequential use.
+
 ## v0.1 Control Contract
 
 - One canonical governor; helpers cannot mutate parent lifecycle state.

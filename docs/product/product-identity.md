@@ -1,6 +1,7 @@
 # Product Identity
 
-Kybernetes is a runtime-adaptive control plane for agentic work.
+Kybernetes is a runtime-adaptive steering layer and portable control contract
+for agentic work.
 
 It operationalizes loop engineering: agents should choose the smallest
 sufficient control loop instead of blindly adding process or parallel workers.
@@ -21,10 +22,16 @@ The name is intentionally broader than any one knowledge system or agent framewo
 ## What It Is
 
 - a control model for long-running agent work
-- a portable skill package for loop-governor behavior
+- a five-skill harness with one canonical loop governor and four bounded helpers
 - a runtime binding layer for Codex, Claude Code, and future agent runtimes
 - a durable state pattern for goals, checklists, workers, impediments, decisions, and learnings
 - a human-in-the-loop steering pattern with options and recommendations
+
+“Control plane” describes semantic ownership: Kybernetes keeps canonical loop
+state independent from runtime goals, workers, hooks, schedules, and UI. The
+current package is not a production scheduler or transactional orchestration
+backend, and its outcome and overhead claims have not yet been established by a
+controlled external-user study.
 
 ## What It Is Not
 

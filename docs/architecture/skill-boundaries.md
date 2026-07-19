@@ -2,20 +2,29 @@
 
 Kybernetes should avoid one giant skill that tries to do everything.
 
-## Current Seed
+## Current Installable Surface
 
-`kybernetes:loop-governor` is the primary installable skill. It carries the core Kybernetes loop: loop readiness, loop altitude, adaptive intake, execution profile, durable control record, runtime binding, worker coordination, HITL, impediments, decisions, verification, and learning capture.
+`kybernetes:loop-governor` is the sole canonical lifecycle controller. Four
+pressure-backed helpers may inspect state and return owned outputs, but they
+cannot mutate parent canonical state or accept completion:
+
+| Skill | Current boundary |
+| --- | --- |
+| `kybernetes:loop-governor` | Canonical readiness, altitude, state, lifecycle, runtime binding, coordination, integration, and completion authority. |
+| `kybernetes:loop-architect` | Advisory execution-contract and task-derived lens design. |
+| `kybernetes:loop-closeout` | Checkpoint, handoff, workstream, and program retirement proposals. |
+| `kybernetes:verify-run` | Independent rejection-capable verification evidence. |
+| `kybernetes:capture-learning` | Evidence-gated, owner-reviewed constraint proposals. |
 
 The retired v0 name `parallel-coordinator` is not an installed alias. It names
 one actuation mode, not the product's primary surface. This historical bare name
 is distinct from the possible future `kybernetes:parallel-coordinator`
 specialist below.
 
-## Planned Skills
+## Planned Or Conditional Skills
 
 | Skill | Boundary |
 | --- | --- |
-| `kybernetes:loop-governor` | Current primary loop controller: readiness, altitude, durable state, verification, HITL, runtime binding, worker coordination, and learning capture. |
 | `kybernetes:parallel-coordinator` | Possible future specialist for worker leases, fork-join, integration, anti-collision rules, and bounded child loops if parallel behavior outgrows the main loop governor. |
 | `kybernetes:runtime-codex` | Codex Goal mode, subagents, sibling threads, cloud tasks, and Codex-specific caveats. |
 | `kybernetes:runtime-claude-code` | Claude Code task, resume, and worktree binding. |
@@ -27,4 +36,7 @@ Do not add a new `SKILL.md` until pressure scenarios show the failure the skill 
 
 Do not create placeholder folders under `skills/`. Planned skills live in architecture docs until they become installable.
 
-For v1, partial adoption is horizontal inside `kybernetes:loop-governor`: a user may use only readiness plus verification, and decline durable files, workers, runtime adapters, audit, or learning capture. Splitting those into separate installable skills is deferred.
+For v1, partial adoption remains horizontal at the governor boundary: a user may
+use only readiness plus verification and decline durable files, workers,
+runtime adapters, audit, or learning capture. Installing a helper does not make
+it a second governor.
