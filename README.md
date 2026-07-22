@@ -1,10 +1,16 @@
 # Kybernetes
 
-Coding agents don't need more autonomy. They need better steering.
+Kybernetes is an open-source, runtime-adaptive steering layer and portable
+control contract for hard agentic work. It sits above capable native harnesses
+when ambiguity, consequence, coordination, continuity, or delayed feedback
+exceeds one execution loop.
 
-Kybernetes is an open-source steering layer for coding agents: my take on loop engineering for agentic work. It helps agent work stay on course: keep the goal visible, use the right amount of process, ask when stuck, delegate carefully, and check the work before calling it done.
+It helps agents hold durable goals, choose proportionate control, preserve
+state when needed, bound delegation, verify completion with rejection-capable
+evidence, recover across turns and runtimes, and return consequential decisions
+to an accountable human.
 
-Technically, Kybernetes is a loop governor plus bounded helper skills for loop
+The current implementation is a loop governor plus bounded helper skills for loop
 architecture, independent verification, learning promotion, and closeout. The
 governor remains the only canonical controller.
 
