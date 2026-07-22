@@ -13,6 +13,7 @@ Module identifiers are stable manifest values; paths are implementation details.
 | `topology` | `workgraph.md` | Work may stack child loops, use peer workstreams, or require single-writer coordination. |
 | `recovery` | `canonical-lifecycle.md` | State is stale, missing, conflicting, terminally trapped, or being migrated. |
 | `activation` | `activation-bindings.md` | Re-entry is human, time, event, scheduled, recurring, detached, or notification-dependent. |
+| `trajectory` | `trajectory-control.md` | Work is high/extreme recurring or detached, spans progress windows, repeats no-change, or needs strategy redesign. |
 | `verification` | `kybernetes:verify-run` | Evidence must independently reject completion, integrate child results, or survive handoff. |
 | `learning` | `kybernetes:capture-learning` | Failure repeats or evidence may justify a scoped reusable constraint. |
 | `architect` | `kybernetes:loop-architect` | Decision consequence and unresolved uncertainty justify independent loop-shape design or reframing. |
@@ -29,7 +30,7 @@ Module identifiers are stable manifest values; paths are implementation details.
 - Load exactly one runtime binding. Documentation is not capability evidence.
 - Dependencies may require another module: lifecycle recovery requires
   `lifecycle`, runtime actuation requires `capability`, and detached activation
-  requires `lifecycle`, `capability`, and `verification`.
+  requires `lifecycle`, `capability`, `trajectory`, and `verification`.
 - Persist selected modules only for durable reconstruction; do not create a
   manifest merely to describe a small task.
 

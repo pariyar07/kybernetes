@@ -22,6 +22,8 @@ automations, and progress UI are advisory actuators or sensors, never canonical.
    capability drift, conflicting ownership, or failed verification.
 7. Stop only on verified completion, explicit supersession, a policy boundary,
    or a genuine terminal impediment.
+8. A green runtime or safety check is not trajectory health; at the cumulative
+   no-progress cap, reject `stay` with the unchanged strategy.
 
 ## Sense And Size
 
@@ -34,6 +36,8 @@ Before significant action, sense only dimensions that can change the harness:
   acceptance, and wrongness response;
 - durability, concurrency, isolation, evidence, and notification needs;
 - budget, attempt cap, stop semantics, and observed runtime capability.
+- progress model, metric, measurement window, minimum delta, actionable capacity,
+  fallback coverage, cumulative no-progress cap, and strategy authority;
 
 Classify variety:
 
@@ -49,6 +53,9 @@ Autonomy permits safe defaults; it does not remove readiness or risk checks.
 Ask at most the smallest outcome-changing question. For detached work, require
 objective, cadence/event, input, state, verifier, budget, stop/escalation, safety
 boundary, and notification or accepted manual checkpoint before activation.
+Extreme detached work requires the compact architecture contract from
+`trajectory-control.md` before activation; the helper is optional, the contract
+is not.
 
 ## Choose Altitude
 
@@ -60,7 +67,8 @@ At each checkpoint choose one move:
 - `stack`: create bounded child loops with owner, boundary, sensor, and return.
 - `stop`: complete, supersede, request HITL, or halt at a terminal boundary.
 
-Repeated failure must change the move; do not retry an unchanged loop forever.
+Repeated failure must change the move. Track no-progress across activations by
+strategy and objective; recreating runtime machinery does not reset the budget.
 
 ## Load References Lazily
 
@@ -94,7 +102,7 @@ system. `control.md` is current truth; `verification.md` is evidence truth;
 
 The control record minimally contains objective, done, verification,
 constraints, lifecycle state, altitude, setpoint, sensor, actuators, boundary,
-execution profile, checklist, owners, conditional acceptance boundary,
+execution profile, trajectory, checklist, owners, conditional acceptance boundary,
 impediments, decisions, next checkpoint, and next activation. Record capability
 observations with time and surface.
 

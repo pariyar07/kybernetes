@@ -102,6 +102,9 @@ jobs:
       - name: Validate activation bindings
         run: ruby tests/validate-activation-bindings.rb
 
+      - name: Validate trajectory kernel
+        run: ruby tests/validate-trajectory-kernel.rb
+
       - name: Validate loop closeout
         run: ruby tests/validate-loop-closeout.rb
 
