@@ -1,6 +1,6 @@
 # Runtime-Portable Trajectory Control Design
 
-Status: proposed for review
+Status: approved
 
 Date: 2026-07-23
 
