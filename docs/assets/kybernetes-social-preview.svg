@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="640" viewBox="0 0 1280 640" role="img" aria-labelledby="title desc">
+  <title id="title">Kybernetes social preview</title>
+  <desc id="desc">Runtime-adaptive steering for hard agentic work.</desc>
+  <rect width="1280" height="640" fill="#f9f8f6"/>
+  <rect x="104" y="112" width="52" height="4" fill="#c97a1e"/>
+  <text x="104" y="238" fill="#161618" font-family="Georgia" font-size="104" font-weight="400" letter-spacing="-2">Kybernetes</text>
+  <text x="108" y="318" fill="#55545c" font-family="Plus Jakarta Sans, system-ui, sans-serif" font-size="32" font-weight="400" letter-spacing="-0.3">Runtime-adaptive steering for hard agentic work</text>
+  <text x="108" y="414" fill="#8f8e98" font-family="Plus Jakarta Sans, system-ui, sans-serif" font-size="22" font-weight="500" letter-spacing="1.4">GOALS  ·  FEEDBACK  ·  VERIFICATION  ·  RECOVERY</text>
+  <text x="108" y="548" fill="#8f8e98" font-family="Plus Jakarta Sans, system-ui, sans-serif" font-size="20" font-weight="500" letter-spacing="0.6">github.com/pariyar07/kybernetes</text>
+</svg>
