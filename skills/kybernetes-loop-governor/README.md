@@ -46,7 +46,8 @@ the retired token resolved when no alias is present.
 The skill loads references conditionally. Read `references/reference-index.md`
 to map task signals to modules, and use `manifest.md` as the portable schema for
 durable reconstruction. Exactly one runtime binding is selected from observed
-capability: `references/codex.md`, `references/claude-code.md`, or
+capability: `references/chatgpt-work.md`, `references/codex.md`,
+`references/claude-code.md`, `references/claude-cowork.md`, or
 `references/portable-core.md`.
 
 For runtimes with a native durable-objective surface, keep the objective brief
@@ -65,7 +66,9 @@ kybernetes-loop-governor/
     adaptive-elicitation.md
     canonical-lifecycle.md
     capability-negotiation.md
+    chatgpt-work.md
     claude-code.md
+    claude-cowork.md
     codex.md
     failure-to-constraint.md
     goal-checklist.md
@@ -73,6 +76,7 @@ kybernetes-loop-governor/
     portable-core.md
     reference-index.md
     runtime-use-rubric.md
+    trajectory-control.md
     workgraph.md
   README.md
 ```

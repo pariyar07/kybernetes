@@ -1,8 +1,8 @@
 # Coordination Control Checklist
 
 This is the reference shape for a coordinated run. Tool-specific names appear as
-`{PLACEHOLDERS}` and are resolved by `codex.md`, `claude-code.md`, or
-`portable-core.md`.
+`{PLACEHOLDERS}` and are resolved by `chatgpt-work.md`, `codex.md`,
+`claude-code.md`, `claude-cowork.md`, or `portable-core.md`.
 
 The durable objective should point to the control record, not paste the whole
 checklist into chat. The control record is the runtime setpoint and audit trail.
@@ -72,8 +72,9 @@ one record appears safest.
 Minimum sections:
 
 - Objective
-- Done condition
-- Verification
+- Program kind
+- Done condition or continuing health invariant
+- Completion verification, or cycle verifier and review horizon when continuing
 - Constraints and out of scope
 - Loop semantics
 - Canonical lifecycle
@@ -103,6 +104,9 @@ Keep current state short. Split detailed history when useful:
 - `verification.md` for admissible sensors, latest evidence, failures, gaps,
   rerun instructions, and named human acceptance when it is the verifier. A
   verifier result does not imply an accountable acceptance verdict.
+- `trajectory.md` only for high/extreme recurring or detached work whose compact
+  progress-window history must survive reconstruction. Current trajectory truth
+  remains summarized in `control.md`; completion evidence remains in `verification.md`.
 
 Markdown is the default because agents and humans can read it quickly.
 `events.jsonl` is deferred for v1. If it is introduced later, it is audit-only,
@@ -113,22 +117,31 @@ single-writer, ordered by append position, and never the current truth.
 Fill these before significant work:
 
 - Objective: one objective, in a sentence or two.
-- Done condition: the verifiable condition that ends the run.
+- `program_kind`: explicitly `finite` or `continuing`.
+- `done_or_health`: the measurable DONE condition that ends finite work, or the
+  invariant that a continuing program must maintain.
 - Verification: the test, check, artifact, command, citation set, screenshot,
-  validator, or human acceptance that proves done.
+  validator, or human acceptance that proves finite DONE.
+- `review_horizon` and `cycle_verifier`: required for continuing programs; define
+  the bounded review/renewal point and the check that can reject unhealthy cycles.
 - Constraints and out of scope: what must not change or regress.
 - Important references: files, docs, tickets, boards, knowledge-base scopes,
   repos, or runtime notes that the lead must keep visible.
 
-If DONE is not measurable, fix that before spawning workers.
+For finite work, fix unmeasurable DONE before spawning workers. For continuing
+work, fix a vague health invariant, review horizon, or cycle verifier before
+creating recurring machinery. Do not force a continuing program through finite
+DONE.
 
 ## 3. Loop Readiness
 
 Before creating loop machinery, check:
 
-- Setpoint: objective and measurable done condition.
-- Sensor/evidence: test, artifact, citation, screenshot, human acceptance,
-  independent review, or another verifier that can reject bad output.
+- Setpoint: objective plus measurable finite DONE or a continuing health
+  invariant with bounded review horizon.
+- Sensor/evidence: finite completion verifier or continuing cycle verifier using
+  a test, artifact, citation, screenshot, human acceptance, independent review,
+  or another check that can reject bad output.
 - Actuators: main thread, checklist, durable objective, workers, isolation,
   tools, research, tests, or HITL.
 - State: whether `.kybernetes/<slug>/` run memory is needed.
@@ -138,6 +151,26 @@ Before creating loop machinery, check:
 - Brownfield model: contracts, runbooks, history, operational evidence,
   dependent systems, owners, and implicit constraints not covered by current
   tests.
+
+### Trajectory Readiness
+
+For high/extreme recurring or detached work, also record:
+
+- Strategy identity: `strategy_id` for the causal approach whose cumulative
+  deficient-window count must survive reconstruction.
+- Progress model: `convergence`, `information`, `maintenance`, or `event_wait`.
+- Progress metric: typed observation, source, freshness, and admissibility.
+- Measurement window, minimum delta, and cumulative no-progress cap.
+- Actionable capacity: observations or actions reachable through approved sensors
+  and actuators for the first window.
+- Fallback coverage: ordered alternatives, prerequisites, and usable capacity.
+- Strategy envelope: autonomous changes and owner-approved changes.
+- Continuing contract: `review_horizon` and `cycle_verifier`, when applicable.
+- Retirement: how non-producing activation machinery stops.
+
+Reject detached activation when approved actionable capacity cannot plausibly
+satisfy the first window, unless the run is an explicitly bounded single-path
+experiment.
 
 If setpoint or sensor is vague, go `down` before acting: ask one targeted
 question, define acceptance criteria, reproduce the issue, find evidence, or
@@ -227,7 +260,7 @@ Sense first, then right-size the gate:
 
 Choose from this menu only when it matters:
 
-- Scope and done condition.
+- Scope and finite done or continuing health condition.
 - Task type and role stance.
 - Expected artifacts.
 - Verification style.
@@ -349,7 +382,7 @@ Each worker gets:
 - Owned scope.
 - Files or areas it must not touch.
 - Permission level and isolation.
-- Done condition and verification.
+- Bounded done-or-health condition and the matching completion or cycle verifier.
 - Return format.
 - Impediment and escalation reporting.
 
@@ -364,9 +397,17 @@ separately resumable, measurable, and scoped.
 
 At integration:
 
-- Compare worker outputs against the done condition and constraints.
+- Re-read `program_kind` before evaluating integrated worker output.
+- For finite work, compare the integrated state against measurable
+  `done_or_health` and constraints, then run the completion verifier. Claim
+  completion only when that verifier accepts the integrated state.
+- For continuing work, compare the bounded cycle against the health invariant and
+  constraints, then run the recorded `cycle_verifier`. Record the verdict in
+  current control/trajectory state, keep the program open, and renew, adapt,
+  pause, or retire it at `review_horizon`; a healthy cycle never completes the
+  continuing program.
 - Resolve conflicts before applying changes.
-- Re-run verification on the integrated state.
+- Re-run the matching completion or cycle verifier on the integrated state.
 - Confirm the active altitude still fits. If integration fails, go `down` for
   evidence, `up` to re-frame, or `stop` for HITL rather than blind retry.
 - Update the control record.
@@ -396,7 +437,10 @@ When asking, give options and a recommendation.
 
 ## 13. Stop Conditions
 
-- Success: DONE is verified with the agreed method.
+- Finite success: DONE is verified with the agreed completion method.
+- Continuing cycle checkpoint: the cycle verifier confirms health or rejects the
+  cycle; keep the program open and renew, adapt, pause, or retire it at the review
+  horizon. A healthy cycle is not finite success.
 - Blocked: no defensible path remains under current constraints. Report the
   smallest decision or input that would unblock it.
 - Re-frame: the current objective or decomposition is wrong. Ask the human or

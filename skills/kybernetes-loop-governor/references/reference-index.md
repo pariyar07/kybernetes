@@ -13,12 +13,15 @@ Module identifiers are stable manifest values; paths are implementation details.
 | `topology` | `workgraph.md` | Work may stack child loops, use peer workstreams, or require single-writer coordination. |
 | `recovery` | `canonical-lifecycle.md` | State is stale, missing, conflicting, terminally trapped, or being migrated. |
 | `activation` | `activation-bindings.md` | Re-entry is human, time, event, scheduled, recurring, detached, or notification-dependent. |
+| `trajectory` | `trajectory-control.md` | Work is high/extreme recurring or detached, spans progress windows, repeats no-change, or needs strategy redesign. |
 | `verification` | `kybernetes:verify-run` | Evidence must independently reject completion, integrate child results, or survive handoff. |
 | `learning` | `kybernetes:capture-learning` | Failure repeats or evidence may justify a scoped reusable constraint. |
 | `architect` | `kybernetes:loop-architect` | Decision consequence and unresolved uncertainty justify independent loop-shape design or reframing. |
 | `closeout` | `kybernetes:loop-closeout` | A checkpoint, handoff, child retirement, program completion, or cleanup inventory is needed. |
+| `runtime:chatgpt-work` | `chatgpt-work.md` | The active surface is ChatGPT Work mode; distinguish hosted chat and scheduled-run capability. |
 | `runtime:codex` | `codex.md` | The active runtime is Codex; confirm actual callable operations first. |
 | `runtime:claude-code` | `claude-code.md` | The active runtime is Claude Code; distinguish model, CLI, hooks, and hosted surfaces. |
+| `runtime:claude-cowork` | `claude-cowork.md` | The active surface is Claude Cowork; distinguish remote session capability from local desktop resources. |
 | `runtime:portable-core` | `portable-core.md` | Runtime is unknown, required native operations are absent, or dynamic loading is unavailable. |
 
 ## Selection Rules
@@ -26,10 +29,17 @@ Module identifiers are stable manifest values; paths are implementation details.
 - Start with no optional modules for a clear, reversible foreground action.
 - Add a module only when its load condition is observed or persisted in a valid
   manifest.
-- Load exactly one runtime binding. Documentation is not capability evidence.
-- Dependencies may require another module: lifecycle recovery requires
-  `lifecycle`, runtime actuation requires `capability`, and detached activation
-  requires `lifecycle`, `capability`, and `verification`.
+- Load exactly one runtime binding. Each selected binding resolves the required
+  portable baseline itself; `runtime:portable-core` is an alternative binding,
+  not a mixin. Do not combine bindings merely because surfaces share a product
+  family. Documentation is not capability evidence.
+- Every detached activation requires `lifecycle` and `capability`.
+- High/extreme detached activation additionally requires `trajectory`.
+- Finite detached work loads `verification` and uses completion verification
+  before a completion claim. Continuing detached work uses its recorded
+  `cycle_verifier` instead of completion verification.
+- Ordinary foreground finite work does not require the optional `verification`
+  module; load it only when its load condition is observed.
 - Persist selected modules only for durable reconstruction; do not create a
   manifest merely to describe a small task.
 

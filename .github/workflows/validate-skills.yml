@@ -102,6 +102,18 @@ jobs:
       - name: Validate activation bindings
         run: ruby tests/validate-activation-bindings.rb
 
+      - name: Validate trajectory kernel
+        run: ruby tests/validate-trajectory-kernel.rb
+
+      - name: Validate trajectory readiness
+        run: ruby tests/validate-trajectory-readiness.rb
+
+      - name: Validate trajectory port
+        run: ruby tests/validate-trajectory-port.rb
+
+      - name: Validate runtime portability
+        run: ruby tests/validate-runtime-portability.rb
+
       - name: Validate loop closeout
         run: ruby tests/validate-loop-closeout.rb
 
@@ -186,7 +198,7 @@ jobs:
 
       - name: Reject committed Superpowers artifacts
         run: |
-          if git ls-files '.superpowers/*' 'docs/superpowers/*' | grep .; then
-            echo ".superpowers/ and docs/superpowers/ must not be committed."
+          if git ls-files '.superpowers/*' 'docs/superpowers/*' 'docs/implementation-plans/*' | grep .; then
+            echo ".superpowers/, docs/superpowers/, and docs/implementation-plans/ must not be committed."
             exit 1
           fi

@@ -10,8 +10,10 @@ See:
 
 - [`l2-port-contracts.md`](l2-port-contracts.md)
 - [`runtime-adapter-model.md`](runtime-adapter-model.md)
+- `skills/kybernetes-loop-governor/references/chatgpt-work.md`
 - `skills/kybernetes-loop-governor/references/codex.md`
 - `skills/kybernetes-loop-governor/references/claude-code.md`
+- `skills/kybernetes-loop-governor/references/claude-cowork.md`
 - `skills/kybernetes-loop-governor/references/portable-core.md`
 
 | L2 port | Codex binding | Claude Code binding | Portable fallback | Evidence / state obligation |
@@ -25,6 +27,7 @@ See:
 | `isolation` | Worktrees confirmed as a desktop-app feature specifically, not CLI or IDE extension; cloud containers, sandbox policy, or manual worktrees elsewhere. | Git worktrees, branch/session boundaries; entering a worktree outside `.claude/worktrees/` prompts for confirmation. | Single-writer sequence with file ownership. | Record state propagation for `.kybernetes/` and conflict plan. |
 | `inspect_status` | `/agent` (alias `/subagents`) and `/status` confirmed live CLI slash commands; automation panes or app/server state elsewhere. | Agent/session status or command output. | Ask for report or inspect artifacts manually. | Status is not DONE evidence without `verification_sensor`. |
 | `verification_sensor` | Tests, commands, review, reviewer subagents, screenshots, citations, human acceptance. The security-scanning subsystem is NOT admissible here — no scan-level verdict exit code; it is `comparator_augmentation`. | Tests, commands, review subagents, human acceptance. A deep multi-agent cloud review feature is NOT admissible here — its CLI returns exit 0 regardless of findings; it is `comparator_augmentation`. | Smallest manual check that can reject bad output. | Record result, coverage, gaps, and rerun method in `verification.md`. |
+| `trajectory_sensor` | Evaluate in the lead loop or a bounded reviewer using admitted progress observations; native goal and task status remain advisory. | Evaluate in the lead loop or a bounded reviewer using admitted progress observations; native session and task status remain advisory. | Keep current summaries in `control.md`; use conditional `trajectory.md` only for high/extreme recurring or detached history that must survive reconstruction. | Strategy health is advisory control evidence; completion verification remains separate. |
 | `comparator_augmentation` | Reviewer, subagent, or human second pass. The security-scanning subsystem and auto-review/`approvals_reviewer` (risk-elevated per Codex's own docs) belong here. | Advisor/reviewer-style second pass. The deep multi-agent cloud review feature belongs here — a high-confidence finding generator, not a verdict. | Human or independent reviewer advice. | Advisory only unless separately promoted to `verification_sensor`. |
 | `scheduler` | App/cloud automations when approved and available. | Scheduled tasks/routines only when the active runtime supports them. | External cron/calendar or manual checkpoint. | Requires cadence, verifier, stop condition, and activation approval. |
 | `event_sensor` | App/plugin/GitHub/cloud signals or polling when a source is named. | Channels, monitors, or plugin signals when available. | Manual polling or user-provided event. | Record source, owner, admissibility, and next activation. |
@@ -36,10 +39,23 @@ See:
 | `skill_package` | Agent Skills; plugins as optional distribution wrapper. Record & Replay (macOS) turns a demonstrated workflow into a reusable skill. Plugin install is a `permission_boundary` capability grant, not a bare skill load. | Skill/plugin packaging where available; same plugin-as-capability-grant caveat. | Prompt template plus markdown references. | Method guidance only; not verification. |
 | `audit_hook` | Hooks only after pressure evidence justifies audit machinery. | Hooks/logs/plugins only after pressure evidence. | Manual verification notes. | Deferred; no current-truth role. |
 
+## Hosted Work Surfaces
+
+| Concern | ChatGPT Work mode | Claude Cowork |
+| --- | --- | --- |
+| Activation | Fresh or same-chat web schedules; no retained local folder on web. | Separate scheduled Cowork sessions; bind remote versus local resources explicitly. |
+| Canonical state | Portable project/connected source; chat context is advisory. | Portable project files/control record; project and chat memory are advisory. |
+| Trajectory | Scheduled runs return typed observations to the canonical writer. | Scheduled sessions return typed observations to the canonical writer. |
+| Capability risk | Tools, skills, plugins, browser, workers, and schedule CRUD vary by active chat/account. | Folders, connectors, plugins, subagents, browser/computer, approval, and schedule lifecycle vary by active session/account. |
+| Fallback | Foreground chat, manual checkpoint, connected durable source, or external trigger. | Foreground Cowork, manual checkpoint, portable files, or a bounded fresh session. |
+
 ## Matrix Rules
 
 - Core asks for a port; the adapter chooses the native surface.
-- Runtime availability is probed before use and never assumed from this matrix.
+- Every activation probes its own agent-callable runtime availability before use;
+  no fresh or scheduled run inherits a prior probe or assumes capability from this
+  matrix. Missing or unknown required operations fail closed or use the binding's
+  portable fallback.
 - Runtime memory, task state, goals, checkpoints, and transcripts are advisory
   unless mirrored into the L1 trust pair or independently recoverable through a
   recorded pointer.

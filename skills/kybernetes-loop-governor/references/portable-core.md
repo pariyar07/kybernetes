@@ -10,6 +10,48 @@ the activation identity, canonical revision, state pointers, and return path.
 Use this file when the loop governor is running in a skill-compatible agent that
 does not have a dedicated binding yet.
 
+## Trajectory Binding
+
+Evaluate the compact strategy contract in the lead loop. Record current health and
+decision in `control.md`. Use `trajectory.md` only when high/extreme recurring or
+detached work has history that must be reconstructed across progress windows; all
+other current summaries stay in `control.md`. Keep completion evidence in
+`verification.md`.
+
+## Capability Probe
+
+Every activation must safely inspect or test its own agent-callable capabilities
+before depending on them, then record each required capability as native, emulated,
+unavailable, or unknown. A pre-detachment probe or an observation from another
+activation is not sufficient.
+
+## Portable Fallback
+
+If a required capability is unavailable or unknown in that activation, fail closed
+for the dependent operation. Use foreground continuation, explicit human
+checkpoints, portable files, and an external trigger only when it can pass revision,
+identity, state, and return data.
+
+## Portable Core Baseline
+
+Every runtime binding resolves these ports itself. This file supplies the generic
+fallback as one complete binding; it is not a mixin for another L3 binding.
+
+| Required port | Portable binding |
+| --- | --- |
+| `durable_objective` | Program kind, brief objective, finite DONE or continuing health contract, and canonical `control.md`; native objective state is advisory. |
+| `planning_surface` | Compact plan in chat or canonical state. |
+| `progress_surface` | Checklist or control summary, advisory until reconciled. |
+| `worker_spawn` | Sequential work or a bounded manual handoff prompt. |
+| `isolation` | One canonical writer with explicit file ownership and report-only workers. |
+| `inspect_status` | Owned reports or direct artifact inspection. |
+| `verification_sensor` | Smallest rejection-capable check recorded in `verification.md`. |
+| `external_tool_provider` | Human-supplied output or the smallest confirmed tool. |
+| `elicitation` | Ask in the current conversation and wait or stop. |
+| `permission_boundary` | Written boundary plus explicit approval before external, irreversible, or release effects. |
+| `lifecycle_recovery` | Reconstruct from the trust pair and create a fresh bounded binding. |
+| `skill_package` | Prompt template plus markdown references. |
+
 ## Binding Key
 
 Fill the right column for the current runtime:
@@ -47,8 +89,11 @@ audit-only if future pressure evidence requires it.
 Use the kybernetes:loop-governor skill.
 Create or read control record: <path>.
 Objective: <objective>.
-Done when: <done condition>.
-Verify with: <verification>.
+Program kind: <finite | continuing>.
+Done or health: <measurable finite DONE | continuing health invariant>.
+Finite completion verifier: <verification | not_applicable>.
+Continuing review horizon: <bounded review/renewal point | not_applicable>.
+Continuing cycle verifier: <rejection-capable health check | not_applicable>.
 Constraints: <constraints>.
 Execution profile: generate task type, role stance, risk posture, artifacts,
 verification style, communication cadence, and HITL triggers before significant
@@ -61,6 +106,8 @@ with options plus a recommendation when human input is needed. Record next
 activation because portable runtimes may not preserve goal state.
 Canonical lifecycle: preserve <canonical state>; treat <native state> as
 advisory; use only <supported transitions>; fall back through <portable fallback>.
+For finite work, stop only on verified DONE. For continuing work, verify each
+bounded cycle and keep the program open until its review-horizon decision.
 ```
 
 ## Canonical Lifecycle And Divergence

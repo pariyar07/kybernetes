@@ -20,6 +20,7 @@ required = %w[
   docs/releases/v0.1.1.md docs/releases/v0.1.1-verification.md
   docs/releases/v0.1.2.md docs/releases/v0.1.2-verification.md
   docs/releases/v0.1.3.md docs/releases/v0.1.3-verification.md
+  docs/releases/v0.1.4.md docs/releases/v0.1.4-verification.md
   docs/architecture/runtime-adaptive-harness-architecture.md
   docs/assets/diagrams/4-runtime-adaptive-harness.svg
   examples/runtime-adaptive-program/README.md
@@ -46,8 +47,11 @@ abort("v0.1.2 release missing verification link") unless release_012.include?("v
 abort("CHANGELOG missing v0.1.3") unless changelog.include?("## [0.1.3] - 2026-07-17")
 release_013 = File.read("docs/releases/v0.1.3.md")
 abort("v0.1.3 release missing verification link") unless release_013.include?("v0.1.3-verification.md")
+abort("CHANGELOG missing v0.1.4") unless changelog.include?("## [0.1.4] - 2026-07-23")
+release_014 = File.read("docs/releases/v0.1.4.md")
+abort("v0.1.4 release missing verification link") unless release_014.include?("v0.1.4-verification.md")
 
-tracked = `git ls-files '.superpowers/*' 'docs/superpowers/*' '.kybernetes/*'`.lines
+tracked = `git ls-files '.superpowers/*' 'docs/superpowers/*' 'docs/implementation-plans/*' '.kybernetes/*'`.lines
 abort("forbidden tracked artifacts: #{tracked.join}") unless tracked.empty?
 
 puts "v0.1 release validation passed (#{skills.length} skills)"

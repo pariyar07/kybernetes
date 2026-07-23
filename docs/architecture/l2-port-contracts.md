@@ -45,6 +45,7 @@ named so L3 bindings can discuss them without making them always-on machinery.
 | `event_sensor` | Conditional | Use when a concrete event source is named and its admissibility, owner, and next activation can be recorded. |
 | `notification` | Conditional | Use before detached work can block away from the parent surface, unless the human explicitly accepts a manual checkpoint cadence. |
 | `out_of_band_steering` | Conditional | Use when a session can be steered or answered by more than one attached client (a second device pairs with or syncs to the same running loop), and pairing/attach state plus answer provenance can be recorded. |
+| `trajectory_sensor` | Conditional | Use for high/extreme recurring or detached work, multi-window experiments, continuing programs, or repeated no-change that may require strategy rejection. |
 | `audit_hook` | Deferred | Keep out of v1 current-truth machinery until pressure evidence justifies audit hooks. |
 
 ## `durable_objective`
@@ -52,10 +53,10 @@ named so L3 bindings can discuss them without making them always-on machinery.
 | Field | Contract |
 | --- | --- |
 | Portable name | `durable_objective` |
-| Inputs | Objective, measurable DONE condition, target surface, constraints, verifier, active control record path when durable state exists, stop condition, and owner. |
+| Inputs | Program kind, objective, measurable finite DONE plus completion verifier or continuing health invariant plus review horizon and cycle verifier, target surface, constraints, active control record path when durable state exists, stop condition, and owner. |
 | Outputs | Objective handle or prompt, stated scope, recovery pointer, current status, and whether persistence is native, simulated, or unavailable. |
 | Evidence status | Advisory control state. It can orient future work, but it does not satisfy `verification_sensor` and is not canonical unless mirrored into `control.md`. |
-| Fallback | Put objective, DONE, verifier, constraints, and recovery pointer in the lead prompt or `control.md`. |
+| Fallback | Put program kind, objective, finite DONE and verifier or continuing health/review/cycle contract, constraints, and recovery pointer in the lead prompt or `control.md`. |
 | Risk / HITL consequence | Medium when it can steer future turns or autonomous work. If target, verifier, or boundary is missing, use `elicitation` before creating or returning an objective. |
 | Failure semantics | Report `unavailable`, `rejected`, `ambiguous`, or `stale`. Do not proceed as if persistence exists; continue only from L1 state or ask for steering. |
 | State update obligations | Record the objective text, handle or fallback prompt, recovery pointer, verifier, and any failure in `control.md`. |
@@ -215,6 +216,23 @@ named so L3 bindings can discuss them without making them always-on machinery.
 | Risk / HITL consequence | Low for read-only guidance; medium when package behavior can trigger tools, workers, or external effects through the active runtime. |
 | Failure semantics | Report missing package, namespace mismatch, incompatible runtime, stale reference, or unreadable instructions. Do not invent package behavior. |
 | State update obligations | Record selected method package, references used, fallback, and any namespace caveat in `control.md` when it affects recovery. |
+
+## `trajectory_sensor`
+
+| Field | Contract |
+| --- | --- |
+| Portable name | `trajectory_sensor` |
+| Inputs | `strategy_id`, program kind, finite DONE verifier or continuing review horizon and cycle verifier, progress model and metric, measurement window, minimum delta, actual admissible result, cumulative deficient windows for that strategy, no-progress cap, actionable capacity through approved sensors and actuators, fallback coverage, remaining horizon, strategy envelope, and evidence pointers. |
+| Outputs | Continue, adapt, pause, escalate, or retire; health `healthy`, `watch`, `unhealthy`, or `unknown`; reason; next measurement; and affected strategy or activation handles. |
+| Evidence status | Strategy-control evidence only. It cannot declare completion, weaken DONE, or manufacture a domain verdict. |
+| Fallback | Evaluate the compact contract in the lead loop and record the current summary in `control.md`. Use a conditional `trajectory.md` only for high/extreme recurring or detached history when several windows must survive reconstruction; otherwise current summaries stay in `control.md`. |
+| Risk / HITL consequence | High when adaptation would change objective, evidence admissibility, audience, destination, channel, claims, spend, data access, permissions, or external risk. Use `elicitation` outside the strategy envelope. |
+| Failure semantics | Report `unknown` only for missing or stale sensing; report `unhealthy`, `insufficient_capacity`, `cap_reached`, `boundary_limited`, or `strategy_rejected` when complete admissible sensing supports the result. Runtime success and safety consistency do not imply health. |
+| State update obligations | The single canonical writer records `strategy_id`, model, window, planned and actual result, cumulative deficient-window count, capacity, decision, and next measurement in `control.md`. Preserve the count for the same strategy across activations and reconstruction; reset only for a materially different causal strategy with a new ID, retaining prior history. Completion verification remains separate in `verification.md`. |
+
+The trajectory program supplies the canonical fields `strategy_id`,
+`progress_model`, `minimum_delta`, `no_progress_cap`, `actionable_capacity`,
+`review_horizon`, and `cycle_verifier`.
 
 ## Contract Evolution
 

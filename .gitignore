@@ -12,6 +12,11 @@ coverage/
 # Legacy local run artifacts from early drafts.
 .agent-runs/
 
+# Local Superpowers execution artifacts.
+.superpowers/
+docs/superpowers/
+docs/implementation-plans/
+
 # Local agent settings and private local memory.
 .claude/
 .gemini/

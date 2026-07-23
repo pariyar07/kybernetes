@@ -14,6 +14,16 @@ input_pointer: <source>
 first_check: <sensor>
 allowed_effects: [<bounded effect>]
 effect_key: <stable idempotency key>
+strategy_id: strat-004
+program_kind: finite | continuing
+progress_model: information
+progress_window: 2 activations
+minimum_delta: 1 admissible evidence item
+cumulative_deficient_windows: 1
+no_progress_cap: 2 deficient windows
+fallback_order: [approved-alternate-route, request-owner-decision]
+review_horizon: not_applicable or 2026-08-01
+cycle_verifier: not_applicable or <continuing health check>
 budget: {attempts: 1, elapsed_minutes: 10}
 no_change: record_and_stop
 notification: <outbound path or none>
@@ -48,8 +58,25 @@ results unless it has a tested notification path or the user explicitly accepts
 a manual checkpoint cadence. A configured but untested path is not sufficient
 for high-impact work. If the gate fails, offer a one-shot foreground dry run.
 
-No-change is a normal recorded outcome, not failure. It advances no canonical
-claim beyond recording that the sensor observed no actionable difference.
+No-change is a normal per-activation observation, not a completion or failure
+claim. Attribute it to `strategy_id` and the current progress window. Expected
+fresh waiting follows the declared latency model; repeated non-producing work
+increments the cumulative deficient-window count. A new activation, worker, chat,
+or schedule does not reset the same strategy's `no_progress_cap`.
+
+Read `cumulative_deficient_windows` from canonical state before evaluation and
+return the updated value to the single writer after evaluation; never initialize
+it from activation-local state. For `maintenance`, fresh evidence with required
+invariant coverage may keep the count unchanged, while stale or missing coverage
+is deficient. For `event_wait`, only a fresh wait inside its declared bound may
+keep the count unchanged; a stale sensor, exceeded bound, or decision-inert polling
+is deficient.
+
+Create a new `strategy_id` only for a materially different causal approach whose
+expected next observation changes. Cadence edits, renamed tasks, new runtime handles,
+or the same actuator against a refreshed queue remain the same strategy. A new
+strategy starts its own count at zero while the rejected strategy's final count
+remains reconstructable in history.
 
 ## Multiple Automations And Tasks
 

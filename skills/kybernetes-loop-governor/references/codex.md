@@ -13,11 +13,43 @@ part of "the ChatGPT desktop app" branding (macOS/Windows) alongside its CLI,
 IDE extension, and cloud surfaces; "Codex app" in this file refers to any of
 these first-party surfaces generically, not a single standalone application.
 
+## Trajectory Binding
+
+Use admitted domain observations rather than thread, goal, automation, or plan
+status. A scheduled activation reads strategy identity and canonical revision,
+returns an owned report, and cannot reset cumulative no-progress by creating a new
+thread, worktree, worker, or automation.
+
+## Capability Probe
+
+Every activation, including each fresh or scheduled task, must safely inspect or
+test its own agent-callable goal lifecycle, thread operations, schedule CRUD,
+local/worktree access, skills/plugins, browser, Chrome, Computer Use, notification,
+and unattended permissions before depending on them. A pre-detachment probe or an
+observation from another activation is not sufficient.
+
+## Portable Fallback
+
+If a required capability is unavailable or unknown in that activation, fail
+closed for the dependent operation, reconstruct from the trust pair, and use
+foreground execution, manual checkpoints, or a fresh bounded binding.
+
+## Documentation Evidence
+
+Checked 2026-07-23 against OpenAI [Scheduled tasks](https://learn.chatgpt.com/docs/automations),
+[Subagents](https://learn.chatgpt.com/docs/agent-configuration/subagents),
+[Browser](https://learn.chatgpt.com/docs/browser),
+[Chrome extension](https://learn.chatgpt.com/docs/chrome-extension),
+[Computer Use](https://learn.chatgpt.com/docs/computer-use), and
+[Git worktrees](https://learn.chatgpt.com/docs/environments/git-worktrees).
+Active callable evidence still outranks documentation. Documentation is not proof
+of agent-callable capability.
+
 ## Binding Table
 
 | L2 port or layer | Codex binding | Caveat / fallback | Evidence and state obligation |
 | --- | --- | --- | --- |
-| `durable_objective` | Prefer `/goal` when work is long-running, resumable, or needs a durable stopping condition and the objective is ready enough to name. On the CLI, `/goal <objective>` sets it, bare `/goal` views it, `/goal edit` revises it, and `/goal pause`/`/goal resume`/`/goal clear` control it — all confirmed live slash-command arguments, not UI buttons (corrected 2026-07-13). Non-CLI surfaces (IDE extension, desktop app) are not confirmed to expose the identical command surface — verify before assuming parity. | If the agent cannot set the goal, return a copy-paste `/goal` prompt or continue from `control.md`. Goal state is advisory. | Mirror objective, DONE, verifier, constraints, and recovery pointer into `control.md`. |
+| `durable_objective` | Prefer `/goal` when work is long-running, resumable, or needs a durable stopping condition and the objective is ready enough to name. On the CLI, `/goal <objective>` sets it, bare `/goal` views it, `/goal edit` revises it, and `/goal pause`/`/goal resume`/`/goal clear` control it — all confirmed live slash-command arguments, not UI buttons (corrected 2026-07-13). Non-CLI surfaces (IDE extension, desktop app) are not confirmed to expose the identical command surface — verify before assuming parity. | If the agent cannot set the goal, return a copy-paste `/goal` prompt or continue from `control.md`. Goal state is advisory. | Mirror objective, `program_kind`, `done_or_health`, constraints, recovery pointer, and either the finite completion verifier or the continuing health invariant, `review_horizon`, and `cycle_verifier` into `control.md`. A healthy cycle never completes the continuing program. |
 | `planning_surface` | Use `/plan` when the correct move is `up`: architecture, scope, decomposition, or product judgment before action. | If plan mode is unavailable or unnecessary, write a compact plan in chat or `control.md`. | Accepted plan, assumptions, rejected alternatives, and next checkpoint belong in L1 state when durable. |
 | `progress_surface` | Use in-session plan/checklist state, goal progress, or app thread state when helpful. | Runtime progress UI is advisory unless recoverable and linked from L1. | Mirror durable progress into `checklist.md` or `control.md` only when needed. |
 | `worker_spawn` | Use Codex subagents for bounded in-session delegation. Worker prompts receive task contracts, not slash commands. | Codex does not need to spawn workers by reflex; use single-writer work when integration cost is higher than coverage gain. | Worker reports are evidence inputs; parent loop owns integration and final verification. |
@@ -44,9 +76,12 @@ The goal belongs to the loop governor thread. Workers must not receive `/goal`
 commands.
 
 Before creating or returning a goal prompt, confirm the goal can name the target,
-objective, done condition, verifier, constraints, and active control record. A
+objective, `program_kind`, `done_or_health`, constraints, active control record,
+and the matching sensor. Finite work needs measurable DONE and a completion
+verifier. Continuing work needs a health invariant, `review_horizon`, and
+`cycle_verifier`; a healthy cycle never completes the continuing program. A
 prompt like "set a goal for this" is not enough when "this" lacks a recoverable
-target or verifier. Go `down` to repair readiness before setting a durable goal.
+target or sensor. Go `down` to repair readiness before setting a durable goal.
 
 In Codex, the model may see goal state across turns through the runtime, but do
 not rely on the goal alone. The stable recovery point is the control record. Read
@@ -62,8 +97,11 @@ Use the shortest prompt that preserves the loop:
 Objective: <objective>.
 Read first: <path-to-control-record>.
 Operating model: <path-to-skill>/references/operating-model.md.
-Done when: <done condition>.
-Verify with: <verification>.
+Program kind: <finite | continuing>.
+Done or health: <measurable finite DONE | continuing health invariant>.
+Finite completion verifier: <verification | not_applicable>.
+Continuing review horizon: <bounded review/renewal point | not_applicable>.
+Continuing cycle verifier: <rejection-capable health check | not_applicable>.
 Constraints: <constraints>.
 Artifacts: <control record, checklist, worker registry, evidence, plans, tests>.
 Loop readiness: setpoint, sensor/evidence, actuators, state, stop condition,
@@ -71,6 +109,10 @@ and HITL boundary.
 Altitude: choose stay, down, up, stack, or stop at checkpoints.
 Loop: sense, compare, choose altitude, act, verify, record. Ask HITL when scope,
 risk, blockers, or irreversible actions need a human decision.
+Finite rule: stop only after the completion verifier accepts measurable
+done_or_health. Continuing rule: verify each bounded cycle with cycle_verifier,
+keep the program open through review_horizon, and never treat a healthy cycle as
+completion of the continuing program.
 ```
 
 If no control record exists yet, create one first for non-trivial runs. If the
@@ -82,8 +124,8 @@ create and include a compact control-record template.
 If `/goal` is unavailable, fails, or the agent is not allowed to call the goal
 tool:
 
-1. Repair readiness first if target, objective, DONE, verifier, constraints, or
-   control record are still vague.
+1. Repair readiness first if target, objective, `program_kind`, `done_or_health`,
+   matching finite or continuing sensor, constraints, or control record are vague.
 2. Continue in the current chat with the same control record.
 3. Return the copy-paste `/goal` prompt to the user.
 4. State that the run can continue without goal mode as long as the control
@@ -99,7 +141,7 @@ Codex workers should receive:
 - Owned paths or sources.
 - Permission level.
 - Things not to touch.
-- Done condition and verification.
+- Bounded done-or-health condition and the matching completion or cycle verifier.
 - Return format.
 - Instruction to report impediments, conflicts, or findings that affect other
   workers.
@@ -120,21 +162,24 @@ permission to ignore configured concurrency limits.
 In delegated Codex runs, read the delegation payload as context, not as a
 complete execution contract. A `source_thread_id`, prior-thread handoff, or
 instruction to "move fast" does not by itself identify the target workflow,
-done condition, verifier, or safety boundary. If those are missing, do not spawn
-workers or create sibling threads yet. First return or record the smallest decision
-surface that would make the worker contract measurable.
+bounded done-or-health condition, matching completion or cycle verifier, or safety
+boundary. If those are missing, do not spawn workers or create sibling threads
+yet. First return or record the smallest decision surface that would make the
+worker contract measurable.
 
 Use a single-writer discovery loop when the likely target files are not yet
 partitioned. Spawn workers only after the lead can give each worker owned paths
-or sources, permission level, done condition, verifier, and return format.
+or sources, permission level, bounded done-or-health condition, matching
+completion or cycle verifier, and return format.
 
 ## Isolation State Propagation
 
 Before using a Codex worktree, cloud task, or other isolated surface, choose how
 the isolated worker will see the parent run state:
 
-- Copied brief: paste the objective, DONE, constraints, verifier, owned scope,
-  return format, and relevant `control.md` / `verification.md` excerpts.
+- Copied brief: paste the objective, `program_kind`, `done_or_health`, constraints,
+  matching completion or cycle verifier, owned scope, return format, and relevant
+  `control.md` / `verification.md` excerpts.
 - Parent run-root pointer: provide an absolute path to the parent
   `.kybernetes/<slug>/` root and state whether the worker may read or write it.
 - No-parent-state mode: state that the worker must not rely on parent run files
@@ -176,14 +221,20 @@ before acting.
 Codex review surfaces, reviewer subagents, and human second passes can play two
 different roles:
 
-- `verification_sensor`: the review has authority to reject output against DONE,
-  and the result is recorded in `verification.md`.
-- `comparator_augmentation`: the review is advisory input for a decision, and
-  the lead still needs an admissible verifier before claiming completion.
+- `verification_sensor`: the review has authority to reject finite output against
+  measurable DONE, and the result is recorded in `verification.md`. This port is
+  completion-only.
+- `comparator_augmentation`: the review is advisory input for a completion or
+  trajectory decision. It cannot replace the finite completion verifier or the
+  recorded continuing `cycle_verifier`.
 
-Do not launder advisory comparison into verification. If a reviewer says "looks
-reasonable" without a rejection-capable method, record it as comparator advice
-and run or define a verifier.
+Continuing `cycle_verifier` results are not `verification_sensor` output. Record
+the current cycle verdict in `control.md` and durable multi-window history in
+`trajectory.md` when required; a healthy cycle keeps the continuing program open.
+
+Do not launder advisory comparison into verification. For finite work, run or
+define the completion verifier. For continuing work, run the recorded
+`cycle_verifier` and update control/trajectory state instead.
 
 ## Automations
 
@@ -191,10 +242,13 @@ Treat Codex automations as externalized loop actuators, not as ordinary local
 edits. Before creating or activating one, the parent governor must know:
 
 - Objective and explicit target surface.
+- Program kind and `done_or_health`: measurable DONE for finite work or a health
+  invariant for continuing work.
 - Cadence and next activation.
 - Input source.
 - Durable state surface.
-- Admissible verifier.
+- Matching sensor: a finite completion verifier, or continuing `review_horizon`
+  and `cycle_verifier`. A healthy cycle never completes the continuing program.
 - Budget, attempt cap, or no-change behavior.
 - Safety/HITL boundary and stop/escalation condition.
 - Outbound notification path or explicitly accepted manual checkpoint cadence
@@ -241,9 +295,9 @@ prerequisite for recovery.
 When another skill is invoked while Kybernetes is active in the same context,
 yield method to the specialist skill and keep the control plane:
 
-- objective and DONE
+- objective, `program_kind`, and `done_or_health`
 - risk boundary
-- parent-owned verifier
+- parent-owned finite completion verifier or continuing cycle verifier
 - integration decision
 - durable state if needed
 
@@ -272,8 +326,11 @@ the artifact.
 Use $kybernetes:loop-governor.
 Create or read control record: <path>.
 Objective: <objective>.
-Done when: <done condition>.
-Verify with: <verification>.
+Program kind: <finite | continuing>.
+Done or health: <measurable finite DONE | continuing health invariant>.
+Finite completion verifier: <verification | not_applicable>.
+Continuing review horizon: <bounded review/renewal point | not_applicable>.
+Continuing cycle verifier: <rejection-capable health check | not_applicable>.
 Constraints: <constraints>.
 Execution profile: generate the task type, role stance, risk posture, artifacts,
 verification style, cadence, and HITL triggers before significant work.
@@ -283,4 +340,8 @@ Keep the loop active: ask adaptive questions when the setpoint or sensor is
 unclear, choose stay/down/up/stack/stop at checkpoints, update the control
 record after meaningful results, explain routing decisions briefly, and escalate
 with options plus a recommendation when human input is needed.
+Finite rule: stop only after the completion verifier accepts measurable
+done_or_health. Continuing rule: verify each bounded cycle with cycle_verifier,
+keep the program open through review_horizon, and never treat a healthy cycle as
+completion of the continuing program.
 ```
