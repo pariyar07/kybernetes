@@ -2,6 +2,22 @@
 
 All notable changes to Kybernetes will be recorded here.
 
+## [0.1.4] - 2026-07-23
+
+- Added rejection-capable trajectory control so safe, internally consistent
+  detached runs cannot remain green while their strategy is stalled.
+- Added finite and continuing program semantics, strategy-keyed no-progress
+  budgets, typed progress funnels, actionable-capacity readiness, bounded
+  strategy authority, and separate progress, safety, completion, and trajectory
+  sensor contracts.
+- Added distinct ChatGPT Work mode and Claude Cowork bindings alongside Codex,
+  Claude Code, and portable-core, with per-activation capability probes and
+  fail-closed fallbacks.
+- Added pressure scenarios 075-080 and structural validation for liveness,
+  authority, runtime portability, and completion-versus-cycle boundaries.
+- Kept Superpowers execution and implementation-plan artifacts untracked and
+  enforced that boundary in CI.
+
 ## [0.1.3] - 2026-07-17
 
 - Corrected the retired `$parallel-coordinator` name from a claimed
