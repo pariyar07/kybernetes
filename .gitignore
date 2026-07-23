@@ -15,6 +15,7 @@ coverage/
 # Local Superpowers execution artifacts.
 .superpowers/
 docs/superpowers/
+docs/implementation-plans/
 
 # Local agent settings and private local memory.
 .claude/

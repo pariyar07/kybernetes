@@ -47,7 +47,7 @@ abort("CHANGELOG missing v0.1.3") unless changelog.include?("## [0.1.3] - 2026-0
 release_013 = File.read("docs/releases/v0.1.3.md")
 abort("v0.1.3 release missing verification link") unless release_013.include?("v0.1.3-verification.md")
 
-tracked = `git ls-files '.superpowers/*' 'docs/superpowers/*' '.kybernetes/*'`.lines
+tracked = `git ls-files '.superpowers/*' 'docs/superpowers/*' 'docs/implementation-plans/*' '.kybernetes/*'`.lines
 abort("forbidden tracked artifacts: #{tracked.join}") unless tracked.empty?
 
 puts "v0.1 release validation passed (#{skills.length} skills)"

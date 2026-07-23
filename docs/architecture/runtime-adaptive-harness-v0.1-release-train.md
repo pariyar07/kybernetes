@@ -130,7 +130,8 @@ Deliverables:
 Promotion gate:
 
 - all Stage 1 local CI-equivalent checks pass;
-- no `.superpowers/` or `docs/superpowers/` paths are tracked; and
+- no `.superpowers/`, `docs/superpowers/`, or `docs/implementation-plans/`
+  paths are tracked; and
 - the release branch starts from the exact verified Stage 1 head.
 
 ### Stage 2: Lean Governor Kernel And Dynamic Loading
@@ -419,7 +420,6 @@ After this written specification is approved:
 ## Durable Evidence
 
 - Stage 1 architecture: `docs/architecture/runtime-adaptive-harness-architecture.md`
-- Stage 1 plan: `docs/implementation-plans/2026-07-17-runtime-adaptive-harness-stage-1.md`
 - Stage 1 draft PR: https://github.com/pariyar07/kybernetes/pull/23
 - Existing historical snapshot tag: `post-acceptance-substrate-v1`
 - Target prerelease: `v0.1.0-rc.1`
