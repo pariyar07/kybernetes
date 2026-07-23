@@ -14,6 +14,12 @@ input_pointer: <source>
 first_check: <sensor>
 allowed_effects: [<bounded effect>]
 effect_key: <stable idempotency key>
+strategy_id: strat-004
+progress_model: information
+progress_window: 2 activations
+minimum_delta: 1 admissible evidence item
+no_progress_cap: 2 deficient windows
+fallback_order: [approved-alternate-route, request-owner-decision]
 budget: {attempts: 1, elapsed_minutes: 10}
 no_change: record_and_stop
 notification: <outbound path or none>
@@ -48,8 +54,15 @@ results unless it has a tested notification path or the user explicitly accepts
 a manual checkpoint cadence. A configured but untested path is not sufficient
 for high-impact work. If the gate fails, offer a one-shot foreground dry run.
 
-No-change is a normal recorded outcome, not failure. It advances no canonical
-claim beyond recording that the sensor observed no actionable difference.
+No-change is a normal per-activation observation, not a completion or failure
+claim. Attribute it to `strategy_id` and the current progress window. Expected
+fresh waiting follows the declared latency model; repeated non-producing work
+increments the cumulative deficient-window count. A new activation, worker, chat,
+or schedule does not reset the same strategy's `no_progress_cap`.
+
+Create a new `strategy_id` only for a materially different causal approach whose
+expected next observation changes. Cadence edits, renamed tasks, new runtime handles,
+or the same actuator against a refreshed queue remain the same strategy.
 
 ## Multiple Automations And Tasks
 

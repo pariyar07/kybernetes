@@ -103,6 +103,9 @@ Keep current state short. Split detailed history when useful:
 - `verification.md` for admissible sensors, latest evidence, failures, gaps,
   rerun instructions, and named human acceptance when it is the verifier. A
   verifier result does not imply an accountable acceptance verdict.
+- `trajectory.md` only for high/extreme recurring or detached work whose compact
+  progress-window history must survive reconstruction. Current trajectory truth
+  remains summarized in `control.md`; completion evidence remains in `verification.md`.
 
 Markdown is the default because agents and humans can read it quickly.
 `events.jsonl` is deferred for v1. If it is introduced later, it is audit-only,
@@ -138,6 +141,21 @@ Before creating loop machinery, check:
 - Brownfield model: contracts, runbooks, history, operational evidence,
   dependent systems, owners, and implicit constraints not covered by current
   tests.
+
+### Trajectory Readiness
+
+For high/extreme recurring or detached work, also record:
+
+- Progress model: `convergence`, `information`, `maintenance`, or `event_wait`.
+- Progress metric: typed observation, source, freshness, and admissibility.
+- Measurement window, minimum delta, and cumulative no-progress cap.
+- Actionable capacity: reachable observations or actions for the first window.
+- Fallback coverage: ordered alternatives, prerequisites, and usable capacity.
+- Strategy envelope: autonomous changes and owner-approved changes.
+- Retirement: how non-producing activation machinery stops.
+
+Reject detached activation when actionable capacity cannot plausibly satisfy the
+first window, unless the run is an explicitly bounded single-path experiment.
 
 If setpoint or sensor is vague, go `down` before acting: ask one targeted
 question, define acceptance criteria, reproduce the issue, find evidence, or
