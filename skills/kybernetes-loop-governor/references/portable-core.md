@@ -39,7 +39,7 @@ fallback as one complete binding; it is not a mixin for another L3 binding.
 
 | Required port | Portable binding |
 | --- | --- |
-| `durable_objective` | Brief objective plus canonical `control.md`; native objective state is advisory. |
+| `durable_objective` | Program kind, brief objective, finite DONE or continuing health contract, and canonical `control.md`; native objective state is advisory. |
 | `planning_surface` | Compact plan in chat or canonical state. |
 | `progress_surface` | Checklist or control summary, advisory until reconciled. |
 | `worker_spawn` | Sequential work or a bounded manual handoff prompt. |
@@ -89,8 +89,11 @@ audit-only if future pressure evidence requires it.
 Use the kybernetes:loop-governor skill.
 Create or read control record: <path>.
 Objective: <objective>.
-Done when: <done condition>.
-Verify with: <verification>.
+Program kind: <finite | continuing>.
+Done or health: <measurable finite DONE | continuing health invariant>.
+Finite completion verifier: <verification | not_applicable>.
+Continuing review horizon: <bounded review/renewal point | not_applicable>.
+Continuing cycle verifier: <rejection-capable health check | not_applicable>.
 Constraints: <constraints>.
 Execution profile: generate task type, role stance, risk posture, artifacts,
 verification style, communication cadence, and HITL triggers before significant
@@ -103,6 +106,8 @@ with options plus a recommendation when human input is needed. Record next
 activation because portable runtimes may not preserve goal state.
 Canonical lifecycle: preserve <canonical state>; treat <native state> as
 advisory; use only <supported transitions>; fall back through <portable fallback>.
+For finite work, stop only on verified DONE. For continuing work, verify each
+bounded cycle and keep the program open until its review-horizon decision.
 ```
 
 ## Canonical Lifecycle And Divergence

@@ -35,7 +35,9 @@ Module identifiers are stable manifest values; paths are implementation details.
   family. Documentation is not capability evidence.
 - Dependencies may require another module: lifecycle recovery requires
   `lifecycle`, runtime actuation requires `capability`, and high/extreme detached
-  activation requires `lifecycle`, `capability`, `trajectory`, and `verification`.
+  activation requires `lifecycle`, `capability`, and `trajectory`. Finite work
+  also requires `verification`; continuing work instead requires its recorded
+  `cycle_verifier`.
 - Persist selected modules only for durable reconstruction; do not create a
   manifest merely to describe a small task.
 

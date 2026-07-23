@@ -153,7 +153,9 @@ require_terms(
   index_path,
   selection_rules,
   [
-    "high/extreme detached activation requires `lifecycle`, `capability`, `trajectory`, and `verification`",
+    "high/extreme detached activation requires `lifecycle`, `capability`, and `trajectory`",
+    "Finite work also requires `verification`",
+    "continuing work instead requires its recorded `cycle_verifier`",
   ],
 )
 reject_pattern(
@@ -161,6 +163,12 @@ reject_pattern(
   selection_rules,
   /and detached activation requires/i,
   "a trajectory dependency for every detached activation",
+)
+reject_pattern(
+  index_path,
+  selection_rules,
+  /high\/extreme detached activation requires `lifecycle`, `capability`, `trajectory`, and `verification`/i,
+  "an unconditional completion-verifier dependency for continuing detached work",
 )
 routing_rows = index.lines.count { |line| line.start_with?("| `trajectory` | `trajectory-control.md` |") }
 abort("#{index_path} expected exactly one trajectory routing row, found #{routing_rows}") unless routing_rows == 1

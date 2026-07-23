@@ -411,7 +411,10 @@ Add this row to `skills/kybernetes-loop-governor/references/reference-index.md` 
 | `trajectory` | `trajectory-control.md` | Work is high/extreme recurring or detached, spans progress windows, repeats no-change, or needs strategy redesign. |
 ```
 
-Add `trajectory` to the dependency rule for high/extreme detached activation, while retaining exactly one runtime binding.
+Add `trajectory` to the dependency rule for high/extreme detached activation,
+while retaining exactly one runtime binding. Require the completion-only
+`verification` module for finite work; continuing work uses its recorded
+`cycle_verifier` instead.
 
 - [ ] **Step 4: Run the kernel validator**
 
@@ -959,7 +962,8 @@ Before this validator is considered passing, strengthen it to parse named
 sections, enforce the generic same-activation freshness contract, require the
 exact twelve-row hosted baselines, verify ChatGPT unattended sandbox/permission/
 approval probing, route all five runtime references, and check the package README
-resolver list.
+resolver list. It must also parse the portable launcher and require explicit finite
+DONE fields or continuing health, review-horizon, and cycle-verifier fields.
 
 - [ ] **Step 3: Run it and observe the missing ChatGPT Work binding**
 
@@ -1203,6 +1207,11 @@ Record each required capability as native, emulated, unavailable, or unknown.
 Use foreground continuation, explicit human checkpoints, portable files, and an
 external trigger only when it can pass revision, identity, state, and return data.
 ```
+
+Update the portable launcher so it records `program_kind`, `done_or_health`, the
+finite completion verifier or `not_applicable`, and the continuing
+`review_horizon`/`cycle_verifier` or `not_applicable`. A healthy continuing cycle
+keeps the program open until its review-horizon decision.
 
 Do not duplicate an existing heading in a binding. Merge this content into the
 existing capability/fallback section when its semantics already match.

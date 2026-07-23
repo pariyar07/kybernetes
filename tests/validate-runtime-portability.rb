@@ -173,6 +173,20 @@ require_terms(
     "all other current summaries stay in `control.md`",
   ],
 )
+portable_launcher = section(portable_path, portable_content, "Portable Launcher")
+require_terms(
+  portable_path,
+  portable_launcher,
+  [
+    "Program kind: <finite | continuing>",
+    "Done or health: <measurable finite DONE | continuing health invariant>",
+    "Finite completion verifier: <verification | not_applicable>",
+    "Continuing review horizon: <bounded review/renewal point | not_applicable>",
+    "Continuing cycle verifier: <rejection-capable health check | not_applicable>",
+    "For finite work, stop only on verified DONE",
+    "For continuing work, verify each bounded cycle and keep the program open until its review-horizon decision",
+  ],
+)
 
 index_path = "skills/kybernetes-loop-governor/references/reference-index.md"
 index_content = require_file(index_path)
