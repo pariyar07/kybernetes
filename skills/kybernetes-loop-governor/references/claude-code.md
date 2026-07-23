@@ -18,14 +18,17 @@ completion verification separate.
 
 ## Capability Probe
 
-Probe the selected local, desktop, remote, or cloud surface for goals, session loops,
-scheduled tasks, routines, workers, worktrees, hooks/channels, tools, notifications,
-and permission behavior.
+Every activation, including each fresh or scheduled session, must safely inspect
+or test its own agent-callable goals, session loops, scheduled tasks, routines,
+workers, worktrees, hooks/channels, tools, notifications, and permission behavior
+before depending on them. A pre-detachment probe or an observation from another
+activation is not sufficient.
 
 ## Portable Fallback
 
-Use the trust pair, foreground work, a manual checkpoint, or a fresh bounded session
-when the selected surface lacks durable activation or repair operations.
+If a required capability is unavailable or unknown in that activation, fail
+closed for the dependent operation and use the trust pair, foreground work, a
+manual checkpoint, or a fresh bounded session.
 
 ## Documentation Evidence
 
@@ -34,7 +37,8 @@ Checked 2026-07-23 against official Claude Code [persistent goals](https://code.
 [desktop scheduled tasks](https://code.claude.com/docs/en/desktop-scheduled-tasks),
 [cloud routines](https://code.claude.com/docs/en/routines), and
 [agents](https://code.claude.com/docs/en/agents). Record which local, desktop,
-remote, or cloud surface the probe actually covered.
+remote, or cloud surface the probe actually covered. Documentation is not proof
+of agent-callable capability.
 
 ## Binding Table
 

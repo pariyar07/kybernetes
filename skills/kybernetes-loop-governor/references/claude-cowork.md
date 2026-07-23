@@ -16,9 +16,11 @@ bounded work, and returns evidence for the canonical writer.
 
 ## Capability Probe
 
-Before detachment, inspect or safely test selected folder access, connectors,
-skills/plugins, subagents, browser/computer actions, approval mode, notification,
-and scheduled-task lifecycle operations in the active account and session.
+Every activation, including each fresh or scheduled session, must safely inspect
+or test its own agent-callable folder access, connectors, skills/plugins,
+subagents, browser/computer actions, approval mode, notification, and
+scheduled-task lifecycle operations before depending on them. A pre-detachment
+probe or an observation from another activation is not sufficient.
 
 ## Schedule Mutation
 
@@ -28,9 +30,10 @@ management without expanding connector, folder, or deletion authority.
 
 ## Portable Fallback
 
-Use foreground Cowork, a manual checkpoint, portable project files, or a new
-bounded session. Keep local effects disabled when the desktop resource boundary is
-not confirmed.
+If a required capability is unavailable or unknown in that activation, fail
+closed for the dependent operation and use foreground Cowork, a manual checkpoint,
+portable project files, or a new bounded session. Keep local effects disabled when
+the desktop resource boundary is not confirmed.
 
 ## Documentation Evidence
 
@@ -38,4 +41,4 @@ Checked 2026-07-23: [Claude Cowork](https://claude.com/product/cowork),
 [Get started with Claude Cowork](https://support.claude.com/en/articles/13345190-get-started-with-claude-cowork),
 and [Schedule recurring tasks in Claude Cowork](https://support.claude.com/en/articles/13854387-schedule-recurring-tasks-in-claude-cowork).
 Treat the remote/local folder descriptions as surface-specific and probe the
-selected task.
+selected task. Documentation is not proof of agent-callable capability.

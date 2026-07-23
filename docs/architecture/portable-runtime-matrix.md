@@ -52,7 +52,10 @@ See:
 ## Matrix Rules
 
 - Core asks for a port; the adapter chooses the native surface.
-- Runtime availability is probed before use and never assumed from this matrix.
+- Every activation probes its own agent-callable runtime availability before use;
+  no fresh or scheduled run inherits a prior probe or assumes capability from this
+  matrix. Missing or unknown required operations fail closed or use the binding's
+  portable fallback.
 - Runtime memory, task state, goals, checkpoints, and transcripts are advisory
   unless mirrored into the L1 trust pair or independently recoverable through a
   recorded pointer.

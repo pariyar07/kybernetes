@@ -16,9 +16,11 @@ window, and report path in its durable prompt or accessible project material.
 
 ## Capability Probe
 
-Before detachment, inspect or safely test schedule create/update/pause/delete,
-connected tools, skills/plugins, notification destination, browser access, worker
-creation, and source-material access in the active account and chat.
+Every activation, including each fresh or scheduled run, must safely inspect or
+test its own agent-callable schedule create/update/pause/delete, connected tools,
+skills/plugins, notification destination, browser access, worker creation, and
+source-material access before depending on them. A pre-detachment probe or an
+observation from another activation is not sufficient.
 
 ## Schedule Mutation
 
@@ -28,9 +30,10 @@ and ask the owner to update the schedule.
 
 ## Portable Fallback
 
-Use a foreground chat, explicit manual checkpoint, connected durable source, or
-external trigger. Do not claim access to local files, another chat's native state,
-or unavailable connectors.
+If a required capability is unavailable or unknown in that activation, fail
+closed for the dependent operation and use a foreground chat, explicit manual
+checkpoint, connected durable source, or external trigger. Do not claim access
+to local files, another chat's native state, or unavailable connectors.
 
 ## Documentation Evidence
 
@@ -41,4 +44,5 @@ Checked 2026-07-23: OpenAI [Scheduled tasks](https://learn.chatgpt.com/docs/auto
 [Computer Use](https://learn.chatgpt.com/docs/computer-use), and
 [Git worktrees](https://learn.chatgpt.com/docs/environments/git-worktrees).
 These pages describe supported user surfaces; they do not prove that an operation
-is callable in the active run.
+is callable in the active run. Documentation is not proof of agent-callable
+capability.

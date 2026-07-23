@@ -22,14 +22,17 @@ thread, worktree, worker, or automation.
 
 ## Capability Probe
 
-Probe the active Codex surface before relying on goal lifecycle, thread operations,
-schedule CRUD, local/worktree access, skills/plugins, browser, Chrome, Computer Use,
-notification, or unattended permissions.
+Every activation, including each fresh or scheduled task, must safely inspect or
+test its own agent-callable goal lifecycle, thread operations, schedule CRUD,
+local/worktree access, skills/plugins, browser, Chrome, Computer Use, notification,
+and unattended permissions before depending on them. A pre-detachment probe or an
+observation from another activation is not sufficient.
 
 ## Portable Fallback
 
-Reconstruct from the trust pair and use foreground execution, manual checkpoints,
-or a fresh bounded binding when native lifecycle or activation operations are absent.
+If a required capability is unavailable or unknown in that activation, fail
+closed for the dependent operation, reconstruct from the trust pair, and use
+foreground execution, manual checkpoints, or a fresh bounded binding.
 
 ## Documentation Evidence
 
@@ -39,7 +42,8 @@ Checked 2026-07-23 against OpenAI [Scheduled tasks](https://learn.chatgpt.com/do
 [Chrome extension](https://learn.chatgpt.com/docs/chrome-extension),
 [Computer Use](https://learn.chatgpt.com/docs/computer-use), and
 [Git worktrees](https://learn.chatgpt.com/docs/environments/git-worktrees).
-Active callable evidence still outranks documentation.
+Active callable evidence still outranks documentation. Documentation is not proof
+of agent-callable capability.
 
 ## Binding Table
 

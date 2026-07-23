@@ -9,7 +9,9 @@ unattended run. The selected account and surface expose only a subset.
 ## Expected Coordinator Behavior
 
 - Distinguish ChatGPT Work mode, Codex, Claude Code, and Claude Cowork surfaces.
-- Probe the active agent-callable operations before depending on them.
+- Require every activation, including each fresh scheduled run, to safely probe
+  its own agent-callable operations before depending on them.
 - Record unavailable and unknown capabilities without inventing parity.
-- Rebind to foreground, manual checkpoint, portable files, or an external trigger.
+- Fail closed for a missing or unknown operation and rebind to foreground, manual
+  checkpoint, portable files, or an external trigger.
 - Preserve canonical state and authority while changing runtime machinery.

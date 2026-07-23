@@ -13,17 +13,24 @@ does not have a dedicated binding yet.
 ## Trajectory Binding
 
 Evaluate the compact strategy contract in the lead loop. Record current health and
-decision in `control.md`, use `trajectory.md` only for durable multi-window history,
-and keep completion evidence in `verification.md`.
+decision in `control.md`. Use `trajectory.md` only when high/extreme recurring or
+detached work has history that must be reconstructed across progress windows; all
+other current summaries stay in `control.md`. Keep completion evidence in
+`verification.md`.
 
 ## Capability Probe
 
-Record each required capability as native, emulated, unavailable, or unknown.
+Every activation must safely inspect or test its own agent-callable capabilities
+before depending on them, then record each required capability as native, emulated,
+unavailable, or unknown. A pre-detachment probe or an observation from another
+activation is not sufficient.
 
 ## Portable Fallback
 
-Use foreground continuation, explicit human checkpoints, portable files, and an
-external trigger only when it can pass revision, identity, state, and return data.
+If a required capability is unavailable or unknown in that activation, fail closed
+for the dependent operation. Use foreground continuation, explicit human
+checkpoints, portable files, and an external trigger only when it can pass revision,
+identity, state, and return data.
 
 ## Binding Key
 
