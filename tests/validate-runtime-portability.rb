@@ -103,6 +103,21 @@ def section(path, content, heading)
   body
 end
 
+def bullet(path, content, label)
+  prefix = "- `#{label}`:"
+  lines = content.lines(chomp: true)
+  indexes = lines.each_index.select { |index| lines[index].start_with?(prefix) }
+  unless indexes.length == 1
+    abort("#{path} expected exactly one #{prefix.inspect} bullet, found #{indexes.length}")
+  end
+
+  start_index = indexes.first
+  end_index = ((start_index + 1)...lines.length).find do |index|
+    lines[index].start_with?("- `") || lines[index].empty?
+  end || lines.length
+  lines[start_index...end_index].join("\n").strip
+end
+
 def table_row(path, content, key)
   pattern = /^\| `#{Regexp.escape(key)}` \|/
   rows = content.lines(chomp: true).select { |line| line.match?(pattern) }
@@ -204,8 +219,32 @@ end
 
 %w[codex claude-code].each do |name|
   path = "skills/kybernetes-loop-governor/references/#{RUNTIME_BINDINGS.fetch(name)}"
-  durable_row = table_row(path, binding_contents.fetch(name), "durable_objective")
+  content = binding_contents.fetch(name)
+  durable_row = table_row(path, content, "durable_objective")
   require_terms(path, durable_row, DURABLE_PROGRAM_TERMS)
+
+  split = section(path, content, "Verification And Comparator Split")
+  completion_sensor = bullet(path, split, "verification_sensor")
+  require_terms(
+    path,
+    completion_sensor,
+    ["finite output", "measurable DONE", "`verification.md`", "completion-only"],
+  )
+  reject_terms(
+    path,
+    completion_sensor,
+    ["continuing cycle", "health invariant", "cycle_verifier"],
+  )
+  require_terms(
+    path,
+    split,
+    [
+      "Continuing `cycle_verifier` results are not `verification_sensor` output",
+      "current cycle verdict in `control.md`",
+      "durable multi-window history in `trajectory.md`",
+      "a healthy cycle keeps the continuing program open",
+    ],
+  )
 end
 
 codex_path = "skills/kybernetes-loop-governor/references/codex.md"

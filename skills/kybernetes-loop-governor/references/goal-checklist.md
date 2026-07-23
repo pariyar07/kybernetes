@@ -402,9 +402,10 @@ At integration:
   `done_or_health` and constraints, then run the completion verifier. Claim
   completion only when that verifier accepts the integrated state.
 - For continuing work, compare the bounded cycle against the health invariant and
-  constraints, then run the recorded `cycle_verifier`. Keep the program open and
-  renew, adapt, pause, or retire it at `review_horizon`; a healthy cycle never
-  completes the continuing program.
+  constraints, then run the recorded `cycle_verifier`. Record the verdict in
+  current control/trajectory state, keep the program open, and renew, adapt,
+  pause, or retire it at `review_horizon`; a healthy cycle never completes the
+  continuing program.
 - Resolve conflicts before applying changes.
 - Re-run the matching completion or cycle verifier on the integrated state.
 - Confirm the active altitude still fits. If integration fails, go `down` for

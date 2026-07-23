@@ -153,16 +153,19 @@ Claude Code review skills, review subagents, and human second passes can play
 two different roles:
 
 - `verification_sensor`: the review has authority to reject finite output against
-  measurable DONE or a continuing cycle against its health invariant, and the
-  result is recorded in `verification.md`. Only accepted finite DONE supports a
-  completion claim; a healthy continuing cycle keeps the program open.
-- `comparator_augmentation`: the review is advisory input for a decision, and
-  the lead still needs the matching admissible sensor before accepting finite
-  completion or continuing cycle health.
+  measurable DONE, and the result is recorded in `verification.md`. This port is
+  completion-only.
+- `comparator_augmentation`: the review is advisory input for a completion or
+  trajectory decision. It cannot replace the finite completion verifier or the
+  recorded continuing `cycle_verifier`.
 
-Do not launder advisory comparison into verification. If a reviewer says "looks
-reasonable" without a rejection-capable method, record it as comparator advice
-and run or define the matching completion or cycle verifier.
+Continuing `cycle_verifier` results are not `verification_sensor` output. Record
+the current cycle verdict in `control.md` and durable multi-window history in
+`trajectory.md` when required; a healthy cycle keeps the continuing program open.
+
+Do not launder advisory comparison into verification. For finite work, run or
+define the completion verifier. For continuing work, run the recorded
+`cycle_verifier` and update control/trajectory state instead.
 
 ## Scheduled Or Detached Work
 

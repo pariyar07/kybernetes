@@ -147,6 +147,7 @@ require_terms(
     "Claim completion only when that verifier accepts the integrated state",
     "For continuing work",
     "run the recorded `cycle_verifier`",
+    "Record the verdict in current control/trajectory state",
     "renew, adapt, pause, or retire it at `review_horizon`",
     "a healthy cycle never completes the continuing program",
   ],
@@ -227,6 +228,8 @@ require_terms(
       "Claude Code lead prompt",
       "branch on `program_kind`",
       "a healthy cycle never completes the continuing program",
+      "completion-only `verification_sensor`",
+      "control/trajectory state",
     ],
 }.each do |path, terms|
   require_terms(path, require_file(path), terms)

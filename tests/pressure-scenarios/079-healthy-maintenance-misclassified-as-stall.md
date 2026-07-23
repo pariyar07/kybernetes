@@ -18,5 +18,7 @@ contract during activation and integration.
   continuing `review_horizon` and `cycle_verifier`.
 - At integration, branch on `program_kind`; a healthy cycle never completes the
   continuing program.
+- Keep continuing cycle results in control/trajectory state; do not route them
+  through the completion-only `verification_sensor` or `verification.md`.
 - Mark stale or missing coverage deficient even when runtime polling succeeds.
 - For `event_wait`, tolerate only a bounded fresh wait and reject endless status polling.

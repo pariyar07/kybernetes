@@ -1216,7 +1216,9 @@ so each records `program_kind`, `done_or_health`, the finite completion verifier
 or `not_applicable`, and the continuing `review_horizon`/`cycle_verifier` or
 `not_applicable`. Branch detached activation and integration on the same contract.
 A healthy continuing cycle keeps the program open until its review-horizon
-decision; it never completes the continuing program.
+decision; it never completes the continuing program. Keep `verification_sensor`
+and `verification.md` finite-completion-only; continuing cycle verdicts belong in
+current control/trajectory state.
 
 Do not duplicate an existing heading in a binding. Merge this content into the
 existing capability/fallback section when its semantics already match.
