@@ -83,6 +83,12 @@ Blind `stack` is as bad as never stacking.
   brownfield implicit constraints, and owner-approved learning promotion.
 - `074`: truthful handling of the retired, uninstalled
   `$parallel-coordinator` name without changing the canonical governor.
+- `075`: a safe, internally consistent detached run must not remain green while its strategy is stalled.
+- `076`: typed upstream activity cannot be promoted into downstream progress.
+- `077`: readiness requires actionable capacity and fallback coverage, not actuator existence.
+- `078`: strategy adaptation cannot silently expand authority.
+- `079`: maintenance and bounded event waits use freshness/coverage semantics rather than forced positive delta.
+- `080`: documented runtime capability must be probed across each selected L3 binding instead of assuming surface parity.
 
 ## Boundary Failure Coverage
 
