@@ -10,6 +10,32 @@ revision, stop, and retirement rules.
 
 Use this file when the loop governor is running in Claude Code.
 
+## Trajectory Binding
+
+Treat `/goal`, todo, agent, session, loop, desktop schedule, and cloud-routine state
+as advisory. Attribute observations to the strategy across fresh sessions and keep
+completion verification separate.
+
+## Capability Probe
+
+Probe the selected local, desktop, remote, or cloud surface for goals, session loops,
+scheduled tasks, routines, workers, worktrees, hooks/channels, tools, notifications,
+and permission behavior.
+
+## Portable Fallback
+
+Use the trust pair, foreground work, a manual checkpoint, or a fresh bounded session
+when the selected surface lacks durable activation or repair operations.
+
+## Documentation Evidence
+
+Checked 2026-07-23 against official Claude Code [persistent goals](https://code.claude.com/docs/en/goal),
+[session scheduling](https://code.claude.com/docs/en/scheduled-tasks),
+[desktop scheduled tasks](https://code.claude.com/docs/en/desktop-scheduled-tasks),
+[cloud routines](https://code.claude.com/docs/en/routines), and
+[agents](https://code.claude.com/docs/en/agents). Record which local, desktop,
+remote, or cloud surface the probe actually covered.
+
 ## Binding Table
 
 | L2 port or layer | Claude Code binding | Caveat / fallback | Evidence and state obligation |

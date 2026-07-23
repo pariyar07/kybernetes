@@ -10,8 +10,10 @@ See:
 
 - [`l2-port-contracts.md`](l2-port-contracts.md)
 - [`runtime-adapter-model.md`](runtime-adapter-model.md)
+- `skills/kybernetes-loop-governor/references/chatgpt-work.md`
 - `skills/kybernetes-loop-governor/references/codex.md`
 - `skills/kybernetes-loop-governor/references/claude-code.md`
+- `skills/kybernetes-loop-governor/references/claude-cowork.md`
 - `skills/kybernetes-loop-governor/references/portable-core.md`
 
 | L2 port | Codex binding | Claude Code binding | Portable fallback | Evidence / state obligation |
@@ -36,6 +38,16 @@ See:
 | `lifecycle_recovery` | Negotiate the active callable repair transitions; use CLI, app, thread, or fresh-task surfaces only when confirmed. | Negotiate model-callable versus user/session recovery; use a fresh session when repair is unavailable. | Read the trust pair and create a fresh portable binding. | Re-anchor on canonical state, migrate when repair is unavailable, rebind required automation, and supersede stale handles. |
 | `skill_package` | Agent Skills; plugins as optional distribution wrapper. Record & Replay (macOS) turns a demonstrated workflow into a reusable skill. Plugin install is a `permission_boundary` capability grant, not a bare skill load. | Skill/plugin packaging where available; same plugin-as-capability-grant caveat. | Prompt template plus markdown references. | Method guidance only; not verification. |
 | `audit_hook` | Hooks only after pressure evidence justifies audit machinery. | Hooks/logs/plugins only after pressure evidence. | Manual verification notes. | Deferred; no current-truth role. |
+
+## Hosted Work Surfaces
+
+| Concern | ChatGPT Work mode | Claude Cowork |
+| --- | --- | --- |
+| Activation | Fresh or same-chat web schedules; no retained local folder on web. | Separate scheduled Cowork sessions; bind remote versus local resources explicitly. |
+| Canonical state | Portable project/connected source; chat context is advisory. | Portable project files/control record; project and chat memory are advisory. |
+| Trajectory | Scheduled runs return typed observations to the canonical writer. | Scheduled sessions return typed observations to the canonical writer. |
+| Capability risk | Tools, skills, plugins, browser, workers, and schedule CRUD vary by active chat/account. | Folders, connectors, plugins, subagents, browser/computer, approval, and schedule lifecycle vary by active session/account. |
+| Fallback | Foreground chat, manual checkpoint, connected durable source, or external trigger. | Foreground Cowork, manual checkpoint, portable files, or a bounded fresh session. |
 
 ## Matrix Rules
 

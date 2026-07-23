@@ -111,6 +111,9 @@ jobs:
       - name: Validate trajectory port
         run: ruby tests/validate-trajectory-port.rb
 
+      - name: Validate runtime portability
+        run: ruby tests/validate-runtime-portability.rb
+
       - name: Validate loop closeout
         run: ruby tests/validate-loop-closeout.rb
 

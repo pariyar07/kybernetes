@@ -13,6 +13,34 @@ part of "the ChatGPT desktop app" branding (macOS/Windows) alongside its CLI,
 IDE extension, and cloud surfaces; "Codex app" in this file refers to any of
 these first-party surfaces generically, not a single standalone application.
 
+## Trajectory Binding
+
+Use admitted domain observations rather than thread, goal, automation, or plan
+status. A scheduled activation reads strategy identity and canonical revision,
+returns an owned report, and cannot reset cumulative no-progress by creating a new
+thread, worktree, worker, or automation.
+
+## Capability Probe
+
+Probe the active Codex surface before relying on goal lifecycle, thread operations,
+schedule CRUD, local/worktree access, skills/plugins, browser, Chrome, Computer Use,
+notification, or unattended permissions.
+
+## Portable Fallback
+
+Reconstruct from the trust pair and use foreground execution, manual checkpoints,
+or a fresh bounded binding when native lifecycle or activation operations are absent.
+
+## Documentation Evidence
+
+Checked 2026-07-23 against OpenAI [Scheduled tasks](https://learn.chatgpt.com/docs/automations),
+[Subagents](https://learn.chatgpt.com/docs/agent-configuration/subagents),
+[Browser](https://learn.chatgpt.com/docs/browser),
+[Chrome extension](https://learn.chatgpt.com/docs/chrome-extension),
+[Computer Use](https://learn.chatgpt.com/docs/computer-use), and
+[Git worktrees](https://learn.chatgpt.com/docs/environments/git-worktrees).
+Active callable evidence still outranks documentation.
+
 ## Binding Table
 
 | L2 port or layer | Codex binding | Caveat / fallback | Evidence and state obligation |

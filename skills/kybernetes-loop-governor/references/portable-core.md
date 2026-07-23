@@ -10,6 +10,21 @@ the activation identity, canonical revision, state pointers, and return path.
 Use this file when the loop governor is running in a skill-compatible agent that
 does not have a dedicated binding yet.
 
+## Trajectory Binding
+
+Evaluate the compact strategy contract in the lead loop. Record current health and
+decision in `control.md`, use `trajectory.md` only for durable multi-window history,
+and keep completion evidence in `verification.md`.
+
+## Capability Probe
+
+Record each required capability as native, emulated, unavailable, or unknown.
+
+## Portable Fallback
+
+Use foreground continuation, explicit human checkpoints, portable files, and an
+external trigger only when it can pass revision, identity, state, and return data.
+
 ## Binding Key
 
 Fill the right column for the current runtime:

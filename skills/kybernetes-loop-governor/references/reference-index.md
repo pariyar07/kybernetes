@@ -18,8 +18,10 @@ Module identifiers are stable manifest values; paths are implementation details.
 | `learning` | `kybernetes:capture-learning` | Failure repeats or evidence may justify a scoped reusable constraint. |
 | `architect` | `kybernetes:loop-architect` | Decision consequence and unresolved uncertainty justify independent loop-shape design or reframing. |
 | `closeout` | `kybernetes:loop-closeout` | A checkpoint, handoff, child retirement, program completion, or cleanup inventory is needed. |
+| `runtime:chatgpt-work` | `chatgpt-work.md` | The active surface is ChatGPT Work mode; distinguish hosted chat and scheduled-run capability. |
 | `runtime:codex` | `codex.md` | The active runtime is Codex; confirm actual callable operations first. |
 | `runtime:claude-code` | `claude-code.md` | The active runtime is Claude Code; distinguish model, CLI, hooks, and hosted surfaces. |
+| `runtime:claude-cowork` | `claude-cowork.md` | The active surface is Claude Cowork; distinguish remote session capability from local desktop resources. |
 | `runtime:portable-core` | `portable-core.md` | Runtime is unknown, required native operations are absent, or dynamic loading is unavailable. |
 
 ## Selection Rules
@@ -27,7 +29,8 @@ Module identifiers are stable manifest values; paths are implementation details.
 - Start with no optional modules for a clear, reversible foreground action.
 - Add a module only when its load condition is observed or persisted in a valid
   manifest.
-- Load exactly one runtime binding. Documentation is not capability evidence.
+- Load exactly one runtime binding. Do not combine bindings merely because
+  surfaces share a product family. Documentation is not capability evidence.
 - Dependencies may require another module: lifecycle recovery requires
   `lifecycle`, runtime actuation requires `capability`, and detached activation
   requires `lifecycle`, `capability`, `trajectory`, and `verification`.
