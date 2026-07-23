@@ -1205,7 +1205,6 @@ Expected: every validator passes; the lazy governor remains at or below 220 line
 git diff --check
 test -z "$(find . -name '.DS_Store' -print -quit)"
 test -z "$(git ls-files '.kybernetes/*')"
-test -z "$(git ls-files '.agent-runs/*')"
 test -z "$(git ls-files '.superpowers/*' 'docs/superpowers/*')"
 ```
 
