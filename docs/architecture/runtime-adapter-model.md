@@ -28,6 +28,7 @@ layer legend lives in
 | Memory or control file | L1 | `control.md` and `verification.md` remain canonical; runtime memory is advisory. |
 | Capability negotiation | L0/L2/L3 | Classify semantic need in L0, record a dated active-surface snapshot through L2 state obligations, and keep concrete availability in L3. |
 | Verification | L2/L1 | `verification_sensor`; evidence is recorded in `verification.md`. |
+| Strategy / trajectory sensing | L2/L1 conditional | `trajectory_sensor`; compare multi-window progress with plan, preserve authority, and record the canonical decision in `control.md`. |
 | Loop altitude | L0/readiness | `stay`, `down`, `up`, `stack`, and `stop` are control-kernel decisions, not adapter features. |
 | Durability tier | L0/readiness and L1 | Chosen by task variety and recovery need; implemented through the L1 state surface. |
 | Hook / audit | L2 deferred | `audit_hook`; no always-on audit substrate until pressure evidence promotes it. |

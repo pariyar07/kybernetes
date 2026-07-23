@@ -45,6 +45,7 @@ named so L3 bindings can discuss them without making them always-on machinery.
 | `event_sensor` | Conditional | Use when a concrete event source is named and its admissibility, owner, and next activation can be recorded. |
 | `notification` | Conditional | Use before detached work can block away from the parent surface, unless the human explicitly accepts a manual checkpoint cadence. |
 | `out_of_band_steering` | Conditional | Use when a session can be steered or answered by more than one attached client (a second device pairs with or syncs to the same running loop), and pairing/attach state plus answer provenance can be recorded. |
+| `trajectory_sensor` | Conditional | Use for high/extreme recurring or detached work, multi-window experiments, continuing programs, or repeated no-change that may require strategy rejection. |
 | `audit_hook` | Deferred | Keep out of v1 current-truth machinery until pressure evidence justifies audit hooks. |
 
 ## `durable_objective`
@@ -215,6 +216,22 @@ named so L3 bindings can discuss them without making them always-on machinery.
 | Risk / HITL consequence | Low for read-only guidance; medium when package behavior can trigger tools, workers, or external effects through the active runtime. |
 | Failure semantics | Report missing package, namespace mismatch, incompatible runtime, stale reference, or unreadable instructions. Do not invent package behavior. |
 | State update obligations | Record selected method package, references used, fallback, and any namespace caveat in `control.md` when it affects recovery. |
+
+## `trajectory_sensor`
+
+| Field | Contract |
+| --- | --- |
+| Portable name | `trajectory_sensor` |
+| Inputs | Program kind, progress model and metric, measurement window, minimum delta, actual admissible result, cumulative deficient windows, no-progress cap, actionable capacity, fallback coverage, remaining horizon or review period, strategy envelope, and evidence pointers. |
+| Outputs | Continue, adapt, pause, escalate, or retire; health `healthy`, `watch`, `unhealthy`, or `unknown`; reason; next measurement; and affected strategy or activation handles. |
+| Evidence status | Strategy-control evidence only. It cannot declare completion, weaken DONE, or manufacture a domain verdict. |
+| Fallback | Evaluate the compact contract in the lead loop and record the current summary in `control.md`; use a conditional `trajectory.md` only when several windows must survive reconstruction. |
+| Risk / HITL consequence | High when adaptation would change objective, evidence admissibility, audience, destination, channel, claims, spend, data access, permissions, or external risk. Use `elicitation` outside the strategy envelope. |
+| Failure semantics | Report `unknown`, `stale_sensor`, `insufficient_capacity`, `cap_reached`, `boundary_limited`, or `strategy_rejected`. Runtime success and safety consistency do not imply health. |
+| State update obligations | The single canonical writer records model, window, planned and actual result, deficient-window count, capacity, decision, and next measurement in `control.md`; completion verification remains separate in `verification.md`. |
+
+The trajectory program supplies the canonical fields `progress_model`,
+`minimum_delta`, `no_progress_cap`, and `actionable_capacity`.
 
 ## Contract Evolution
 

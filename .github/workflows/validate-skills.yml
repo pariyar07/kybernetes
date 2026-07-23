@@ -108,6 +108,9 @@ jobs:
       - name: Validate trajectory readiness
         run: ruby tests/validate-trajectory-readiness.rb
 
+      - name: Validate trajectory port
+        run: ruby tests/validate-trajectory-port.rb
+
       - name: Validate loop closeout
         run: ruby tests/validate-loop-closeout.rb
 
