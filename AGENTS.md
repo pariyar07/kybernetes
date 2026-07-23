@@ -1,6 +1,6 @@
 # Kybernetes - Agent Instructions
 
-Kybernetes is an open-source steering layer for coding agents. Keep repository guidance generic, portable, and independent from any maintainer's private workspace.
+Kybernetes is an open-source steering layer for agentic work of any kind — coding, marketing campaigns, cold outreach, research, operations, or anything else an agent can run. Keep repository guidance generic, portable, and independent from any maintainer's private workspace.
 
 ## Repository Shape
 
