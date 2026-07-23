@@ -32,6 +32,26 @@ for the dependent operation. Use foreground continuation, explicit human
 checkpoints, portable files, and an external trigger only when it can pass revision,
 identity, state, and return data.
 
+## Portable Core Baseline
+
+Every runtime binding resolves these ports itself. This file supplies the generic
+fallback as one complete binding; it is not a mixin for another L3 binding.
+
+| Required port | Portable binding |
+| --- | --- |
+| `durable_objective` | Brief objective plus canonical `control.md`; native objective state is advisory. |
+| `planning_surface` | Compact plan in chat or canonical state. |
+| `progress_surface` | Checklist or control summary, advisory until reconciled. |
+| `worker_spawn` | Sequential work or a bounded manual handoff prompt. |
+| `isolation` | One canonical writer with explicit file ownership and report-only workers. |
+| `inspect_status` | Owned reports or direct artifact inspection. |
+| `verification_sensor` | Smallest rejection-capable check recorded in `verification.md`. |
+| `external_tool_provider` | Human-supplied output or the smallest confirmed tool. |
+| `elicitation` | Ask in the current conversation and wait or stop. |
+| `permission_boundary` | Written boundary plus explicit approval before external, irreversible, or release effects. |
+| `lifecycle_recovery` | Reconstruct from the trust pair and create a fresh bounded binding. |
+| `skill_package` | Prompt template plus markdown references. |
+
 ## Binding Key
 
 Fill the right column for the current runtime:

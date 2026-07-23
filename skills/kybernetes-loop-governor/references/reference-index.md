@@ -29,11 +29,13 @@ Module identifiers are stable manifest values; paths are implementation details.
 - Start with no optional modules for a clear, reversible foreground action.
 - Add a module only when its load condition is observed or persisted in a valid
   manifest.
-- Load exactly one runtime binding. Do not combine bindings merely because
-  surfaces share a product family. Documentation is not capability evidence.
+- Load exactly one runtime binding. Each selected binding resolves the required
+  portable baseline itself; `runtime:portable-core` is an alternative binding,
+  not a mixin. Do not combine bindings merely because surfaces share a product
+  family. Documentation is not capability evidence.
 - Dependencies may require another module: lifecycle recovery requires
-  `lifecycle`, runtime actuation requires `capability`, and detached activation
-  requires `lifecycle`, `capability`, `trajectory`, and `verification`.
+  `lifecycle`, runtime actuation requires `capability`, and high/extreme detached
+  activation requires `lifecycle`, `capability`, `trajectory`, and `verification`.
 - Persist selected modules only for durable reconstruction; do not create a
   manifest merely to describe a small task.
 

@@ -14,6 +14,26 @@ into portable canonical state. Chat memory does not become Cowork program truth.
 Each scheduled session reads the expected revision and strategy contract, performs
 bounded work, and returns evidence for the canonical writer.
 
+## Portable Core Baseline
+
+This incorporated baseline makes this file sufficient as the sole L3 binding;
+do not load `portable-core.md` as a second runtime binding.
+
+| Required port | Claude Cowork binding and fallback |
+| --- | --- |
+| `durable_objective` | Use portable project/control files and a brief session objective; project, chat, and schedule memory remain advisory. |
+| `planning_surface` | Use a compact plan in the selected project files or current session. |
+| `progress_surface` | Use session/task status as advisory and mirror durable progress into canonical state. |
+| `worker_spawn` | Use probed Cowork subagents; otherwise work sequentially or return a bounded manual handoff. |
+| `isolation` | Keep one canonical writer and make separate sessions report-only; disable local effects when folder access is unconfirmed. |
+| `inspect_status` | Use probed session, subagent, or schedule inspection; otherwise require an owned report or manual check. |
+| `verification_sensor` | Admit checks, artifacts, or rejection-capable review into `verification.md`; task completion status is not proof. |
+| `external_tool_provider` | Use only probed connectors, browser/computer actions, folders, and apps; otherwise ask a human to supply the result. |
+| `elicitation` | Ask in an attended session or exposed approval surface; a remote scheduled run stops or returns a precise manual request. |
+| `permission_boundary` | Bind active approval mode, organization policy, connector grants, folder scope, and deletion authority; unknown authority fails closed. |
+| `lifecycle_recovery` | Reconstruct from portable files, supersede stale sessions, and continue foreground or in a fresh bounded session. |
+| `skill_package` | Use exposed skills/plugins when probed; otherwise use the prompt and markdown-reference fallback. |
+
 ## Capability Probe
 
 Every activation, including each fresh or scheduled session, must safely inspect

@@ -14,6 +14,7 @@ separate. Product documentation is not proof of active agent-callable parity.
 Record when relevant:
 
 - `observed_at` and evidence source;
+- activation identity and relevant execution context;
 - runtime, version, provider, and plan when known;
 - surface: CLI, app, cloud, SDK, headless, or portable;
 - callable operations actually exposed;
@@ -31,12 +32,17 @@ documentation, another plan, or another surface.
 
 1. Classify semantic L2 ports and lifecycle transitions required by the task.
 2. Inspect the active callable surface.
-3. Reuse a dated snapshot only while its surface and assumptions still match.
-4. Run a safe probe only when read-only or reversible and proportionate.
-5. Select the smallest binding supporting the required transitions.
-6. Record unsupported transitions and the portable fallback.
-7. Refresh after binding failure, runtime or plan change, suspected drift, or
-   before relying on a consequential capability.
+3. Reuse a dated snapshot only within the same activation while the relevant
+   surface, context, and assumptions remain unchanged.
+4. Every detached, scheduled, or fresh activation probes its own required
+   agent-callable operations before depending on them. Another activation's
+   probe is insufficient.
+5. Run a safe probe only when read-only or reversible and proportionate. If no
+   safe probe exists, record the capability as unknown and use its fallback.
+6. Select the smallest binding supporting the required transitions.
+7. Record unsupported transitions and the portable fallback.
+8. Refresh after binding failure, relevant context change, runtime or plan
+   change, suspected drift, or before relying on a consequential capability.
 
 ## Probe Boundary
 

@@ -40,6 +40,7 @@
 | `skills/kybernetes-loop-governor/references/reference-index.md` | Route trajectory and the two new runtime references. |
 | `skills/kybernetes-loop-governor/references/goal-checklist.md` | Durable readiness and state-shape guidance. |
 | `skills/kybernetes-loop-governor/references/activation-bindings.md` | Persistent no-progress accounting across activations. |
+| `skills/kybernetes-loop-governor/references/capability-negotiation.md` | Per-activation capability freshness and safe probe contract. |
 | `skills/kybernetes-loop-architect/SKILL.md` | Extreme-detached architecture proposal fields. |
 | `docs/architecture/l2-port-contracts.md` | Conditional `trajectory_sensor` capability contract. |
 | `docs/architecture/runtime-adapter-model.md` | L0/L1/L2/L3 placement for trajectory sensing. |
@@ -48,6 +49,7 @@
 | `skills/kybernetes-loop-governor/references/claude-code.md` | Claude Code trajectory and scheduling binding. |
 | `skills/kybernetes-loop-governor/references/claude-cowork.md` | Claude Cowork L3 binding. |
 | `skills/kybernetes-loop-governor/references/portable-core.md` | No-native-capability fallback. |
+| `skills/kybernetes-loop-governor/README.md` | Complete five-choice runtime resolver list. |
 | `docs/architecture/portable-runtime-matrix.md` | Condensed four-runtime comparison and trajectory row. |
 | `.github/workflows/validate-skills.yml` | Execute all new validators in CI. |
 
@@ -82,7 +84,10 @@ repeat the same status check and actuator path.
 
 - Treat administrative activity and runtime success as zero outcome progress.
 - Reject `stay` with the unchanged strategy at the cumulative no-progress cap.
-- Mark trajectory `unhealthy` or `unknown`, never healthy.
+- Mark the fully measured zero-delta trajectory `unhealthy`; reserve `unknown`
+  for missing or stale sensing.
+- Preserve the same `strategy_id` and cumulative deficient-window count across
+  reconstruction and runtime handles.
 - Pause or retire the non-producing activation before redesign.
 - Select a materially different approved fallback, request a precise authority
   decision, or supersede the workstream.
@@ -158,6 +163,11 @@ require_terms(index_path, index, ["`trajectory`", "trajectory-control.md"])
 puts "trajectory kernel validation passed"
 ```
 
+Before this validator is considered passing, parse exactly one `## Control Law`
+section, require its cap-scoped rejection of `stay` with the unchanged strategy,
+reject any rule allowing that move, and tie scenario 075's fully measured fixture
+to `unhealthy` while reserving `unknown` for missing or stale sensing.
+
 - [ ] **Step 3: Run the validator and demonstrate the current gap**
 
 Run:
@@ -210,24 +220,29 @@ reversible, immediately verifiable work on the governor kernel alone.
 Every governed trajectory records:
 
 ```yaml
-program_kind: finite
+program_kind: finite | continuing
 objective: evidence-backed outcome
-done_or_health: terminal evidence or continuing health invariant
+strategy_id: stable causal-strategy identity
+done_or_health: measurable finite DONE or continuing health invariant
+review_horizon: not_applicable or bounded continuing review/renewal point
+cycle_verifier: not_applicable or rejection-capable continuing health check
 progress_model: convergence
 progress_metric: typed admissible observation
 measurement_window: bounded time, events, or activations
 minimum_delta: smallest meaningful result for that window
 no_progress_cap: maximum deficient windows for one strategy
-actionable_capacity: reachable observations and actions
+actionable_capacity: observations and actions reachable through approved sensors and actuators
 fallbacks: ordered pre-authorized alternatives
 strategy_envelope: allowed autonomous changes
 escalation: owner and exact decision
 retirement: stop and cleanup condition
 ```
 
-`program_kind` is `finite` or `continuing`. Finite work has evidence-backed DONE.
-Continuing work has a health invariant, bounded cycles, and a review horizon; a
-healthy cycle does not complete the continuing policy objective.
+Finite work keeps evidence-backed measurable DONE and completion verification;
+its continuing-only fields may be `not_applicable`. Continuing work has a health
+invariant, bounded cycles, a review horizon, and a cycle verifier; a healthy cycle
+does not complete the continuing policy objective. Change `strategy_id` only for
+a materially different causal approach.
 
 ## Progress Models
 
@@ -259,10 +274,11 @@ declare completion. The completion verifier remains independently rejection-capa
 
 An extreme detached run requires an architecture contract before activation. The
 contract may be inline in `control.md`; invocation of the architect helper is
-optional. Record progress model and metric, capacity, minimum delta, no-progress
-cap, fallback coverage, strategy envelope, verifier, notification, and retirement.
-If capacity cannot plausibly satisfy the first window, stay in design or request
-the smallest authority change.
+optional. Record program kind, strategy identity, progress model and metric,
+capacity, minimum delta, no-progress cap, fallback coverage, strategy envelope,
+finite completion verifier or continuing review horizon and cycle verifier,
+notification, and retirement. If approved capacity cannot plausibly satisfy the
+first window, stay in design or request the smallest authority change.
 
 Classify a detached run as extreme when unattended or recurring activation combines
 with consequential external effects, multiple independent actuators/workstreams,
@@ -283,24 +299,30 @@ downstream outcome.
 
 ## Durable State
 
-Keep the current trajectory summary in `control.md`: model, metric, source,
-window, minimum and actual delta, deficient-window count, cap, actionable
-capacity, remaining horizon, health, decision, and next measurement.
+Keep the current trajectory summary in `control.md`: strategy ID, program kind,
+model, metric, source, window, minimum and actual delta, cumulative
+deficient-window count, cap, actionable capacity, remaining or review horizon,
+cycle verifier when continuing, health, decision, and next measurement.
 
 Create `trajectory.md` only for high/extreme recurring or detached work that
 needs several windows to survive reconstruction. Record one compact block per
-window: revision, interval, planned and actual admissible delta, capacity used,
-failure class, decision, and evidence pointers. It is not raw telemetry and it
-does not replace `verification.md`.
+window: strategy ID, revision, interval, planned and actual admissible delta,
+capacity used, cumulative deficient-window count, failure class, decision, and
+evidence pointers. It is not raw telemetry and it does not replace
+`verification.md`.
+
+Preserve the count for the same strategy across reconstruction and runtime
+handles. Only a materially different causal approach receives a new strategy ID
+and a zero count; retain the rejected strategy in history.
 
 Only the lead governor or leased reconciler writes the parent trajectory verdict.
 Children return observations and evidence.
 
 ## Control Law
 
-Before activation, reject missing or implausible capacity, unbounded no-progress,
-and known actuator gating without a fallback or an explicit single-path experiment
-with a tight stop rule.
+Before activation, reject missing or implausible approved capacity, unbounded
+no-progress, and known actuator gating without a pre-authorized fallback or an
+explicit single-path experiment with a tight stop rule.
 
 At each meaningful activation, classify new evidence as progress, expected waiting,
 actuator failure, sensor failure, strategy failure, or boundary-limited. Update the
@@ -312,6 +334,10 @@ At the cap, reject `stay` with the unchanged strategy: pause its activations, th
 adapt inside the envelope, request a precise authority decision, supersede the
 workstream, or retire it. Recreating a worker, task, chat, or schedule does not reset
 the same strategy's budget.
+
+When admissible sensing is complete and the deficient-window cap is reached,
+classify the unchanged strategy as `unhealthy`. Reserve `unknown` for missing or
+stale sensing.
 
 ## Autonomous Changes Inside The Envelope
 
@@ -478,7 +504,7 @@ work for the first progress window and every likely path is gated.
 ## Expected Coordinator Behavior
 
 - Test actionable capacity, not actuator existence.
-- Require enough reachable observations or actions to make the first minimum delta plausible.
+- Require enough observations or actions through approved sensors and actuators to make the first minimum delta plausible.
 - Require fallback coverage or a bounded single-path experiment with a tight stop rule.
 - Stay in design or request authority when no working path exists.
 ```
@@ -564,6 +590,13 @@ require_terms(
 puts "trajectory readiness validation passed"
 ```
 
+Before this validator is considered passing, parse the normative sections in
+`trajectory-control.md`, `goal-checklist.md`, `activation-bindings.md`, and the
+architect. Enforce approved actionable capacity and rejection, authority
+preservation, maintenance freshness/coverage, bounded `event_wait`, strategy-keyed
+cumulative state, and finite-versus-continuing readiness rather than relying only
+on scenario prose.
+
 - [ ] **Step 3: Run the readiness validator and observe failure**
 
 ```bash
@@ -581,12 +614,14 @@ In `skills/kybernetes-loop-governor/references/goal-checklist.md`, add after the
 
 For high/extreme recurring or detached work, also record:
 
+- Strategy identity: `strategy_id` for cumulative state across reconstruction.
 - Progress model: `convergence`, `information`, `maintenance`, or `event_wait`.
 - Progress metric: typed observation, source, freshness, and admissibility.
 - Measurement window, minimum delta, and cumulative no-progress cap.
-- Actionable capacity: reachable observations or actions for the first window.
+- Actionable capacity: observations or actions reachable through approved sensors and actuators for the first window.
 - Fallback coverage: ordered alternatives, prerequisites, and usable capacity.
 - Strategy envelope: autonomous changes and owner-approved changes.
+- Continuing contract: `review_horizon` and `cycle_verifier`, when applicable.
 - Retirement: how non-producing activation machinery stops.
 
 Reject detached activation when actionable capacity cannot plausibly satisfy the
@@ -607,11 +642,15 @@ Extend the YAML contract in `activation-bindings.md` with:
 
 ```yaml
 strategy_id: strat-004
+program_kind: finite | continuing
 progress_model: information
 progress_window: 2 activations
 minimum_delta: 1 admissible evidence item
+cumulative_deficient_windows: 1
 no_progress_cap: 2 deficient windows
 fallback_order: [approved-alternate-route, request-owner-decision]
+review_horizon: not_applicable or 2026-08-01
+cycle_verifier: not_applicable or <continuing health check>
 ```
 
 Replace the single no-change paragraph with:
@@ -622,6 +661,10 @@ claim. Attribute it to `strategy_id` and the current progress window. Expected
 fresh waiting follows the declared latency model; repeated non-producing work
 increments the cumulative deficient-window count. A new activation, worker, chat,
 or schedule does not reset the same strategy's `no_progress_cap`.
+
+Read the cumulative count from canonical state and return the updated value to the
+single writer. Maintenance uses freshness and invariant coverage; event waits are
+healthy only while sensing is fresh and the declared wait remains bounded.
 ```
 
 Add immediately after it:
@@ -629,7 +672,8 @@ Add immediately after it:
 ```markdown
 Create a new `strategy_id` only for a materially different causal approach whose
 expected next observation changes. Cadence edits, renamed tasks, new runtime handles,
-or the same actuator against a refreshed queue remain the same strategy.
+or the same actuator against a refreshed queue remain the same strategy. A new
+strategy begins at zero while rejected-strategy history remains reconstructable.
 ```
 
 - [ ] **Step 6: Strengthen the architect proposal without making the helper mandatory**
@@ -637,10 +681,12 @@ or the same actuator against a refreshed queue remain the same strategy.
 Under “Design The Execution Contract” in `skills/kybernetes-loop-architect/SKILL.md`, add:
 
 ```markdown
-For extreme detached work, the proposal must include progress model and metric,
-measurement window, minimum delta, actionable capacity, fallback coverage,
-cumulative no-progress cap, strategy envelope, escalation owner, and retirement.
-The governor may produce this compact contract inline without invoking this helper.
+For extreme detached work, the proposal must include program kind, `strategy_id`,
+progress model and metric, measurement window, minimum delta, actionable capacity,
+fallback coverage, cumulative no-progress cap, strategy envelope, escalation owner,
+retirement, and either finite DONE verification or the continuing review horizon
+and cycle verifier. The governor may produce this compact contract inline without
+invoking this helper.
 ```
 
 - [ ] **Step 7: Run and wire the readiness validator**
@@ -722,6 +768,11 @@ require_terms(
 puts "trajectory port validation passed"
 ```
 
+Before this validator is considered passing, parse the exact
+`trajectory_sensor` section and require strategy-keyed inputs/state, cumulative
+count persistence and reset rules, approved capacity, continuing review/cycle
+fields, and the unhealthy-versus-unknown failure distinction.
+
 - [ ] **Step 2: Run it and observe the missing port**
 
 ```bash
@@ -746,13 +797,13 @@ Add this contract before “Contract Evolution”:
 | Field | Contract |
 | --- | --- |
 | Portable name | `trajectory_sensor` |
-| Inputs | Program kind, progress model and metric, measurement window, minimum delta, actual admissible result, cumulative deficient windows, no-progress cap, actionable capacity, fallback coverage, remaining horizon or review period, strategy envelope, and evidence pointers. |
+| Inputs | `strategy_id`, program kind, finite DONE verifier or continuing review horizon and cycle verifier, progress model and metric, measurement window, minimum delta, actual admissible result, cumulative deficient windows for that strategy, no-progress cap, actionable capacity through approved sensors and actuators, fallback coverage, remaining horizon, strategy envelope, and evidence pointers. |
 | Outputs | Continue, adapt, pause, escalate, or retire; health `healthy`, `watch`, `unhealthy`, or `unknown`; reason; next measurement; and affected strategy or activation handles. |
 | Evidence status | Strategy-control evidence only. It cannot declare completion, weaken DONE, or manufacture a domain verdict. |
 | Fallback | Evaluate the compact contract in the lead loop and record the current summary in `control.md`; use a conditional `trajectory.md` only when several windows must survive reconstruction. |
 | Risk / HITL consequence | High when adaptation would change objective, evidence admissibility, audience, destination, channel, claims, spend, data access, permissions, or external risk. Use `elicitation` outside the strategy envelope. |
-| Failure semantics | Report `unknown`, `stale_sensor`, `insufficient_capacity`, `cap_reached`, `boundary_limited`, or `strategy_rejected`. Runtime success and safety consistency do not imply health. |
-| State update obligations | The single canonical writer records model, window, planned and actual result, deficient-window count, capacity, decision, and next measurement in `control.md`; completion verification remains separate in `verification.md`. |
+| Failure semantics | Report `unknown` only for missing or stale sensing; report `unhealthy`, `insufficient_capacity`, `cap_reached`, `boundary_limited`, or `strategy_rejected` when complete admissible sensing supports the result. Runtime success and safety consistency do not imply health. |
+| State update obligations | The single canonical writer records `strategy_id`, model, window, planned and actual result, cumulative deficient-window count, capacity, decision, and next measurement in `control.md`; preserve the count across activations and reset only for a materially different strategy with a new ID. Completion verification remains separate in `verification.md`. |
 ```
 
 Do not add `progress_sensor` in this release. Progress observation is an input to
@@ -810,13 +861,17 @@ git commit -m "docs: define portable trajectory sensor"
 - Modify: `skills/kybernetes-loop-governor/references/codex.md`
 - Modify: `skills/kybernetes-loop-governor/references/claude-code.md`
 - Modify: `skills/kybernetes-loop-governor/references/portable-core.md`
+- Modify: `skills/kybernetes-loop-governor/references/capability-negotiation.md`
 - Modify: `skills/kybernetes-loop-governor/references/reference-index.md`
+- Modify: `skills/kybernetes-loop-governor/README.md`
 - Modify: `docs/architecture/portable-runtime-matrix.md`
 - Modify: `.github/workflows/validate-skills.yml`
 
 **Interfaces:**
 - Consumes: L2 `trajectory_sensor`, `scheduler`, `worker_spawn`, `permission_boundary`, and lifecycle contracts.
-- Produces: four distinct L3 bindings, each with a safe capability probe and portable fallback.
+- Produces: four distinct L3 bindings, each with a safe per-activation capability
+  probe and portable fallback; every selected binding resolves the portable
+  baseline by itself.
 
 - [ ] **Step 1: Add the runtime-assumption pressure scenario**
 
@@ -834,11 +889,18 @@ unattended run. The selected account and surface expose only a subset.
 ## Expected Coordinator Behavior
 
 - Distinguish ChatGPT Work mode, Codex, Claude Code, and Claude Cowork surfaces.
-- Probe the active agent-callable operations before depending on them.
+- Require each activation to probe its own required agent-callable operations
+  before depending on them; another activation's probe is insufficient.
+- Require each hosted binding by itself to resolve every required portable port.
 - Record unavailable and unknown capabilities without inventing parity.
-- Rebind to foreground, manual checkpoint, portable files, or an external trigger.
+- Fail closed for a missing or unknown operation and rebind to foreground, manual
+  checkpoint, portable files, or an external trigger.
 - Preserve canonical state and authority while changing runtime machinery.
 ```
+
+In `capability-negotiation.md`, allow snapshot reuse only within the same
+activation while relevant context is unchanged. Every detached, scheduled, or
+fresh activation probes its own required operations before dependency.
 
 - [ ] **Step 2: Add the failing runtime validator**
 
@@ -887,11 +949,17 @@ require_terms(
 )
 require_terms(
   "tests/pressure-scenarios/080-runtime-binding-assumed-from-documentation.md",
-  ["Probe the active agent-callable operations", "without inventing parity"],
+  ["each activation", "another activation's probe is insufficient", "hosted binding", "without inventing parity"],
 )
 
 puts "runtime portability validation passed"
 ```
+
+Before this validator is considered passing, strengthen it to parse named
+sections, enforce the generic same-activation freshness contract, require the
+exact twelve-row hosted baselines, verify ChatGPT unattended sandbox/permission/
+approval probing, route all five runtime references, and check the package README
+resolver list.
 
 - [ ] **Step 3: Run it and observe the missing ChatGPT Work binding**
 
@@ -906,6 +974,12 @@ missing required file: skills/kybernetes-loop-governor/references/chatgpt-work.m
 ```
 
 - [ ] **Step 4: Add the ChatGPT Work mode binding**
+
+Both hosted bindings include a concise incorporated `Portable Core Baseline`
+table and are sufficient as the sole L3 binding. The table binds
+`durable_objective`, `planning_surface`, `progress_surface`, `worker_spawn`,
+`isolation`, `inspect_status`, `verification_sensor`, `external_tool_provider`,
+`elicitation`, `permission_boundary`, `lifecycle_recovery`, and `skill_package`.
 
 Create `skills/kybernetes-loop-governor/references/chatgpt-work.md`:
 
@@ -926,11 +1000,33 @@ context may aid reconstruction but is not canonical. A standalone scheduled run
 must receive the control pointer, strategy identity, expected revision, progress
 window, and report path in its durable prompt or accessible project material.
 
+## Portable Core Baseline
+
+This incorporated baseline makes this file sufficient as the sole L3 binding;
+do not load `portable-core.md` as a second runtime binding.
+
+| Required port | Binding and fallback |
+| --- | --- |
+| `durable_objective` | Connected durable control source; native chat state is advisory. |
+| `planning_surface` | Compact plan in chat or the connected control source. |
+| `progress_surface` | Advisory checklist mirrored into canonical state when durable. |
+| `worker_spawn` | Probed hosted subagents or sequential/manual handoff. |
+| `isolation` | One canonical writer; separate sessions report only. |
+| `inspect_status` | Probed inspection or owned report/manual check. |
+| `verification_sensor` | Rejection-capable evidence recorded in `verification.md`. |
+| `external_tool_provider` | Probed connected tools or human-supplied output. |
+| `elicitation` | Attended prompt or precise manual request. |
+| `permission_boundary` | Per-activation sandbox, grants, permissions, and approvals. |
+| `lifecycle_recovery` | Portable reconstruction and fresh bounded chat. |
+| `skill_package` | Probed skill/plugin or prompt/reference fallback. |
+
 ## Capability Probe
 
-Before detachment, inspect or safely test schedule create/update/pause/delete,
-connected tools, skills/plugins, notification destination, browser access, worker
-creation, and source-material access in the active account and chat.
+Every activation, including each fresh or scheduled run, safely inspects or tests
+its own schedule create/update/pause/delete, connected tools, skills/plugins,
+notification destination, browser access, worker creation, source-material access,
+and unattended sandbox, permission, and approval behavior before dependency.
+Another activation's probe is insufficient.
 
 ## Schedule Mutation
 
@@ -977,11 +1073,32 @@ into portable canonical state. Chat memory does not become Cowork program truth.
 Each scheduled session reads the expected revision and strategy contract, performs
 bounded work, and returns evidence for the canonical writer.
 
+## Portable Core Baseline
+
+This incorporated baseline makes this file sufficient as the sole L3 binding;
+do not load `portable-core.md` as a second runtime binding.
+
+| Required port | Binding and fallback |
+| --- | --- |
+| `durable_objective` | Portable project/control files; session memory is advisory. |
+| `planning_surface` | Compact plan in project files or the current session. |
+| `progress_surface` | Advisory task status mirrored into canonical state when durable. |
+| `worker_spawn` | Probed Cowork subagents or sequential/manual handoff. |
+| `isolation` | One canonical writer; separate sessions report only. |
+| `inspect_status` | Probed inspection or owned report/manual check. |
+| `verification_sensor` | Rejection-capable evidence recorded in `verification.md`. |
+| `external_tool_provider` | Probed connectors/actions or human-supplied output. |
+| `elicitation` | Attended prompt or precise manual request. |
+| `permission_boundary` | Active approval mode, policy, grants, and folder scope. |
+| `lifecycle_recovery` | Portable reconstruction and fresh bounded session. |
+| `skill_package` | Probed skill/plugin or prompt/reference fallback. |
+
 ## Capability Probe
 
-Before detachment, inspect or safely test selected folder access, connectors,
-skills/plugins, subagents, browser/computer actions, approval mode, notification,
-and scheduled-task lifecycle operations in the active account and session.
+Every activation, including each fresh or scheduled session, safely inspects or
+tests its own selected folder access, connectors, skills/plugins, subagents,
+browser/computer actions, approval mode, notification, and scheduled-task lifecycle
+operations before dependency. Another activation's probe is insufficient.
 
 ## Schedule Mutation
 
@@ -1101,7 +1218,9 @@ Add these rows to `reference-index.md` beside the current runtime rows:
 
 Retain the selection rule that exactly one runtime binding is loaded. Do not load
 ChatGPT Work with Codex or Claude Cowork with Claude Code merely because they share
-a product family.
+a product family. Each selected binding resolves its portable baseline itself;
+`portable-core.md` is an alternative binding, not a mixin. Update the package
+README resolver to list all five binding references.
 
 - [ ] **Step 8: Add the hosted-surface summary to the runtime matrix**
 
@@ -1251,11 +1370,15 @@ or replace installed skills in this task.
 - Maintenance and bounded waits do not require artificial positive deltas.
 - Funnel stages are typed by artifact or effect.
 - Actionable capacity and fallback coverage are readiness gates.
-- No-progress state follows the strategy across activations and runtime handles.
+- No-progress state is keyed by `strategy_id` across activations, runtime handles,
+  current summaries, and history; only a materially different strategy resets it.
+- Finite work retains measurable DONE; continuing work carries a health invariant,
+  review horizon, and cycle verifier without claiming policy completion.
 - Autonomous adaptation stays inside the recorded strategy envelope.
 - Completion verification remains separate and independently rejection-capable.
 - ChatGPT Work mode, Codex, Claude Code, and Claude Cowork each have a distinct L3
-  binding with capability probing and a portable fallback.
+  binding with per-activation capability probing and a portable fallback; each
+  hosted binding resolves the required portable baseline as the sole L3 binding.
 - Simple work remains on the lean kernel without a trajectory ledger or detached
   bureaucracy.
 - Existing lifecycle, acceptance, workgraph, closeout, learning, naming, and

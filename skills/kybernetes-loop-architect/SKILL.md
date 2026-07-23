@@ -23,7 +23,9 @@ length alone is neither necessary nor sufficient.
 
 ## Required Inputs
 
-- Objective, measurable DONE, and current evidence gaps.
+- Objective, explicit program kind, and current evidence gaps.
+- For finite work, measurable DONE and its completion verifier; for continuing
+  work, the health invariant, review horizon, and cycle verifier.
 - Constraints, permissions, external effects, reversibility, and HITL boundary.
 - Duration, cadence, activation source, continuity, concurrency, and budget.
 - Available verifier types and observed runtime capabilities.
@@ -64,10 +66,12 @@ Return:
 - selected modules and portable fallback;
 - key alternatives, dissent, assumptions, and residual uncertainty.
 
-For extreme detached work, the proposal must include progress model and metric,
-measurement window, minimum delta, actionable capacity, fallback coverage,
-cumulative no-progress cap, strategy envelope, escalation owner, and retirement.
-The governor may produce this compact contract inline without invoking this helper.
+For extreme detached work, the proposal must include program kind, `strategy_id`,
+progress model and metric, measurement window, minimum delta, actionable capacity,
+fallback coverage, cumulative no-progress cap, strategy envelope, escalation owner,
+retirement, and either finite DONE verification or the continuing review horizon
+and cycle verifier. The governor may produce this compact contract inline without
+invoking this helper.
 
 Prefer the simplest pattern that demonstrably absorbs task variety.
 

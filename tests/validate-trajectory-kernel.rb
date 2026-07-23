@@ -5,9 +5,40 @@ def require_file(path)
   File.read(path)
 end
 
+def normalize(content)
+  content.gsub(/\s+/, " ").strip
+end
+
 def require_terms(path, content, terms)
-  missing = terms.reject { |term| content.include?(term) }
+  normalized = normalize(content)
+  missing = terms.reject { |term| normalized.include?(normalize(term)) }
   abort("#{path} missing: #{missing.join(', ')}") unless missing.empty?
+end
+
+def require_pattern(path, content, pattern, description)
+  abort("#{path} missing #{description}") unless normalize(content).match?(pattern)
+end
+
+def reject_pattern(path, content, pattern, description)
+  abort("#{path} must not contain #{description}") if normalize(content).match?(pattern)
+end
+
+def section(path, content, heading_line)
+  lines = content.lines(chomp: true)
+  indexes = lines.each_index.select { |index| lines[index] == heading_line }
+  unless indexes.length == 1
+    abort("#{path} expected exactly one #{heading_line.inspect} heading, found #{indexes.length}")
+  end
+
+  level = heading_line[/\A#+/].length
+  start_index = indexes.first + 1
+  end_index = (start_index...lines.length).find do |index|
+    heading = lines[index].match(/\A(#+)\s/)
+    heading && heading[1].length <= level
+  end || lines.length
+  body = lines[start_index...end_index].join("\n").strip
+  abort("#{path} has an empty #{heading_line.inspect} section") if body.empty?
+  body
 end
 
 scenario_path = "tests/pressure-scenarios/075-detached-run-remains-safe-but-stalled.md"
@@ -16,46 +47,122 @@ governor_path = "skills/kybernetes-loop-governor/SKILL.md"
 index_path = "skills/kybernetes-loop-governor/references/reference-index.md"
 
 scenario = require_file(scenario_path)
-reference = require_file(reference_path)
-governor = require_file(governor_path)
-index = require_file(index_path)
-
+scenario_failure = section(scenario_path, scenario, "## Failure")
+scenario_expected = section(scenario_path, scenario, "## Expected Coordinator Behavior")
 require_terms(
   scenario_path,
-  scenario,
+  scenario_failure,
   [
-    "zero admissible domain delta",
+    "two complete progress windows produce zero admissible domain delta",
     "Actionable capacity is exhausted",
-    "cumulative no-progress cap",
-    "unchanged strategy",
+    "repeat the same status check and actuator path",
+  ],
+)
+require_terms(
+  scenario_path,
+  scenario_expected,
+  [
+    "Reject `stay` with the unchanged strategy at the cumulative no-progress cap",
+    "fully measured zero-delta trajectory `unhealthy`",
+    "reserve `unknown` for missing or stale sensing",
+    "same `strategy_id` and cumulative deficient-window count across reconstruction",
     "negative domain verdict",
   ],
 )
+reject_pattern(
+  scenario_path,
+  scenario_expected,
+  /`unhealthy`\s+or\s+`unknown`/i,
+  "an unknown verdict for the fully measured zero-delta fixture",
+)
 
+reference = require_file(reference_path)
+program_contract = section(reference_path, reference, "## Program Contract")
 require_terms(
   reference_path,
-  reference,
+  program_contract,
   [
-    "program_kind",
+    "strategy_id",
+    "done_or_health: measurable finite DONE or continuing health invariant",
+    "review_horizon",
+    "cycle_verifier",
     "progress_model",
     "minimum_delta",
     "no_progress_cap",
-    "actionable_capacity",
-    "trajectory.md",
-    "attempted",
-    "delivered",
-    "reached",
-    "engaged",
-    "evidence_acquired",
-    "Owner Approval Required",
+    "actionable_capacity: observations and actions reachable through approved sensors and actuators",
+    "healthy cycle does not complete the continuing policy objective",
   ],
 )
 
+outcome_funnel = section(reference_path, reference, "## Typed Outcome Funnel")
+require_terms(
+  reference_path,
+  outcome_funnel,
+  ["attempted", "delivered", "reached", "engaged", "evidence_acquired"],
+)
+
+durable_state = section(reference_path, reference, "## Durable State")
+require_terms(
+  reference_path,
+  durable_state,
+  [
+    "current trajectory summary in `control.md`: `strategy_id`",
+    "Record one compact block per window: `strategy_id`",
+    "preserves the cumulative deficient-window count for the same `strategy_id`",
+    "materially different causal approach receives a new `strategy_id` and starts its count at zero",
+    "retain the rejected strategy and its final count in history",
+    "trajectory.md",
+  ],
+)
+
+control_law = section(reference_path, reference, "## Control Law")
+require_terms(
+  reference_path,
+  control_law,
+  [
+    "reject missing or implausible approved capacity",
+    "without a pre-authorized fallback or an explicit single-path experiment with a tight stop rule",
+    "At the cap, reject `stay` with the unchanged strategy",
+    "classify the unchanged strategy as `unhealthy`",
+    "Reserve `unknown` for missing or stale sensing",
+  ],
+)
+reject_pattern(
+  reference_path,
+  control_law,
+  /(?:allow|permit|continue|repeat|may|can)\b[^.]{0,180}`stay`[^.]{0,180}unchanged strategy|`stay`[^.]{0,180}(?:allow|permit|continue|repeat|may|can)\b[^.]{0,180}unchanged strategy/i,
+  "a rule allowing `stay` with the unchanged strategy",
+)
+
+governor = require_file(governor_path)
 require_terms(
   governor_path,
   governor,
-  ["trajectory", "cumulative no-progress", "unchanged strategy"],
+  [
+    "trajectory",
+    "cumulative no-progress",
+    "reject `stay` with the unchanged strategy",
+    "program kind",
+    "continuing health invariant",
+  ],
 )
-require_terms(index_path, index, ["`trajectory`", "trajectory-control.md"])
+
+index = require_file(index_path)
+selection_rules = section(index_path, index, "## Selection Rules")
+require_terms(
+  index_path,
+  selection_rules,
+  [
+    "high/extreme detached activation requires `lifecycle`, `capability`, `trajectory`, and `verification`",
+  ],
+)
+reject_pattern(
+  index_path,
+  selection_rules,
+  /and detached activation requires/i,
+  "a trajectory dependency for every detached activation",
+)
+routing_rows = index.lines.count { |line| line.start_with?("| `trajectory` | `trajectory-control.md` |") }
+abort("#{index_path} expected exactly one trajectory routing row, found #{routing_rows}") unless routing_rows == 1
 
 puts "trajectory kernel validation passed"

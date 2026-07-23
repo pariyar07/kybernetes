@@ -12,7 +12,10 @@ repeat the same status check and actuator path.
 
 - Treat administrative activity and runtime success as zero outcome progress.
 - Reject `stay` with the unchanged strategy at the cumulative no-progress cap.
-- Mark trajectory `unhealthy` or `unknown`, never healthy.
+- Mark the fully measured zero-delta trajectory `unhealthy`; reserve `unknown`
+  for missing or stale sensing.
+- Preserve the same `strategy_id` and cumulative deficient-window count across
+  reconstruction, workers, chats, and schedules.
 - Pause or retire the non-producing activation before redesign.
 - Select a materially different approved fallback, request a precise authority
   decision, or supersede the workstream.

@@ -87,7 +87,10 @@ Every durable adaptive loop has the following semantic contract:
 | --- | --- | --- |
 | `objective` | Stable outcome being pursued. | Supply the domain-specific outcome. |
 | `program_kind` | Finite goal or continuing program. | Choose explicitly; do not force an ongoing policy into false completion. |
-| `done_or_health` | Evidence-backed DONE for a finite goal, or health invariant plus review horizon for a continuing program. | Define admissible completion or cycle-health evidence. |
+| `strategy_id` | Stable identity for one causal approach and its cumulative no-progress state. | Change only for a materially different approach; retain rejected-strategy history. |
+| `done_or_health` | Evidence-backed DONE for a finite goal, or health invariant for a continuing program. | Define admissible completion or cycle-health evidence. |
+| `review_horizon` | Not applicable for finite work, or the bounded continuing review/renewal point. | Define when the continuing program renews, adapts, pauses, or retires. |
+| `cycle_verifier` | Not applicable for finite work, or a rejection-capable continuing cycle-health check. | Define evidence that can reject an unhealthy cycle without declaring the program complete. |
 | `progress_model` | Whether the loop converges, learns, maintains an invariant, or waits for an event. | Select the model and define what a healthy window means. |
 | `progress_metric` | Typed measure or observation that shows the selected model is working. | Define units, source, freshness, and admissibility. |
 | `measurement_window` | Activations, events, or elapsed time over which progress is judged. | Choose a window appropriate to feedback latency. |
@@ -131,11 +134,13 @@ when it combines unattended or recurring activation with at least one of:
 - a horizon long enough that reconstruction from chat alone is unsafe; or
 - a likely need to change strategy under bounded authority.
 
-The contract may be a compact section in `control.md`. It must show the progress
-metric, capacity, minimum delta, no-progress cap, fallback coverage, authority
-envelope, verifier, and retirement rule. Invoking `kybernetes:loop-architect` is
-recommended for high or extreme variety and required only when the governor cannot
-produce or independently check this contract itself.
+The contract may be a compact section in `control.md`. It must show program kind,
+strategy identity, progress metric, approved capacity, minimum delta, no-progress
+cap, fallback coverage, authority envelope, retirement rule, and either finite
+completion verification or a continuing review horizon and cycle verifier.
+Invoking `kybernetes:loop-architect` is recommended for high or extreme variety
+and required only when the governor cannot produce or independently check this
+contract itself.
 
 Example: a two-week discovery run seeks twelve admissible problem interviews. Its
 substantive progress metric is evidence-bearing conversations, not invitations.
@@ -212,34 +217,39 @@ The current summary in `control.md` contains:
 
 ```yaml
 trajectory:
+  strategy_id: <stable causal-strategy identity>
+  program_kind: finite | continuing
   model: convergence | information | maintenance | event_wait
   metric: <typed metric and unit>
   source: <sensor or evidence pointer>
   window: <time, event, or activation window>
   minimum_delta: <adapter threshold>
   actual_delta: <observed delta>
-  deficient_windows: <count>
+  cumulative_deficient_windows: <count for strategy_id>
   no_progress_cap: <count or budget>
-  actionable_capacity: <current reachable work>
+  actionable_capacity: <work reachable through approved sensors and actuators>
   remaining_horizon: <time, attempts, or resources>
+  review_horizon: <not applicable or bounded continuing review point>
+  cycle_verifier: <not applicable or continuing health check>
   status: healthy | watch | unhealthy | unknown
   decision: continue | adapt | pause | escalate | retire
   next_measurement: <trigger and expected evidence>
 ```
 
 When present, `trajectory.md` records one compact row or block per measurement
-window: revision, interval, planned delta, actual admissible delta, capacity used,
-failure classification, decision, and evidence pointers. It is not a raw event log.
-Old windows may be compacted after their decisions and evidence remain
-reconstructable.
+window: strategy ID, revision, interval, planned delta, actual admissible delta,
+capacity used, cumulative deficient-window count, failure classification,
+decision, and evidence pointers. It is not a raw event log. Old windows may be
+compacted after their decisions and evidence remain reconstructable.
 
 ## Trajectory Control Law
 
 ### Before Activation
 
 1. Define the typed metric and evidence source.
-2. Estimate actionable capacity for the first window.
-3. Reject a plan whose capacity cannot plausibly meet its minimum delta.
+2. Estimate actionable capacity through approved sensors and actuators for the
+   first window.
+3. Reject a plan whose approved capacity cannot plausibly meet its minimum delta.
 4. Confirm at least one working path or an explicit experimental reason to test a
    single uncertain path.
 5. Confirm fallback coverage for likely failure classes.
@@ -267,12 +277,15 @@ reconstructable.
   workstream, or retire it.
 - If the sensor is missing or stale: mark trajectory `unknown`; do not infer health
   from runtime success.
+- If admissible sensing is complete and the deficient-window cap is reached: mark
+  the unchanged strategy `unhealthy`, not `unknown`.
 - If no controllable path remains: report the limitation without changing DONE or
   manufacturing a domain verdict.
 
 The same failing move cannot be reset by renaming the activation, spawning another
-worker, or recreating the schedule. No-progress accounting follows the strategy and
-objective, not the runtime handle.
+worker, or recreating the schedule. No-progress accounting follows `strategy_id`
+and objective, not the runtime handle. Only a materially different causal strategy
+gets a new ID and a zero count; the rejected strategy remains in history.
 
 ## Strategy Authority
 
@@ -364,6 +377,16 @@ feature is not considered available until the active agent-callable surface or a
 safe probe confirms it. Native chat history, goals, schedules, project memory, and
 runtime status remain advisory unless reconciled into portable canonical state.
 
+Exactly one L3 binding is selected. Each binding must incorporate the portable
+baseline for `durable_objective`, `planning_surface`, `progress_surface`,
+`worker_spawn`, `isolation`, `inspect_status`, `verification_sensor`,
+`external_tool_provider`, `elicitation`, `permission_boundary`,
+`lifecycle_recovery`, and `skill_package`; `portable-core` is an alternative
+binding, not a mixin. A capability snapshot may be reused only within the same
+activation while relevant context is unchanged. Every detached, scheduled, or
+fresh activation probes its own required agent-callable operations before use;
+another activation's probe is insufficient.
+
 ### Current Official Surface Comparison
 
 This table describes documented product surfaces as of 2026-07-23. It is binding
@@ -434,7 +457,8 @@ The pre-change governor is expected to accept another activation. The corrected
 behavior must:
 
 - reject `stay` with the unchanged move;
-- mark trajectory unhealthy or unknown, never healthy;
+- mark the fully measured zero-delta trajectory unhealthy; reserve unknown for
+  missing or stale sensing;
 - pause or retire the non-producing activation;
 - select an approved materially different fallback, request a precise strategy
   decision, or supersede the workstream;

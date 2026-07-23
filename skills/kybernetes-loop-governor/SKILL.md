@@ -29,7 +29,8 @@ automations, and progress UI are advisory actuators or sensors, never canonical.
 
 Before significant action, sense only dimensions that can change the harness:
 
-- objective, measurable done condition, and admissible verifier;
+- objective, program kind, measurable finite DONE plus completion verifier or
+  continuing health invariant plus review horizon and cycle verifier;
 - duration, cadence, continuity, and next activation source;
 - external effects, information release, reversibility, permissions, and HITL latency;
 - brownfield implicit constraints, dependent-system impact, accountable owner,
@@ -100,7 +101,8 @@ Use `.kybernetes/<slug>/` unless the user explicitly targets another durable
 system. `control.md` is current truth; `verification.md` is evidence truth;
 `manifest.md` is reconstruction metadata. Keep live run artifacts uncommitted.
 
-The control record minimally contains objective, done, verification,
+The control record minimally contains objective, program kind, `done_or_health`,
+finite completion verification or continuing review horizon and cycle verifier,
 constraints, lifecycle state, altitude, setpoint, sensor, actuators, boundary,
 execution profile, trajectory, checklist, owners, conditional acceptance boundary,
 impediments, decisions, next checkpoint, and next activation. Record capability
@@ -131,9 +133,10 @@ specialist's completion claim is evidence, not canonical completion.
 
 ## Compare, Correct, And Learn
 
-At meaningful results, compare evidence with DONE, update canonical state, and
-select the next altitude. Advisory review augments comparison; only an admitted
-rejection-capable sensor verifies completion.
+At meaningful results, compare evidence with finite DONE or the continuing
+cycle-health contract, update canonical state, and select the next altitude.
+Advisory review augments comparison; only an admitted rejection-capable sensor
+verifies finite completion or cycle health.
 
 Admitted evidence is not an acceptance verdict. Before work crosses a dependent
 system, policy, publication, or external-effect boundary, name the accountable

@@ -13,6 +13,7 @@ PORTABLE_CORE_HEADINGS = [
   "Trajectory Binding",
   "Capability Probe",
   "Portable Fallback",
+  "Portable Core Baseline",
 ].freeze
 
 RUNTIME_BINDINGS = {
@@ -21,6 +22,23 @@ RUNTIME_BINDINGS = {
   "claude-code" => "claude-code.md",
   "claude-cowork" => "claude-cowork.md",
 }.freeze
+
+HOSTED_BINDINGS = %w[chatgpt-work claude-cowork].freeze
+
+PORTABLE_BASELINE_PORTS = %w[
+  durable_objective
+  planning_surface
+  progress_surface
+  worker_spawn
+  isolation
+  inspect_status
+  verification_sensor
+  external_tool_provider
+  elicitation
+  permission_boundary
+  lifecycle_recovery
+  skill_package
+].freeze
 
 def require_file(path)
   abort("missing required file: #{path}") unless File.file?(path)
@@ -46,6 +64,16 @@ def section(path, content, heading)
   body = lines[start_index...end_index].join("\n").strip
   abort("#{path} has an empty #{heading_line.inspect} section") if body.empty?
   body
+end
+
+def require_portable_baseline(path, content)
+  rows = content.lines(chomp: true).map do |line|
+    match = line.match(/^\| `([^`]+)` \| .+ \|$/)
+    match && match[1]
+  end.compact
+  unless rows == PORTABLE_BASELINE_PORTS
+    abort("#{path} portable baseline ports must be exactly #{PORTABLE_BASELINE_PORTS.join(', ')}; found #{rows.join(', ')}")
+  end
 end
 
 def require_safe_activation_invariants(path, sections)
@@ -91,6 +119,29 @@ RUNTIME_BINDINGS.each do |name, filename|
   binding_sections[name] = sections
 end
 
+HOSTED_BINDINGS.each do |name|
+  path = "skills/kybernetes-loop-governor/references/#{RUNTIME_BINDINGS.fetch(name)}"
+  content = binding_contents.fetch(name)
+  baseline = section(path, content, "Portable Core Baseline")
+  require_terms(
+    path,
+    baseline,
+    [
+      "incorporated baseline",
+      "sufficient as the sole L3 binding",
+      "do not load `portable-core.md` as a second runtime binding",
+    ],
+  )
+  require_portable_baseline(path, baseline)
+end
+
+chatgpt_path = "skills/kybernetes-loop-governor/references/chatgpt-work.md"
+require_terms(
+  chatgpt_path,
+  binding_sections.fetch("chatgpt-work").fetch("Capability Probe"),
+  ["unattended sandbox, permission, and approval behavior"],
+)
+
 unless binding_contents.values.uniq.length == RUNTIME_BINDINGS.length
   abort("named runtime binding contents must be distinct")
 end
@@ -110,6 +161,10 @@ portable_sections = PORTABLE_CORE_HEADINGS.to_h do |heading|
   [heading, section(portable_path, portable_content, heading)]
 end
 require_safe_activation_invariants(portable_path, portable_sections)
+require_portable_baseline(
+  portable_path,
+  portable_sections.fetch("Portable Core Baseline"),
+)
 require_terms(
   portable_path,
   portable_sections.fetch("Trajectory Binding"),
@@ -130,10 +185,15 @@ end
 require_terms(
   index_path,
   selection_rules,
-  ["Do not combine bindings", "Documentation is not capability evidence."],
+  [
+    "Each selected binding resolves the required portable baseline itself",
+    "`runtime:portable-core` is an alternative binding, not a mixin",
+    "Do not combine bindings",
+    "Documentation is not capability evidence.",
+  ],
 )
 
-RUNTIME_BINDINGS.each do |name, filename|
+RUNTIME_BINDINGS.merge("portable-core" => "portable-core.md").each do |name, filename|
   routing_row_pattern = /^\| `runtime:#{Regexp.escape(name)}` \|/
   routing_row_count = index_content.lines(chomp: true).count { |line| line.match?(routing_row_pattern) }
   unless routing_row_count == 1
@@ -145,6 +205,41 @@ RUNTIME_BINDINGS.each do |name, filename|
   unless row_count == 1
     abort("#{index_path} expected exactly one runtime:#{name} routing row to #{filename}, found #{row_count}")
   end
+end
+
+capability_path = "skills/kybernetes-loop-governor/references/capability-negotiation.md"
+capability_content = require_file(capability_path)
+capability_snapshot = section(capability_path, capability_content, "Capability Snapshot")
+require_terms(
+  capability_path,
+  capability_snapshot,
+  ["activation identity and relevant execution context"],
+)
+negotiation = section(capability_path, capability_content, "Negotiation Procedure")
+require_terms(
+  capability_path,
+  negotiation,
+  [
+    "Reuse a dated snapshot only within the same activation",
+    "relevant surface, context, and assumptions remain unchanged",
+    "Every detached, scheduled, or fresh activation probes its own required agent-callable operations before depending on them",
+    "Another activation's probe is insufficient",
+    "record the capability as unknown and use its fallback",
+  ],
+)
+
+readme_path = "skills/kybernetes-loop-governor/README.md"
+readme = require_file(readme_path)
+resolver_paths = [
+  "references/chatgpt-work.md",
+  "references/codex.md",
+  "references/claude-code.md",
+  "references/claude-cowork.md",
+  "references/portable-core.md",
+]
+resolver_paths.each do |resolver_path|
+  count = readme.scan(Regexp.new(Regexp.escape("`#{resolver_path}`"))).length
+  abort("#{readme_path} expected exactly one resolver entry for #{resolver_path}, found #{count}") unless count == 1
 end
 
 matrix_path = "docs/architecture/portable-runtime-matrix.md"
@@ -161,6 +256,8 @@ require_terms(
     "safely probe",
     "without inventing parity",
     "Fail closed for a missing or unknown operation",
+    "selected hosted binding by itself to resolve every required portable port",
+    "unattended sandbox, permission, and approval behavior",
   ],
 )
 

@@ -9,24 +9,29 @@ reversible, immediately verifiable work on the governor kernel alone.
 Every governed trajectory records:
 
 ```yaml
-program_kind: finite
+program_kind: finite | continuing
 objective: evidence-backed outcome
-done_or_health: terminal evidence or continuing health invariant
+strategy_id: stable causal-strategy identity
+done_or_health: measurable finite DONE or continuing health invariant
+review_horizon: not_applicable or bounded continuing review/renewal point
+cycle_verifier: not_applicable or rejection-capable continuing health check
 progress_model: convergence
 progress_metric: typed admissible observation
 measurement_window: bounded time, events, or activations
 minimum_delta: smallest meaningful result for that window
 no_progress_cap: maximum deficient windows for one strategy
-actionable_capacity: reachable observations and actions
+actionable_capacity: observations and actions reachable through approved sensors and actuators
 fallbacks: ordered pre-authorized alternatives
 strategy_envelope: allowed autonomous changes
 escalation: owner and exact decision
 retirement: stop and cleanup condition
 ```
 
-`program_kind` is `finite` or `continuing`. Finite work has evidence-backed DONE.
-Continuing work has a health invariant, bounded cycles, and a review horizon; a
-healthy cycle does not complete the continuing policy objective.
+Finite work keeps evidence-backed measurable DONE and completion verification;
+its continuing-only fields may be `not_applicable`. Continuing work has a health
+invariant, bounded cycles, a `review_horizon`, and a `cycle_verifier`; a healthy
+cycle does not complete the continuing policy objective. `strategy_id` changes
+only when a materially different causal approach changes the expected observation.
 
 ## Progress Models
 
@@ -58,10 +63,11 @@ declare completion. The completion verifier remains independently rejection-capa
 
 An extreme detached run requires an architecture contract before activation. The
 contract may be inline in `control.md`; invocation of the architect helper is
-optional. Record progress model and metric, capacity, minimum delta, no-progress
-cap, fallback coverage, strategy envelope, verifier, notification, and retirement.
-If capacity cannot plausibly satisfy the first window, stay in design or request
-the smallest authority change.
+optional. Record program kind, strategy identity, progress model and metric,
+capacity, minimum delta, no-progress cap, fallback coverage, strategy envelope,
+finite completion verifier or continuing review horizon and cycle verifier,
+notification, and retirement. If approved capacity cannot plausibly satisfy the
+first window, stay in design or request the smallest authority change.
 
 Classify a detached run as extreme when unattended or recurring activation combines
 with consequential external effects, multiple independent actuators/workstreams,
@@ -82,24 +88,31 @@ downstream outcome.
 
 ## Durable State
 
-Keep the current trajectory summary in `control.md`: model, metric, source,
-window, minimum and actual delta, deficient-window count, cap, actionable
-capacity, remaining horizon, health, decision, and next measurement.
+Keep the current trajectory summary in `control.md`: `strategy_id`, program kind,
+model, metric, source, window, minimum and actual delta, cumulative
+deficient-window count, cap, actionable capacity, remaining horizon or review
+horizon, cycle verifier when continuing, health, decision, and next measurement.
 
 Create `trajectory.md` only for high/extreme recurring or detached work that
 needs several windows to survive reconstruction. Record one compact block per
-window: revision, interval, planned and actual admissible delta, capacity used,
-failure class, decision, and evidence pointers. It is not raw telemetry and it
-does not replace `verification.md`.
+window: `strategy_id`, revision, interval, planned and actual admissible delta,
+capacity used, cumulative deficient-window count, failure class, decision, and
+evidence pointers. It is not raw telemetry and it does not replace
+`verification.md`.
+
+Reconstruction preserves the cumulative deficient-window count for the same
+`strategy_id` across activations and runtime handles. Only a materially different
+causal approach receives a new `strategy_id` and starts its count at zero; retain
+the rejected strategy and its final count in history so a rename cannot reset it.
 
 Only the lead governor or leased reconciler writes the parent trajectory verdict.
 Children return observations and evidence.
 
 ## Control Law
 
-Before activation, reject missing or implausible capacity, unbounded no-progress,
-and known actuator gating without a fallback or an explicit single-path experiment
-with a tight stop rule.
+Before activation, reject missing or implausible approved capacity, unbounded
+no-progress, and known actuator gating without a pre-authorized fallback or an
+explicit single-path experiment with a tight stop rule.
 
 At each meaningful activation, classify new evidence as progress, expected waiting,
 actuator failure, sensor failure, strategy failure, or boundary-limited. Update the
@@ -111,6 +124,10 @@ At the cap, reject `stay` with the unchanged strategy: pause its activations, th
 adapt inside the envelope, request a precise authority decision, supersede the
 workstream, or retire it. Recreating a worker, task, chat, or schedule does not reset
 the same strategy's budget.
+
+When admissible sensing is complete and the deficient-window cap is reached,
+classify the unchanged strategy as `unhealthy`. Reserve `unknown` for missing or
+stale sensing; runtime success cannot substitute for the absent observation.
 
 ## Autonomous Changes Inside The Envelope
 
