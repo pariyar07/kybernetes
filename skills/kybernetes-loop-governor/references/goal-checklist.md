@@ -260,7 +260,7 @@ Sense first, then right-size the gate:
 
 Choose from this menu only when it matters:
 
-- Scope and done condition.
+- Scope and finite done or continuing health condition.
 - Task type and role stance.
 - Expected artifacts.
 - Verification style.
@@ -382,7 +382,7 @@ Each worker gets:
 - Owned scope.
 - Files or areas it must not touch.
 - Permission level and isolation.
-- Done condition and verification.
+- Bounded done-or-health condition and the matching completion or cycle verifier.
 - Return format.
 - Impediment and escalation reporting.
 
@@ -397,9 +397,16 @@ separately resumable, measurable, and scoped.
 
 At integration:
 
-- Compare worker outputs against the done condition and constraints.
+- Re-read `program_kind` before evaluating integrated worker output.
+- For finite work, compare the integrated state against measurable
+  `done_or_health` and constraints, then run the completion verifier. Claim
+  completion only when that verifier accepts the integrated state.
+- For continuing work, compare the bounded cycle against the health invariant and
+  constraints, then run the recorded `cycle_verifier`. Keep the program open and
+  renew, adapt, pause, or retire it at `review_horizon`; a healthy cycle never
+  completes the continuing program.
 - Resolve conflicts before applying changes.
-- Re-run verification on the integrated state.
+- Re-run the matching completion or cycle verifier on the integrated state.
 - Confirm the active altitude still fits. If integration fails, go `down` for
   evidence, `up` to re-frame, or `stop` for HITL rather than blind retry.
 - Update the control record.
@@ -429,7 +436,7 @@ When asking, give options and a recommendation.
 
 ## 13. Stop Conditions
 
-- Success: DONE is verified with the agreed method.
+- Finite success: DONE is verified with the agreed completion method.
 - Continuing cycle checkpoint: the cycle verifier confirms health or rejects the
   cycle; keep the program open and renew, adapt, pause, or retire it at the review
   horizon. A healthy cycle is not finite success.

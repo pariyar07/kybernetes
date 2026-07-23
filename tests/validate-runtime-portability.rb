@@ -25,6 +25,37 @@ RUNTIME_BINDINGS = {
 
 HOSTED_BINDINGS = %w[chatgpt-work claude-cowork].freeze
 
+PROGRAM_PROMPT_TERMS = [
+  "Program kind: <finite | continuing>",
+  "Done or health: <measurable finite DONE | continuing health invariant>",
+  "Finite completion verifier: <verification | not_applicable>",
+  "Continuing review horizon: <bounded review/renewal point | not_applicable>",
+  "Continuing cycle verifier: <rejection-capable health check | not_applicable>",
+  "Finite rule: stop only after the completion verifier accepts measurable done_or_health",
+  "Continuing rule: verify each bounded cycle with cycle_verifier",
+  "keep the program open through review_horizon",
+  "never treat a healthy cycle as completion of the continuing program",
+].freeze
+
+DURABLE_PROGRAM_TERMS = [
+  "`program_kind`",
+  "`done_or_health`",
+  "finite completion verifier",
+  "continuing health invariant",
+  "`review_horizon`",
+  "`cycle_verifier`",
+  "A healthy cycle never completes the continuing program",
+].freeze
+
+ACTIVATION_PROGRAM_TERMS = [
+  "Program kind and `done_or_health`",
+  "measurable DONE for finite work",
+  "health invariant for continuing work",
+  "finite completion verifier",
+  "continuing `review_horizon` and `cycle_verifier`",
+  "A healthy cycle never completes the continuing program",
+].freeze
+
 PORTABLE_BASELINE_PORTS = %w[
   durable_objective
   planning_surface
@@ -51,6 +82,12 @@ def require_terms(path, content, terms)
   abort("#{path} missing: #{missing.join(', ')}") unless missing.empty?
 end
 
+def reject_terms(path, content, terms)
+  normalized_content = content.gsub(/\s+/, " ")
+  present = terms.select { |term| normalized_content.include?(term.gsub(/\s+/, " ")) }
+  abort("#{path} must not contain: #{present.join(', ')}") unless present.empty?
+end
+
 def section(path, content, heading)
   heading_line = "## #{heading}"
   lines = content.lines(chomp: true)
@@ -64,6 +101,16 @@ def section(path, content, heading)
   body = lines[start_index...end_index].join("\n").strip
   abort("#{path} has an empty #{heading_line.inspect} section") if body.empty?
   body
+end
+
+def table_row(path, content, key)
+  pattern = /^\| `#{Regexp.escape(key)}` \|/
+  rows = content.lines(chomp: true).select { |line| line.match?(pattern) }
+  unless rows.length == 1
+    abort("#{path} expected exactly one #{key.inspect} table row, found #{rows.length}")
+  end
+
+  rows.first
 end
 
 def require_portable_baseline(path, content)
@@ -154,6 +201,35 @@ REQUIRED_BINDING_HEADINGS.each do |heading|
 
   abort("named runtime bindings must have distinct #{heading.inspect} contents")
 end
+
+%w[codex claude-code].each do |name|
+  path = "skills/kybernetes-loop-governor/references/#{RUNTIME_BINDINGS.fetch(name)}"
+  durable_row = table_row(path, binding_contents.fetch(name), "durable_objective")
+  require_terms(path, durable_row, DURABLE_PROGRAM_TERMS)
+end
+
+codex_path = "skills/kybernetes-loop-governor/references/codex.md"
+codex_goal_prompt = section(codex_path, binding_contents.fetch("codex"), "Minimal `/goal` Prompt")
+codex_launcher = section(codex_path, binding_contents.fetch("codex"), "Copy-Paste Launcher")
+[codex_goal_prompt, codex_launcher].each do |prompt|
+  require_terms(codex_path, prompt, PROGRAM_PROMPT_TERMS)
+  reject_terms(codex_path, prompt, ["Done when:", "Verify with:"])
+end
+require_terms(
+  codex_path,
+  section(codex_path, binding_contents.fetch("codex"), "Automations"),
+  ACTIVATION_PROGRAM_TERMS,
+)
+
+claude_path = "skills/kybernetes-loop-governor/references/claude-code.md"
+claude_lead_prompt = section(claude_path, binding_contents.fetch("claude-code"), "Lead Prompt Shape")
+require_terms(claude_path, claude_lead_prompt, PROGRAM_PROMPT_TERMS)
+reject_terms(claude_path, claude_lead_prompt, ["Done when:", "Verify with:"])
+require_terms(
+  claude_path,
+  section(claude_path, binding_contents.fetch("claude-code"), "Scheduled Or Detached Work"),
+  ACTIVATION_PROGRAM_TERMS,
+)
 
 portable_path = "skills/kybernetes-loop-governor/references/portable-core.md"
 portable_content = require_file(portable_path)

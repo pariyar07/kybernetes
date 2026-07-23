@@ -135,6 +135,23 @@ require_terms(
   ],
 )
 
+integration = section(checklist_path, checklist, "## 11. Integration")
+require_terms(
+  checklist_path,
+  integration,
+  [
+    "Re-read `program_kind` before evaluating integrated worker output",
+    "For finite work",
+    "measurable `done_or_health`",
+    "run the completion verifier",
+    "Claim completion only when that verifier accepts the integrated state",
+    "For continuing work",
+    "run the recorded `cycle_verifier`",
+    "renew, adapt, pause, or retire it at `review_horizon`",
+    "a healthy cycle never completes the continuing program",
+  ],
+)
+
 activation_path = "skills/kybernetes-loop-governor/references/activation-bindings.md"
 activation = require_file(activation_path)
 activation_contract = section(activation_path, activation, "## Activation Contract")
@@ -201,7 +218,16 @@ require_terms(
   "tests/pressure-scenarios/078-strategy-change-expands-authority.md" =>
     ["strategy envelope", "Ask the owner", "information release"],
   "tests/pressure-scenarios/079-healthy-maintenance-misclassified-as-stall.md" =>
-    ["maintenance", "cycle_verifier", "review_horizon", "event_wait"],
+    [
+      "maintenance",
+      "cycle_verifier",
+      "review_horizon",
+      "event_wait",
+      "Codex goal and copy-paste prompts",
+      "Claude Code lead prompt",
+      "branch on `program_kind`",
+      "a healthy cycle never completes the continuing program",
+    ],
 }.each do |path, terms|
   require_terms(path, require_file(path), terms)
 end

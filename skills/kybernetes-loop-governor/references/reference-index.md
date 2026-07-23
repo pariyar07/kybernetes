@@ -33,11 +33,13 @@ Module identifiers are stable manifest values; paths are implementation details.
   portable baseline itself; `runtime:portable-core` is an alternative binding,
   not a mixin. Do not combine bindings merely because surfaces share a product
   family. Documentation is not capability evidence.
-- Dependencies may require another module: lifecycle recovery requires
-  `lifecycle`, runtime actuation requires `capability`, and high/extreme detached
-  activation requires `lifecycle`, `capability`, and `trajectory`. Finite work
-  also requires `verification`; continuing work instead requires its recorded
-  `cycle_verifier`.
+- Every detached activation requires `lifecycle` and `capability`.
+- High/extreme detached activation additionally requires `trajectory`.
+- Finite detached work loads `verification` and uses completion verification
+  before a completion claim. Continuing detached work uses its recorded
+  `cycle_verifier` instead of completion verification.
+- Ordinary foreground finite work does not require the optional `verification`
+  module; load it only when its load condition is observed.
 - Persist selected modules only for durable reconstruction; do not create a
   manifest merely to describe a small task.
 

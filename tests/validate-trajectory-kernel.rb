@@ -153,22 +153,60 @@ require_terms(
   index_path,
   selection_rules,
   [
-    "high/extreme detached activation requires `lifecycle`, `capability`, and `trajectory`",
-    "Finite work also requires `verification`",
-    "continuing work instead requires its recorded `cycle_verifier`",
+    "Every detached activation requires `lifecycle` and `capability`",
+    "High/extreme detached activation additionally requires `trajectory`",
+    "Finite detached work loads `verification` and uses completion verification before a completion claim",
+    "Continuing detached work uses its recorded `cycle_verifier` instead of completion verification",
+    "Ordinary foreground finite work does not require the optional `verification` module",
   ],
+)
+require_pattern(
+  index_path,
+  selection_rules,
+  /Every detached activation requires `lifecycle` and `capability`\./,
+  "a lifecycle-and-capability baseline for every detached activation",
+)
+require_pattern(
+  index_path,
+  selection_rules,
+  /High\/extreme detached activation additionally requires `trajectory`\./,
+  "a trajectory dependency scoped to high/extreme detached activation",
+)
+require_pattern(
+  index_path,
+  selection_rules,
+  /Finite detached work loads `verification` and uses completion verification before a completion claim\./,
+  "completion verification scoped to finite detached work",
+)
+require_pattern(
+  index_path,
+  selection_rules,
+  /Continuing detached work uses its recorded `cycle_verifier` instead of completion verification\./,
+  "cycle verification scoped to continuing detached work",
+)
+require_pattern(
+  index_path,
+  selection_rules,
+  /Ordinary foreground finite work does not require the optional `verification` module/,
+  "an explicit foreground finite exclusion from the verification-module dependency",
 )
 reject_pattern(
   index_path,
   selection_rules,
-  /and detached activation requires/i,
+  /Every detached activation requires[^.]*`trajectory`/i,
   "a trajectory dependency for every detached activation",
 )
 reject_pattern(
   index_path,
   selection_rules,
-  /high\/extreme detached activation requires `lifecycle`, `capability`, `trajectory`, and `verification`/i,
-  "an unconditional completion-verifier dependency for continuing detached work",
+  /\bFinite work (?:also )?requires `verification`/i,
+  "a verification-module dependency for all finite work",
+)
+reject_pattern(
+  index_path,
+  selection_rules,
+  /Continuing detached work[^.]{0,180}(?:loads|requires) `verification`/i,
+  "a verification-module dependency for continuing detached work",
 )
 routing_rows = index.lines.count { |line| line.start_with?("| `trajectory` | `trajectory-control.md` |") }
 abort("#{index_path} expected exactly one trajectory routing row, found #{routing_rows}") unless routing_rows == 1

@@ -44,7 +44,7 @@ of agent-callable capability.
 
 | L2 port or layer | Claude Code binding | Caveat / fallback | Evidence and state obligation |
 | --- | --- | --- | --- |
-| `durable_objective` | Use the lead prompt, current session, and `control.md` as the durable objective. If the active surface exposes a goal-like, task-like, or TaskCreate-style state, treat it as advisory. | Do not assume a universal persistent goal command. If native persistence is unavailable, continue from the trust pair. | Mirror objective, DONE, verifier, constraints, and recovery pointer into `control.md`. |
+| `durable_objective` | Use the lead prompt, current session, and `control.md` as the durable objective. If the active surface exposes a goal-like, task-like, or TaskCreate-style state, treat it as advisory. | Do not assume a universal persistent goal command. If native persistence is unavailable, continue from the trust pair. | Mirror objective, `program_kind`, `done_or_health`, constraints, recovery pointer, and either the finite completion verifier or the continuing health invariant, `review_horizon`, and `cycle_verifier` into `control.md`. A healthy cycle never completes the continuing program. |
 | `planning_surface` | Use plan mode, plan permission mode, or a compact planning prompt when the correct move is `up`. A cloud-hosted planning variant (research preview) runs the planning pass in a separate cloud session instead of the local one, with review/comment in a browser and a way to bring the accepted plan back to the local session ("teleport"). Use the cloud variant only when the planning pass itself benefits from running outside the local session (e.g. very long-running exploration); it disconnects from local Remote Control surfaces while active. | If plan mode is unavailable or unnecessary, write the plan in chat or `control.md`. | Accepted plan, assumptions, rejected alternatives, and next checkpoint belong in L1 state when durable. |
 | `progress_surface` | Use todo/session state, task lists, task objects, or the current transcript as advisory progress. | Runtime UI state is not canonical unless recoverable and linked from L1. | Mirror durable progress into `checklist.md` or `control.md` when needed. |
 | `worker_spawn` | Use the Agent tool, Task tool, configured subagents, or project/user subagents for bounded worker tasks. | Keep delegation flat unless the worker brief explicitly grants bounded child loops. | Worker output is evidence input; parent loop owns integration and final verification. |
@@ -71,8 +71,11 @@ of agent-callable capability.
 Use kybernetes:loop-governor.
 Create or read control record: <path>.
 Objective: <objective>.
-Done when: <done condition>.
-Verify with: <verification>.
+Program kind: <finite | continuing>.
+Done or health: <measurable finite DONE | continuing health invariant>.
+Finite completion verifier: <verification | not_applicable>.
+Continuing review horizon: <bounded review/renewal point | not_applicable>.
+Continuing cycle verifier: <rejection-capable health check | not_applicable>.
 Constraints: <constraints>.
 Execution profile: generate task type, role stance, risk posture, artifacts,
 verification style, communication cadence, and HITL triggers before significant
@@ -82,6 +85,10 @@ condition, and HITL boundary.
 Run the loop: sense, compare, choose stay/down/up/stack/stop, act, verify,
 record. Ask adaptive questions before major work and use HITL for unclear scope,
 blockers, risk, or irreversible actions.
+Finite rule: stop only after the completion verifier accepts measurable
+done_or_health. Continuing rule: verify each bounded cycle with cycle_verifier,
+keep the program open through review_horizon, and never treat a healthy cycle as
+completion of the continuing program.
 ```
 
 If the active Claude Code surface can invoke skills directly, prefer that. If
@@ -105,7 +112,7 @@ Subagents should receive task contracts:
 - Owned scope.
 - Permission level and isolation.
 - What not to touch.
-- Done condition and verification.
+- Bounded done-or-health condition and the matching completion or cycle verifier.
 - Return format.
 - How to report impediments and cross-slice findings.
 
@@ -120,8 +127,9 @@ verifier, boundary, and return path.
 Before using a worktree, separate session, background agent, or sandboxed/cloud
 surface, choose how the isolated worker will see the parent run state:
 
-- Copied brief: paste the objective, DONE, constraints, verifier, owned scope,
-  return format, and relevant `control.md` / `verification.md` excerpts.
+- Copied brief: paste the objective, `program_kind`, `done_or_health`, constraints,
+  matching completion or cycle verifier, owned scope, return format, and relevant
+  `control.md` / `verification.md` excerpts.
 - Parent run-root pointer: provide an absolute path to the parent
   `.kybernetes/<slug>/` root and state whether the worker may read or write it.
 - No-parent-state mode: state that the worker must not rely on parent run files
@@ -144,14 +152,17 @@ checklist item, verifier, and risk before acting.
 Claude Code review skills, review subagents, and human second passes can play
 two different roles:
 
-- `verification_sensor`: the review has authority to reject output against DONE,
-  and the result is recorded in `verification.md`.
+- `verification_sensor`: the review has authority to reject finite output against
+  measurable DONE or a continuing cycle against its health invariant, and the
+  result is recorded in `verification.md`. Only accepted finite DONE supports a
+  completion claim; a healthy continuing cycle keeps the program open.
 - `comparator_augmentation`: the review is advisory input for a decision, and
-  the lead still needs an admissible verifier before claiming completion.
+  the lead still needs the matching admissible sensor before accepting finite
+  completion or continuing cycle health.
 
 Do not launder advisory comparison into verification. If a reviewer says "looks
 reasonable" without a rejection-capable method, record it as comparator advice
-and run or define a verifier.
+and run or define the matching completion or cycle verifier.
 
 ## Scheduled Or Detached Work
 
@@ -160,10 +171,13 @@ sessions as externalized loop actuators. Before creating or activating one, the
 parent governor must know:
 
 - Objective and explicit target surface.
+- Program kind and `done_or_health`: measurable DONE for finite work or a health
+  invariant for continuing work.
 - Cadence and next activation.
 - Input source.
 - Durable state surface.
-- Admissible verifier.
+- Matching sensor: a finite completion verifier, or continuing `review_horizon`
+  and `cycle_verifier`. A healthy cycle never completes the continuing program.
 - Budget, attempt cap, or no-change behavior.
 - Safety/HITL boundary and stop/escalation condition.
 - Outbound notification path or explicitly accepted manual checkpoint cadence

@@ -376,6 +376,10 @@ Every binding can return `native`, `emulated`, or `unavailable`. A documented
 feature is not considered available until the active agent-callable surface or a
 safe probe confirms it. Native chat history, goals, schedules, project memory, and
 runtime status remain advisory unless reconciled into portable canonical state.
+Runtime durable-objective rows and launch templates carry `program_kind` and
+`done_or_health`: finite work names its completion verifier, while continuing work
+names its health invariant, `review_horizon`, and `cycle_verifier`. A binding must
+not translate a healthy continuing cycle into program completion.
 
 Exactly one L3 binding is selected. Each binding must incorporate the portable
 baseline for `durable_objective`, `planning_surface`, `progress_surface`,

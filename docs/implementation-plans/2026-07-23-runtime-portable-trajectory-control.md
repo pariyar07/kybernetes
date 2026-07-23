@@ -411,10 +411,12 @@ Add this row to `skills/kybernetes-loop-governor/references/reference-index.md` 
 | `trajectory` | `trajectory-control.md` | Work is high/extreme recurring or detached, spans progress windows, repeats no-change, or needs strategy redesign. |
 ```
 
-Add `trajectory` to the dependency rule for high/extreme detached activation,
-while retaining exactly one runtime binding. Require the completion-only
-`verification` module for finite work; continuing work uses its recorded
-`cycle_verifier` instead.
+Require `lifecycle` and `capability` for every detached activation, and add
+`trajectory` for high/extreme detached activation while retaining exactly one
+runtime binding. Finite detached work loads `verification` and uses completion
+verification before a completion claim. Continuing detached work uses its
+recorded `cycle_verifier` instead. Ordinary foreground finite work does not
+require the optional `verification` module.
 
 - [ ] **Step 4: Run the kernel validator**
 
@@ -1208,10 +1210,13 @@ Use foreground continuation, explicit human checkpoints, portable files, and an
 external trigger only when it can pass revision, identity, state, and return data.
 ```
 
-Update the portable launcher so it records `program_kind`, `done_or_health`, the
-finite completion verifier or `not_applicable`, and the continuing
-`review_horizon`/`cycle_verifier` or `not_applicable`. A healthy continuing cycle
-keeps the program open until its review-horizon decision.
+Update the portable launcher, Codex durable-objective row, Codex goal and
+copy-paste prompts, Claude Code durable-objective row, and Claude Code lead prompt
+so each records `program_kind`, `done_or_health`, the finite completion verifier
+or `not_applicable`, and the continuing `review_horizon`/`cycle_verifier` or
+`not_applicable`. Branch detached activation and integration on the same contract.
+A healthy continuing cycle keeps the program open until its review-horizon
+decision; it never completes the continuing program.
 
 Do not duplicate an existing heading in a binding. Merge this content into the
 existing capability/fallback section when its semantics already match.
